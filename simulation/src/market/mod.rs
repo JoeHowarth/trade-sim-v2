@@ -1,5 +1,4 @@
 pub mod exchanger;
-pub mod good;
 pub mod linear_market;
 pub mod money;
 pub mod pricer;
@@ -9,7 +8,6 @@ use std::fmt::Debug;
 
 pub use self::{
     exchanger::{Exchanger, MarketInfo},
-    good::Good,
     money::Money,
     pricer::Pricer,
 };

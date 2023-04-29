@@ -1,3 +1,4 @@
+use crate::prelude::*;
 
 pub struct State {
     /// simulation tick
@@ -7,16 +8,14 @@ pub struct State {
     pub graph: Rc<Graph<GraphNode, GraphEdge>>,
 
     /// Internal state of agents at current tick
-    pub agents: HashTrieMap<AgentId, Agent>,
+    pub agents: HTMap<AgentId, Agent>,
 
     /// Internal state of ports and markets at current tick
-    pub ports: HashTrieMap<PortId, Port>,
+    pub ports: HTMap<PortId, Port>,
 }
 
 impl State {
     pub fn step(&self) -> Result<State> {
-
-
         Ok(State {
             tick: self.tick + 1,
             graph: self.graph.clone(),
@@ -39,3 +38,21 @@ impl StateHistory {
         Ok(())
     }
 }
+
+#[derive(Debug, Clone)]
+pub struct Port {
+    pub price: f32,
+    pub market: Market,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct GraphNode {
+    name: Ustr,
+    graph_idx: NodeIndex,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct GraphEdge {}
+
+#[derive(Debug, Clone, Default)]
+pub struct Agent {}
