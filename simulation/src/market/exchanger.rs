@@ -1,5 +1,4 @@
 use crate::{
-    agent::AgentHandle,
     market::{
         money::Money,
         pricer::{LinearPricer, Pricer},
@@ -47,32 +46,12 @@ impl<'a, T: Exchanger> Exchanger for DryRunExchanger<'a, T> {
     }
 }
 
-#[derive(
-    Component, Deserialize, Debug, PartialOrd, PartialEq, Clone,
-)]
+#[derive(Deserialize, Debug, PartialOrd, PartialEq, Clone)]
 pub struct MarketInfo {
     pub consumption: f64,
     pub supply: f64,
     pub production: f64,
     pub pricer: LinearPricer,
-}
-
-impl Exchanger for Mut<'_, MarketInfo> {
-    fn cost(&self, amt: i32) -> Money {
-        self.deref().cost(amt)
-    }
-
-    fn dry_run_by(
-        &self,
-        wallet: &mut Money,
-        amt: i32,
-    ) -> Option<Money> {
-        self.deref().dry_run_by(wallet, amt)
-    }
-
-    fn buy(&mut self, wallet: &mut Money, amt: i32) -> Option<Money> {
-        self.deref_mut().buy(wallet, amt)
-    }
 }
 
 impl Exchanger for MarketInfo {

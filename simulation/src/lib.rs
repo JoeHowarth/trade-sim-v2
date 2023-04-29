@@ -1,4 +1,5 @@
-#![allow(unused_imports, dead_code)]
+#![allow(unused_imports, dead_code, incomplete_features)]
+#![feature(return_position_impl_trait_in_trait)]
 
 pub mod market;
 pub mod prelude;
@@ -6,21 +7,7 @@ pub mod prelude;
 use market::Market;
 use prelude::*;
 
-struct State {
-    /// simulation tick
-    pub tick: u32,
-
-    /// Stores static topological info
-    pub graph: Rc<Graph<GraphNode, GraphEdge>>,
-
-    /// Internal state of agents at current tick
-    pub agents: HashTrieMap<AgentId, Agent>,
-
-    /// Internal state of ports and markets at current tick
-    pub ports: HashTrieMap<PortId, Port>,
-}
-
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone)]
 struct Port {
     pub price: f32,
     pub market: Market,
@@ -65,31 +52,6 @@ struct PortId(pub Ustr);
     Hash,
 )]
 struct AgentId(pub Ustr);
-
-impl State {
-    pub fn step(&self) -> Result<State> {
-        Ok(State {
-            tick: self.tick + 1,
-            graph: self.graph.clone(),
-            agents: self.agents.clone(),
-            ports: self.ports.clone(),
-        })
-    }
-}
-
-struct StateHistory {
-    states: Vec<State>,
-}
-
-impl StateHistory {
-    pub fn step(&mut self) -> Result<()> {
-        let Some(state) = self.states.last() else {
-            return Err(eyre!("No last state"));
-        };
-        self.states.push(state.step()?);
-        Ok(())
-    }
-}
 
 #[cfg(test)]
 mod tests {
