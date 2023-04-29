@@ -1,0 +1,9 @@
+# Ideal width of each line.
+# Default: 80
+max_width = 70
+
+# Reorder import statements alphabetically.
+# Default: false
+reorder_imports = true
+
+imports_granularity = "Crate"
