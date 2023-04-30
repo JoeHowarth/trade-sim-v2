@@ -1,5 +1,5 @@
 // dependencies
-pub use color_eyre::eyre::{eyre, Result};
+pub use color_eyre::eyre::{eyre, Result, WrapErr};
 pub use derive_more::{
     Add, Deref, DerefMut, Display, Div, From, Into, Mul, Sub,
 };
