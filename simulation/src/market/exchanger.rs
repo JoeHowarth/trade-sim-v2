@@ -46,7 +46,9 @@ impl<'a, T: Exchanger> Exchanger for DryRunExchanger<'a, T> {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialOrd, PartialEq, Clone)]
+#[derive(
+    Serialize, Deserialize, Debug, PartialOrd, PartialEq, Clone,
+)]
 pub struct MarketInfo {
     pub consumption: f64,
     pub supply: f64,

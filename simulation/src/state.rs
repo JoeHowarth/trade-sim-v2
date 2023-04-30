@@ -9,6 +9,7 @@ pub struct State {
 
     /// Stores static topological info
     pub graph: Rc<Graph<GraphNode, GraphEdge>>,
+    pub port_id_to_graph_idx: HTMap<PortId, NodeIndex>,
 
     /// Internal state of agents at current tick
     pub agents: HTMap<AgentId, Agent>,
@@ -62,6 +63,44 @@ impl State {
             ..self.clone()
         })
     }
+
+    pub fn new(
+        ports: &[Port],
+        agents: &[Agent],
+        edges: &[(PortId, PortId)],
+    ) -> State {
+        let mut graph: petgraph::graph::UnGraph<
+            GraphNode,
+            GraphEdge,
+        > = petgraph::graph::UnGraph::default();
+        let port_id_to_graph_idx: HTMap<_, _> = ports
+            .iter()
+            .map(|port| {
+                let idx = graph.add_node(GraphNode {
+                    id: port.id,
+                    ..Default::default()
+                });
+                (port.id, idx)
+            })
+            .collect();
+        graph.extend_with_edges(edges.iter().map(|(a, b)| {
+            (port_id_to_graph_idx[a], port_id_to_graph_idx[b])
+        }));
+
+        State {
+            tick: 0,
+            graph: Rc::new(graph),
+            port_id_to_graph_idx,
+            agents: agents
+                .iter()
+                .map(|agent| (agent.id, agent.clone()))
+                .collect(),
+            ports: ports
+                .iter()
+                .map(|port| (port.id, port.clone()))
+                .collect(),
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -81,13 +120,13 @@ impl StateHistory {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Port {
-    pub price: f32,
+    pub id: PortId,
     pub market: Market,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GraphNode {
-    name: Ustr,
+    id: PortId,
     graph_idx: NodeIndex,
 }
 
