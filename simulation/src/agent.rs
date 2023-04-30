@@ -14,7 +14,7 @@ pub struct Agent {
 }
 
 impl Agent {
-    pub fn act(&self, state: &State) -> Result<Action> {
+    pub fn act(&self, state: &Context) -> Result<Action> {
         Ok(Action::Noop)
     }
 }

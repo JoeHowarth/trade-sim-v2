@@ -4,16 +4,21 @@ pub use derive_more::{
     Add, Deref, DerefMut, Display, Div, From, Into, Mul, Sub,
 };
 pub use log::{debug, error, info, warn};
-pub use petgraph::graph::{NodeIndex, UnGraph as Graph};
+pub use petgraph::graphmap::UnGraphMap as GraphMap;
 use petgraph::prelude::*;
-pub use rpds::{HashTrieMap as HTMap, HashTrieSet as HTSet, Vector};
+pub use rpds::{
+    ht_map, ht_set, HashTrieMap as HTMap, HashTrieSet as HTSet,
+    Vector,
+};
 pub use serde::{Deserialize, Serialize};
-pub use std::{default::Default, error::Error, rc::Rc};
+pub use std::{
+    collections::HashMap, default::Default, error::Error, rc::Rc,
+};
 use std::{hash::Hash, ops::Index};
 pub use ustr::{ustr, Ustr};
 
 // crate's modules
-pub use crate::{agent::*, ids::*, market::*, state::*};
+pub use crate::{agent::*, history::*, ids::*, market::*, state::*};
 
 pub trait Update<K, V> {
     fn update(&self, key: K, val: V) -> Self;

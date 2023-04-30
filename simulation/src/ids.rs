@@ -13,6 +13,8 @@ use crate::prelude::*;
     PartialEq,
     Eq,
     Hash,
+    PartialOrd,
+    Ord,
 )]
 pub struct PortId(pub Ustr);
 

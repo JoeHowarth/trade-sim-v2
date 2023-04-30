@@ -3,13 +3,15 @@ use serde::ser::SerializeStruct;
 use crate::prelude::*;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct StaticInfo {
+    /// Topological info
+    pub graph: GraphMap<PortId, RouteId>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct State {
     /// simulation tick
     pub tick: u32,
-
-    /// Stores static topological info
-    pub graph: Rc<Graph<GraphNode, GraphEdge>>,
-    pub port_id_to_graph_idx: HTMap<PortId, NodeIndex>,
 
     /// Internal state of agents at current tick
     pub agents: HTMap<AgentId, Agent>,
@@ -18,11 +20,17 @@ pub struct State {
     pub ports: HTMap<PortId, Port>,
 }
 
-impl State {
-    pub fn step(&self) -> Result<State> {
-        let mut state = self.clone();
+#[derive(Clone, Debug)]
+pub struct Context {
+    pub state: State,
+    pub static_info: &'static StaticInfo,
+}
+
+impl Context {
+    pub fn step(&self) -> Result<Self> {
         // agent actions
-        let actions = state
+        let actions = self
+            .state
             .agents
             .iter()
             .map(|(agent_id, agent)| {
@@ -30,21 +38,24 @@ impl State {
             })
             .collect::<Result<Vec<(AgentId, Action)>>>()?;
 
+        let mut ctx = self.clone();
+
         // process actions
-        state = state.apply_actions(&actions)?;
+        ctx = ctx.apply_actions(&actions)?;
 
         // non-agent world processes
         // todo
 
-        Ok(state)
+        ctx.state.tick += 1;
+        Ok(ctx)
     }
 
     fn apply_actions(
         &self,
         actions: &[(AgentId, Action)],
-    ) -> Result<State> {
-        let mut agents = self.agents.clone();
-        let ports = self.ports.clone();
+    ) -> Result<Self> {
+        let mut agents = self.state.agents.clone();
+        let ports = self.state.ports.clone();
 
         for (agent_id, action) in actions {
             // todo: action validation
@@ -57,40 +68,41 @@ impl State {
                 }
             }
         }
-        Ok(State {
-            agents,
-            ports,
-            ..self.clone()
+        Ok(Context {
+            state: State {
+                agents,
+                ports,
+                ..self.state.clone()
+            },
+            static_info: self.static_info,
         })
     }
+}
 
-    pub fn new(
-        ports: &[Port],
-        agents: &[Agent],
-        edges: &[(PortId, PortId)],
-    ) -> State {
-        let mut graph: petgraph::graph::UnGraph<
-            GraphNode,
-            GraphEdge,
-        > = petgraph::graph::UnGraph::default();
-        let port_id_to_graph_idx: HTMap<_, _> = ports
-            .iter()
-            .map(|port| {
-                let idx = graph.add_node(GraphNode {
-                    id: port.id,
-                    ..Default::default()
-                });
-                (port.id, idx)
-            })
-            .collect();
-        graph.extend_with_edges(edges.iter().map(|(a, b)| {
-            (port_id_to_graph_idx[a], port_id_to_graph_idx[b])
-        }));
+impl Context {
+    pub fn new(state: State, static_info: StaticInfo) -> Self {
+        Context {
+            state,
+            static_info: Box::leak(Box::new(static_info)),
+        }
+    }
+}
 
-        State {
+impl StaticInfo {
+    pub fn new_static(edges: &[(PortId, PortId)]) -> &'static Self {
+        Box::leak(Box::new(Self::new(edges)))
+    }
+    pub fn new(edges: &[(PortId, PortId)]) -> Self {
+        Self {
+            graph: GraphMap::from_edges(edges),
+        }
+    }
+}
+
+impl State {
+    pub fn new(ports: &[Port], agents: &[Agent]) -> Self {
+        Self {
             tick: 0,
-            graph: Rc::new(graph),
-            port_id_to_graph_idx,
             agents: agents
                 .iter()
                 .map(|agent| (agent.id, agent.clone()))
@@ -103,21 +115,6 @@ impl State {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct StateHistory {
-    pub states: Vec<State>,
-}
-
-impl StateHistory {
-    pub fn step(&mut self) -> Result<()> {
-        let Some(state) = self.states.last() else {
-            return Err(eyre!("No last state"));
-        };
-        self.states.push(state.step()?);
-        Ok(())
-    }
-}
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Port {
     pub id: PortId,
@@ -125,10 +122,4 @@ pub struct Port {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct GraphNode {
-    id: PortId,
-    graph_idx: NodeIndex,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone, Default)]
-pub struct GraphEdge {}
+pub struct RouteId {}

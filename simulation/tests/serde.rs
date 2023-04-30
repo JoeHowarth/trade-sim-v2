@@ -33,7 +33,7 @@ fn test_state_serde() {
             id: "A".into(),
             pos: "Genoa".into(),
         }],
-        &[("Genoa".into(), "Rome".into())],
+        // &[("Genoa".into(), "Rome".into())],
     );
 
     let json = serde_json::to_string_pretty(&state1).unwrap();

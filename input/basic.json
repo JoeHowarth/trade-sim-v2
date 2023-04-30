@@ -1,0 +1,47 @@
+{
+  "opts": {
+    "ticks": 3
+  },
+  "edges": [["Rome", "Genoa"]],
+  "ports": {
+    "Rome": {
+      "id": "Rome",
+      "market": {
+        "table": {
+          "Wheat": {
+            "consumption": 80.0,
+            "supply": 100.0,
+            "production": 20.0,
+            "pricer": {
+              "base_supply": 1.0,
+              "base_price": 1.0,
+              "price_per_supply": 1.0
+            }
+          },
+          "Iron": {
+            "consumption": 80.0,
+            "supply": 100.0,
+            "production": 20.0,
+            "pricer": {
+              "base_supply": 1.0,
+              "base_price": 1.0,
+              "price_per_supply": 1.0
+            }
+          }
+        }
+      }
+    },
+    "Genoa": {
+      "id": "Genoa",
+      "market": {
+        "table": {}
+      }
+    }
+  },
+  "agents": {
+    "A": {
+      "id": "A",
+      "pos": "Genoa"
+    }
+  }
+}
