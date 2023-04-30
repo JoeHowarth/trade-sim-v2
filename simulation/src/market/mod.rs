@@ -12,7 +12,7 @@ pub use self::{
     pricer::Pricer,
 };
 
-#[derive(From, Debug, Clone)]
+#[derive(Serialize, Deserialize, From, Debug, Clone)]
 pub struct Market {
     pub table: HTMap<Good, MarketInfo>,
 }

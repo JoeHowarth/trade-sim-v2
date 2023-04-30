@@ -1,5 +1,8 @@
+use serde::ser::SerializeStruct;
+
 use crate::prelude::*;
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct State {
     /// simulation tick
     pub tick: u32,
@@ -16,17 +19,54 @@ pub struct State {
 
 impl State {
     pub fn step(&self) -> Result<State> {
+        let mut state = self.clone();
+        // agent actions
+        let actions = state
+            .agents
+            .iter()
+            .map(|(agent_id, agent)| {
+                agent.act(self).map(|action| (*agent_id, action))
+            })
+            .collect::<Result<Vec<(AgentId, Action)>>>()?;
+
+        // process actions
+        state = state.apply_actions(&actions)?;
+
+        // non-agent world processes
+        // todo
+
+        Ok(state)
+    }
+
+    fn apply_actions(
+        &self,
+        actions: &[(AgentId, Action)],
+    ) -> Result<State> {
+        let mut agents = self.agents.clone();
+        let ports = self.ports.clone();
+
+        for (agent_id, action) in actions {
+            // todo: action validation
+            match action {
+                Action::Noop => {}
+                Action::Move(port_id) => {
+                    agents = agents.update_with(*agent_id, |agent| {
+                        agent.pos = *port_id
+                    });
+                }
+            }
+        }
         Ok(State {
-            tick: self.tick + 1,
-            graph: self.graph.clone(),
-            agents: self.agents.clone(),
-            ports: self.ports.clone(),
+            agents,
+            ports,
+            ..self.clone()
         })
     }
 }
 
-struct StateHistory {
-    states: Vec<State>,
+#[derive(Debug, Serialize, Deserialize)]
+pub struct StateHistory {
+    pub states: Vec<State>,
 }
 
 impl StateHistory {
@@ -39,20 +79,17 @@ impl StateHistory {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Port {
     pub price: f32,
     pub market: Market,
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GraphNode {
     name: Ustr,
     graph_idx: NodeIndex,
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct GraphEdge {}
-
-#[derive(Debug, Clone, Default)]
-pub struct Agent {}
