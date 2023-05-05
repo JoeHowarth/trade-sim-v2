@@ -27,7 +27,7 @@ pub struct Context {
 }
 
 impl Context {
-    pub fn step(&self) -> Result<Self> {
+    pub fn step(&self) -> Result<(State, Vec<(AgentId, Action)>)> {
         // agent actions
         let actions = self
             .state
@@ -47,7 +47,7 @@ impl Context {
         // todo
 
         ctx.state.tick += 1;
-        Ok(ctx)
+        Ok((ctx.state, actions))
     }
 
     fn apply_actions(

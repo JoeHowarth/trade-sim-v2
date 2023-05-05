@@ -12,6 +12,7 @@ pub struct History {
     #[serde(deserialize_with = "deserialize_static_info")]
     pub static_info: &'static StaticInfo,
     pub states: Vec<State>,
+    pub actions: Vec<Vec<(AgentId, Action)>>,
 }
 
 impl History {
@@ -38,8 +39,9 @@ impl History {
             state: self.state().clone(),
             static_info: self.static_info,
         };
-        let Context { state, .. } = ctx.step()?;
+        let (state, actions) = ctx.step()?;
         self.states.push(state);
+        self.actions.push(actions);
         Ok(())
     }
 }
@@ -69,6 +71,7 @@ mod test {
                 agents: HTMap::new(),
                 ports: HTMap::new(),
             }],
+            actions: vec![vec![]],
         };
 
         let serialized = serde_json::to_string(&history).unwrap();

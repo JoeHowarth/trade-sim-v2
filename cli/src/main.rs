@@ -58,6 +58,7 @@ fn main() -> Result<()> {
                     ports,
                     agents,
                 }],
+                actions: vec![],
             };
 
             // run simulation loop
