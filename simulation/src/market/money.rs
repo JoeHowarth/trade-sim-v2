@@ -23,7 +23,10 @@ use std::{
     Clone,
     PartialEq,
     PartialOrd,
+    Serialize,
+    Deserialize
 )]
+#[serde(transparent)]
 pub struct Money(pub f64);
 
 impl Money {

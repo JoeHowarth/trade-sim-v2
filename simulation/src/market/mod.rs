@@ -18,26 +18,26 @@ pub struct Market {
 }
 
 impl Market {
-    fn price(&self, good: &Good) -> Money {
+    pub fn price(&self, good: &Good) -> Money {
         let info = self.info(good);
         info.pricer.price(info.supply)
     }
 
-    fn cost(&self, good: &Good, amt: i32) -> Money {
+    pub fn cost(&self, good: &Good, amt: i32) -> Money {
         self.info(good).cost(amt)
     }
 
-    fn goods(&self) -> impl Iterator<Item = &Good> {
+    pub fn goods(&self) -> impl Iterator<Item = &Good> {
         self.table.keys()
     }
 
-    fn info(&self, good: &Good) -> &exchanger::MarketInfo {
+    pub fn info(&self, good: &Good) -> &exchanger::MarketInfo {
         self.table
             .get(&good)
             .expect(&*format!("Good: {} not found in market", *good))
     }
 
-    fn info_mut(
+    pub fn info_mut(
         &mut self,
         good: &Good,
     ) -> &mut exchanger::MarketInfo {
@@ -46,7 +46,22 @@ impl Market {
             .expect(&*format!("Good: {} not found in market", *good))
     }
 
-    fn buy(
+    /// Inverse of buy
+    /// returns price paid for selling `amt` of `good`
+    pub fn sell(
+        &mut self,
+        good: &Good,
+        wallet: &mut Money,
+        amt: i32,
+    ) -> Option<Money> {
+        self.info_mut(good).sell(wallet, amt)
+    }
+
+    /// `buy` takes a good, mutable `wallet` and an amount, `amt`, to buy and performs the transaction if possible
+    /// if cost is greater than contents of wallet, return None
+    /// the cost of the transaction is removed from `wallet` and the cost is returned
+    /// the supply of goods is decreased by `amt`
+    pub fn buy(
         &mut self,
         good: &Good,
         wallet: &mut Money,

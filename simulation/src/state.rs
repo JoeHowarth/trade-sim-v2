@@ -1,3 +1,5 @@
+use std::ops::Index;
+
 use serde::ser::SerializeStruct;
 
 use crate::prelude::*;
@@ -27,14 +29,18 @@ pub struct Context {
 }
 
 impl Context {
-    pub fn step(&self) -> Result<(State, Vec<(AgentId, Action)>)> {
+    pub fn step(
+        &self,
+    ) -> Result<(State, Vec<(AgentId, Action)>)> {
         // agent actions
         let actions = self
             .state
             .agents
             .iter()
             .map(|(agent_id, agent)| {
-                agent.act(self).map(|action| (*agent_id, action))
+                agent
+                    .act(self)
+                    .map(|action| (*agent_id, action))
             })
             .collect::<Result<Vec<(AgentId, Action)>>>()?;
 
@@ -51,7 +57,7 @@ impl Context {
     }
 
     fn apply_actions(
-        &self,
+        self,
         actions: &[(AgentId, Action)],
     ) -> Result<Self> {
         let mut agents = self.state.agents.clone();
@@ -62,9 +68,24 @@ impl Context {
             match action {
                 Action::Noop => {}
                 Action::Move(port_id) => {
-                    agents = agents.update_with(*agent_id, |agent| {
-                        agent.pos = *port_id
-                    });
+                    agents = agents
+                        .update_with(*agent_id, |agent| {
+                            agent.pos = *port_id
+                        });
+                }
+                Action::BuyAndMove(good, port_id) => {
+                    todo!()
+                }
+                Action::Sell(good) => {
+                    let mut agent =
+                        agents.index(agent_id).clone();
+                    let mut port =
+                        ports.index(&agent.pos).clone();
+
+                    port.market.sell(good, &mut agent.coins, 1)
+                    .ok_or_else(|| eyre!("Invalid Action: tried to sell when impossible"))?;
+                    agents =
+                        agents.update(*agent_id, agent);
                 }
             }
         }
@@ -80,7 +101,10 @@ impl Context {
 }
 
 impl Context {
-    pub fn new(state: State, static_info: StaticInfo) -> Self {
+    pub fn new(
+        state: State,
+        static_info: StaticInfo,
+    ) -> Self {
         Context {
             state,
             static_info: Box::leak(Box::new(static_info)),
@@ -89,7 +113,9 @@ impl Context {
 }
 
 impl StaticInfo {
-    pub fn new_static(edges: &[(PortId, PortId)]) -> &'static Self {
+    pub fn new_static(
+        edges: &[(PortId, PortId)],
+    ) -> &'static Self {
         Box::leak(Box::new(Self::new(edges)))
     }
     pub fn new(edges: &[(PortId, PortId)]) -> Self {

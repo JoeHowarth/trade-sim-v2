@@ -46,6 +46,7 @@ impl History {
     }
 }
 
+/// WARNING: this leaks memory
 fn deserialize_static_info<'de, D: Deserializer<'de>>(
     deserializer: D,
 ) -> std::result::Result<&'static StaticInfo, D::Error> {

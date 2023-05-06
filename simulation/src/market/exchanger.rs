@@ -79,6 +79,9 @@ impl Exchanger for MarketInfo {
         if amt == 0 {
             return Some(0.0.into());
         }
+        if self.supply < amt as f64 {
+            return None;
+        }
         let cost = self.cost(amt);
         if cost > *wallet {
             return None;

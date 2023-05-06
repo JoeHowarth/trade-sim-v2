@@ -32,6 +32,9 @@ fn test_state_serde() {
         &[Agent {
             id: "A".into(),
             pos: "Genoa".into(),
+            cargo: Some("Wheat".into()),
+            coins: 100.0.into(),
+            behavior: Behavior::Random,
         }],
         // &[("Genoa".into(), "Rome".into())],
     );
