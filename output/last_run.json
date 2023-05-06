@@ -29,23 +29,6 @@
         }
       },
       "ports": {
-        "Genoa": {
-          "id": "Genoa",
-          "market": {
-            "table": {
-              "Wheat": {
-                "consumption": 20.0,
-                "supply": 100.0,
-                "production": 25.0,
-                "pricer": {
-                  "base_supply": 0.0,
-                  "base_price": 100.0,
-                  "price_per_supply": -0.2
-                }
-              }
-            }
-          }
-        },
         "Rome": {
           "id": "Rome",
           "market": {
@@ -62,6 +45,23 @@
               }
             }
           }
+        },
+        "Genoa": {
+          "id": "Genoa",
+          "market": {
+            "table": {
+              "Wheat": {
+                "consumption": 20.0,
+                "supply": 100.0,
+                "production": 25.0,
+                "pricer": {
+                  "base_supply": 0.0,
+                  "base_price": 100.0,
+                  "price_per_supply": -0.2
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -70,7 +70,7 @@
       "agents": {
         "A": {
           "id": "A",
-          "pos": "Genoa",
+          "pos": "Rome",
           "cargo": null,
           "coins": 100.0,
           "behavior": "Random"
@@ -118,21 +118,21 @@
       "agents": {
         "A": {
           "id": "A",
-          "pos": "Genoa",
+          "pos": "Rome",
           "cargo": null,
           "coins": 100.0,
           "behavior": "Random"
         }
       },
       "ports": {
-        "Genoa": {
-          "id": "Genoa",
+        "Rome": {
+          "id": "Rome",
           "market": {
             "table": {
               "Wheat": {
-                "consumption": 20.0,
-                "supply": 110.0,
-                "production": 25.0,
+                "consumption": 30.0,
+                "supply": 80.0,
+                "production": 20.0,
                 "pricer": {
                   "base_supply": 0.0,
                   "base_price": 100.0,
@@ -142,14 +142,14 @@
             }
           }
         },
-        "Rome": {
-          "id": "Rome",
+        "Genoa": {
+          "id": "Genoa",
           "market": {
             "table": {
               "Wheat": {
-                "consumption": 30.0,
-                "supply": 80.0,
-                "production": 20.0,
+                "consumption": 20.0,
+                "supply": 110.0,
+                "production": 25.0,
                 "pricer": {
                   "base_supply": 0.0,
                   "base_price": 100.0,
@@ -173,23 +173,6 @@
         }
       },
       "ports": {
-        "Genoa": {
-          "id": "Genoa",
-          "market": {
-            "table": {
-              "Wheat": {
-                "consumption": 20.0,
-                "supply": 115.0,
-                "production": 25.0,
-                "pricer": {
-                  "base_supply": 0.0,
-                  "base_price": 100.0,
-                  "price_per_supply": -0.2
-                }
-              }
-            }
-          }
-        },
         "Rome": {
           "id": "Rome",
           "market": {
@@ -206,6 +189,23 @@
               }
             }
           }
+        },
+        "Genoa": {
+          "id": "Genoa",
+          "market": {
+            "table": {
+              "Wheat": {
+                "consumption": 20.0,
+                "supply": 115.0,
+                "production": 25.0,
+                "pricer": {
+                  "base_supply": 0.0,
+                  "base_price": 100.0,
+                  "price_per_supply": -0.2
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -214,20 +214,25 @@
     [
       [
         "A",
-        "Noop"
-      ]
-    ],
-    [
-      [
-        "A",
-        "Noop"
+        {
+          "action": "Move",
+          "port_id": "Rome"
+        }
       ]
     ],
     [
       [
         "A",
         {
-          "Move": "Rome"
+          "action": "Noop"
+        }
+      ]
+    ],
+    [
+      [
+        "A",
+        {
+          "action": "Noop"
         }
       ]
     ]

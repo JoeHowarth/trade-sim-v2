@@ -14,8 +14,12 @@ pub enum Action {
         good: Good,
         port: PortId,
     },
-    Move(PortId),
-    Sell(Good),
+    Move {
+        port_id: PortId,
+    },
+    Sell {
+        good: Good,
+    },
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -56,7 +60,7 @@ impl Agent {
 
         if let Some(cargo) = self.cargo {
             let prices = nbs_by_price(ctx, self.pos, &good);
-            return Ok(Action::Sell(cargo));
+            return Ok(Action::Sell{good: cargo});
         }
 
         let local_price =
@@ -66,7 +70,7 @@ impl Agent {
                 .max_by_key(|(price, _)| *price)
         {
             if price < local_price {
-                return Ok(Action::Move(port_id));
+                return Ok(Action::Move{port_id});
             }
         }
         if let Some((price, port_id)) =
@@ -89,7 +93,7 @@ impl Agent {
         let nbr = rng.sample(&nbrs).ok_or(eyre!("no neighbors"))?;
 
         if rng.chance(0.5) {
-            Ok(Action::Move(*nbr))
+            Ok(Action::Move{port_id: *nbr})
         } else {
             Ok(Action::Noop)
         }

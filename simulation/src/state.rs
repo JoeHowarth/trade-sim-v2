@@ -62,7 +62,7 @@ impl Context {
             // todo: action validation
             match action {
                 Action::Noop => {}
-                Action::Move(port_id) => {
+                Action::Move{port_id} => {
                     agents = agents.update_with(*agent_id, |agent| {
                         agent.pos = *port_id
                     });
@@ -70,7 +70,7 @@ impl Context {
                 Action::BuyAndMove { good, port } => {
                     todo!()
                 }
-                Action::Sell(good) => {
+                Action::Sell{good} => {
                     let mut agent = agents.index(agent_id).clone();
                     let mut port = ports.index(&agent.pos).clone();
 

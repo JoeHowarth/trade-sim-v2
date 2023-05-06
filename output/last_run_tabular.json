@@ -1,4 +1,56 @@
 {
+  "agents": [
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "A",
+      "pos": "Genoa",
+      "tick": 0
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "A",
+      "pos": "Rome",
+      "tick": 1
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "A",
+      "pos": "Rome",
+      "tick": 2
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "A",
+      "pos": "Rome",
+      "tick": 3
+    }
+  ],
+  "actions": [
+    {
+      "action": "Move",
+      "agent_id": "A",
+      "port_id": "Rome",
+      "tick": 0
+    },
+    {
+      "action": "Noop",
+      "agent_id": "A",
+      "tick": 1
+    },
+    {
+      "action": "Noop",
+      "agent_id": "A",
+      "tick": 2
+    }
+  ],
   "markets": [
     {
       "consumption": 30.0,
@@ -110,40 +162,6 @@
       },
       "production": 25.0,
       "supply": 115.0,
-      "tick": 3
-    }
-  ],
-  "agents": [
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Genoa",
-      "tick": 0
-    },
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Rome",
-      "tick": 1
-    },
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Rome",
-      "tick": 2
-    },
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Rome",
       "tick": 3
     }
   ]
