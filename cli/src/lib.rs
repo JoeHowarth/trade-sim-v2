@@ -1,6 +1,6 @@
 use std::{
     iter::repeat,
-    path::{Path, PathBuf},
+    path::{PathBuf},
 };
 
 use serde::de::DeserializeOwned;
