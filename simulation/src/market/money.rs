@@ -24,7 +24,7 @@ use std::{
     PartialEq,
     PartialOrd,
     Serialize,
-    Deserialize
+    Deserialize,
 )]
 #[serde(transparent)]
 pub struct Money(pub f64);

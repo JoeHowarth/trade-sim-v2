@@ -106,8 +106,9 @@ impl MarketInfo {
         self.pricer.price(self.supply)
     }
     pub fn produce_and_consume(&mut self) -> &mut Self {
-        self.supply = self.supply + self.production - self.consumption;
-        self 
+        self.supply =
+            self.supply + self.production - self.consumption;
+        self
     }
 }
 

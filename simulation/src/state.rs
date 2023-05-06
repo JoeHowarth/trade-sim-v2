@@ -67,7 +67,7 @@ impl Context {
                         agent.pos = *port_id
                     });
                 }
-                Action::BuyAndMove(good, port_id) => {
+                Action::BuyAndMove { good, port } => {
                     todo!()
                 }
                 Action::Sell(good) => {

@@ -1,24 +1,41 @@
-use std::{
-    iter::repeat,
-    path::{PathBuf},
-};
+use std::{iter::repeat, path::PathBuf};
 
 use serde::de::DeserializeOwned;
 use serde_json::{json, Value};
 use simulation::prelude::*;
 
 pub fn extract_agents_json(history: &History) -> Result<Vec<Value>> {
-    let agents_with_tick = history.states.iter().flat_map(|state| {
-        state.agents.values().zip(repeat(state.tick.clone()))
-    });
-    agents_with_tick
-        .map(|(agent, tick)| {
-            extend_obj(
-                agent,
-                json!({
-                    "tick": tick,
-                }),
-            )
+    history
+        .states
+        .iter()
+        .flat_map(|state| {
+            state.agents.values().map(|agent| {
+                extend_obj(
+                    agent,
+                    json!({
+                        "tick": state.tick,
+                    }),
+                )
+            })
+        })
+        .collect()
+}
+
+pub fn extract_actions_json(history: &History) -> Result<Vec<Value>> {
+    history
+        .actions
+        .iter()
+        .enumerate()
+        .flat_map(|(tick, actions)| {
+            actions.iter().map(move |(agent_id, action)| {
+                extend_obj(
+                    action,
+                    json!({
+                        "tick": tick,
+                        "agent_id": agent_id
+                    }),
+                )
+            })
         })
         .collect()
 }

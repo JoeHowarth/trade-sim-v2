@@ -6,10 +6,14 @@ use turborand::{prelude::*, rng::Rng};
 use crate::prelude::*;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
+#[serde(tag = "action")]
 pub enum Action {
     #[default]
     Noop,
-    BuyAndMove(Good, PortId),
+    BuyAndMove {
+        good: Good,
+        port: PortId,
+    },
     Move(PortId),
     Sell(Good),
 }
@@ -49,7 +53,7 @@ impl Agent {
             .goods()
             .next()
             .unwrap();
-        
+
         if let Some(cargo) = self.cargo {
             let prices = nbs_by_price(ctx, self.pos, &good);
             return Ok(Action::Sell(cargo));
@@ -69,7 +73,10 @@ impl Agent {
             nbs_by_price(ctx, self.pos, good)
                 .min_by_key(|(price, _)| *price)
         {
-            return Ok(Action::BuyAndMove(*good, port_id));
+            return Ok(Action::BuyAndMove {
+                good: *good,
+                port: port_id,
+            });
         }
         return Ok(Action::Noop);
     }
