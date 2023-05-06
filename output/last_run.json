@@ -22,16 +22,13 @@
       "agents": {
         "A": {
           "id": "A",
-          "pos": "Genoa"
+          "pos": "Genoa",
+          "cargo": null,
+          "coins": 100.0,
+          "behavior": "Random"
         }
       },
       "ports": {
-        "Genoa": {
-          "id": "Genoa",
-          "market": {
-            "table": {}
-          }
-        },
         "Rome": {
           "id": "Rome",
           "market": {
@@ -45,8 +42,15 @@
                   "base_price": 1.0,
                   "price_per_supply": 1.0
                 }
-              },
-              "Iron": {
+              }
+            }
+          }
+        },
+        "Genoa": {
+          "id": "Genoa",
+          "market": {
+            "table": {
+              "Wheat": {
                 "consumption": 80.0,
                 "supply": 100.0,
                 "production": 20.0,
@@ -66,7 +70,58 @@
       "agents": {
         "A": {
           "id": "A",
-          "pos": "Genoa"
+          "pos": "Rome",
+          "cargo": null,
+          "coins": 100.0,
+          "behavior": "Random"
+        }
+      },
+      "ports": {
+        "Genoa": {
+          "id": "Genoa",
+          "market": {
+            "table": {
+              "Wheat": {
+                "consumption": 80.0,
+                "supply": 40.0,
+                "production": 20.0,
+                "pricer": {
+                  "base_supply": 1.0,
+                  "base_price": 1.0,
+                  "price_per_supply": 1.0
+                }
+              }
+            }
+          }
+        },
+        "Rome": {
+          "id": "Rome",
+          "market": {
+            "table": {
+              "Wheat": {
+                "consumption": 80.0,
+                "supply": 40.0,
+                "production": 20.0,
+                "pricer": {
+                  "base_supply": 1.0,
+                  "base_price": 1.0,
+                  "price_per_supply": 1.0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "tick": 2,
+      "agents": {
+        "A": {
+          "id": "A",
+          "pos": "Rome",
+          "cargo": null,
+          "coins": 100.0,
+          "behavior": "Random"
         }
       },
       "ports": {
@@ -74,19 +129,9 @@
           "id": "Rome",
           "market": {
             "table": {
-              "Iron": {
-                "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              },
               "Wheat": {
                 "consumption": 80.0,
-                "supply": 100.0,
+                "supply": -20.0,
                 "production": 20.0,
                 "pricer": {
                   "base_supply": 1.0,
@@ -100,43 +145,10 @@
         "Genoa": {
           "id": "Genoa",
           "market": {
-            "table": {}
-          }
-        }
-      }
-    },
-    {
-      "tick": 2,
-      "agents": {
-        "A": {
-          "id": "A",
-          "pos": "Genoa"
-        }
-      },
-      "ports": {
-        "Genoa": {
-          "id": "Genoa",
-          "market": {
-            "table": {}
-          }
-        },
-        "Rome": {
-          "id": "Rome",
-          "market": {
             "table": {
-              "Iron": {
-                "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              },
               "Wheat": {
                 "consumption": 80.0,
-                "supply": 100.0,
+                "supply": -20.0,
                 "production": 20.0,
                 "pricer": {
                   "base_supply": 1.0,
@@ -154,71 +166,20 @@
       "agents": {
         "A": {
           "id": "A",
-          "pos": "Genoa"
+          "pos": "Genoa",
+          "cargo": null,
+          "coins": 100.0,
+          "behavior": "Random"
         }
       },
       "ports": {
         "Genoa": {
           "id": "Genoa",
           "market": {
-            "table": {}
-          }
-        },
-        "Rome": {
-          "id": "Rome",
-          "market": {
             "table": {
               "Wheat": {
                 "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              },
-              "Iron": {
-                "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "tick": 4,
-      "agents": {
-        "A": {
-          "id": "A",
-          "pos": "Genoa"
-        }
-      },
-      "ports": {
-        "Rome": {
-          "id": "Rome",
-          "market": {
-            "table": {
-              "Wheat": {
-                "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              },
-              "Iron": {
-                "consumption": 80.0,
-                "supply": 100.0,
+                "supply": -80.0,
                 "production": 20.0,
                 "pricer": {
                   "base_supply": 1.0,
@@ -229,40 +190,13 @@
             }
           }
         },
-        "Genoa": {
-          "id": "Genoa",
-          "market": {
-            "table": {}
-          }
-        }
-      }
-    },
-    {
-      "tick": 5,
-      "agents": {
-        "A": {
-          "id": "A",
-          "pos": "Genoa"
-        }
-      },
-      "ports": {
         "Rome": {
           "id": "Rome",
           "market": {
             "table": {
-              "Iron": {
-                "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              },
               "Wheat": {
                 "consumption": 80.0,
-                "supply": 100.0,
+                "supply": -80.0,
                 "production": 20.0,
                 "pricer": {
                   "base_supply": 1.0,
@@ -271,103 +205,33 @@
                 }
               }
             }
-          }
-        },
-        "Genoa": {
-          "id": "Genoa",
-          "market": {
-            "table": {}
-          }
-        }
-      }
-    },
-    {
-      "tick": 6,
-      "agents": {
-        "A": {
-          "id": "A",
-          "pos": "Genoa"
-        }
-      },
-      "ports": {
-        "Rome": {
-          "id": "Rome",
-          "market": {
-            "table": {
-              "Iron": {
-                "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              },
-              "Wheat": {
-                "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              }
-            }
-          }
-        },
-        "Genoa": {
-          "id": "Genoa",
-          "market": {
-            "table": {}
-          }
-        }
-      }
-    },
-    {
-      "tick": 7,
-      "agents": {
-        "A": {
-          "id": "A",
-          "pos": "Genoa"
-        }
-      },
-      "ports": {
-        "Rome": {
-          "id": "Rome",
-          "market": {
-            "table": {
-              "Iron": {
-                "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              },
-              "Wheat": {
-                "consumption": 80.0,
-                "supply": 100.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 1.0,
-                  "base_price": 1.0,
-                  "price_per_supply": 1.0
-                }
-              }
-            }
-          }
-        },
-        "Genoa": {
-          "id": "Genoa",
-          "market": {
-            "table": {}
           }
         }
       }
     }
+  ],
+  "actions": [
+    [
+      [
+        "A",
+        {
+          "Move": "Rome"
+        }
+      ]
+    ],
+    [
+      [
+        "A",
+        "Noop"
+      ]
+    ],
+    [
+      [
+        "A",
+        {
+          "Move": "Genoa"
+        }
+      ]
+    ]
   ]
 }

@@ -1,2 +1,2 @@
 [workspace]
-members = ["simulation", "visualization", "cli"]
+members = ["simulation", "visualization", "cli", "simpy"]

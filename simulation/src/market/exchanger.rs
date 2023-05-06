@@ -105,8 +105,9 @@ impl MarketInfo {
     pub fn current_price(&self) -> Money {
         self.pricer.price(self.supply)
     }
-    pub fn produce_and_consume(&mut self) {
-        self.supply = self.supply + self.production - self.consumption
+    pub fn produce_and_consume(&mut self) -> &mut Self {
+        self.supply = self.supply + self.production - self.consumption;
+        self 
     }
 }
 

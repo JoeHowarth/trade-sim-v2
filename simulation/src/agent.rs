@@ -49,7 +49,7 @@ impl Agent {
             .goods()
             .next()
             .unwrap();
-
+        
         if let Some(cargo) = self.cargo {
             let prices = nbs_by_price(ctx, self.pos, &good);
             return Ok(Action::Sell(cargo));
