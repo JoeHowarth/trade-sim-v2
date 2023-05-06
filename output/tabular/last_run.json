@@ -1,115 +1,115 @@
 {
   "markets": [
     {
-      "consumption": 80.0,
+      "consumption": 30.0,
       "good": "Wheat",
       "port": "Rome",
-      "price": 100.0,
+      "price": 80.0,
       "pricer": {
-        "base_price": 1.0,
-        "base_supply": 1.0,
-        "price_per_supply": 1.0
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
       },
       "production": 20.0,
       "supply": 100.0,
       "tick": 0
     },
     {
-      "consumption": 80.0,
+      "consumption": 20.0,
       "good": "Wheat",
       "port": "Genoa",
-      "price": 100.0,
+      "price": 80.0,
       "pricer": {
-        "base_price": 1.0,
-        "base_supply": 1.0,
-        "price_per_supply": 1.0
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
       },
-      "production": 20.0,
+      "production": 25.0,
       "supply": 100.0,
       "tick": 0
     },
     {
-      "consumption": 80.0,
+      "consumption": 30.0,
       "good": "Wheat",
-      "port": "Genoa",
-      "price": 40.0,
+      "port": "Rome",
+      "price": 82.0,
       "pricer": {
-        "base_price": 1.0,
-        "base_supply": 1.0,
-        "price_per_supply": 1.0
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
       },
       "production": 20.0,
-      "supply": 40.0,
+      "supply": 90.0,
       "tick": 1
     },
     {
-      "consumption": 80.0,
+      "consumption": 20.0,
       "good": "Wheat",
-      "port": "Rome",
-      "price": 40.0,
+      "port": "Genoa",
+      "price": 79.0,
       "pricer": {
-        "base_price": 1.0,
-        "base_supply": 1.0,
-        "price_per_supply": 1.0
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
       },
-      "production": 20.0,
-      "supply": 40.0,
+      "production": 25.0,
+      "supply": 105.0,
       "tick": 1
     },
     {
-      "consumption": 80.0,
+      "consumption": 30.0,
       "good": "Wheat",
       "port": "Rome",
-      "price": -20.0,
+      "price": 84.0,
       "pricer": {
-        "base_price": 1.0,
-        "base_supply": 1.0,
-        "price_per_supply": 1.0
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
       },
       "production": 20.0,
-      "supply": -20.0,
+      "supply": 80.0,
       "tick": 2
     },
     {
-      "consumption": 80.0,
+      "consumption": 20.0,
       "good": "Wheat",
       "port": "Genoa",
-      "price": -20.0,
+      "price": 78.0,
       "pricer": {
-        "base_price": 1.0,
-        "base_supply": 1.0,
-        "price_per_supply": 1.0
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
       },
-      "production": 20.0,
-      "supply": -20.0,
+      "production": 25.0,
+      "supply": 110.0,
       "tick": 2
     },
     {
-      "consumption": 80.0,
+      "consumption": 30.0,
       "good": "Wheat",
-      "port": "Genoa",
-      "price": -80.0,
+      "port": "Rome",
+      "price": 86.0,
       "pricer": {
-        "base_price": 1.0,
-        "base_supply": 1.0,
-        "price_per_supply": 1.0
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
       },
       "production": 20.0,
-      "supply": -80.0,
+      "supply": 70.0,
       "tick": 3
     },
     {
-      "consumption": 80.0,
+      "consumption": 20.0,
       "good": "Wheat",
-      "port": "Rome",
-      "price": -80.0,
+      "port": "Genoa",
+      "price": 77.0,
       "pricer": {
-        "base_price": 1.0,
-        "base_supply": 1.0,
-        "price_per_supply": 1.0
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
       },
-      "production": 20.0,
-      "supply": -80.0,
+      "production": 25.0,
+      "supply": 115.0,
       "tick": 3
     }
   ],
@@ -143,7 +143,7 @@
       "cargo": null,
       "coins": 100.0,
       "id": "A",
-      "pos": "Genoa",
+      "pos": "Rome",
       "tick": 3
     }
   ]

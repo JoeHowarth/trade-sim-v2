@@ -9,13 +9,13 @@
       "market": {
         "table": {
           "Wheat": {
-            "consumption": 80.0,
+            "consumption": 30.0,
             "supply": 100.0,
             "production": 20.0,
             "pricer": {
-              "base_supply": 1.0,
-              "base_price": 1.0,
-              "price_per_supply": 1.0
+              "base_supply": 0.0,
+              "base_price": 100.0,
+              "price_per_supply": -0.2
             }
           }
         }
@@ -26,13 +26,13 @@
       "market": {
         "table": {
           "Wheat": {
-            "consumption": 80.0,
+            "consumption": 20.0,
             "supply": 100.0,
-            "production": 20.0,
+            "production": 25.0,
             "pricer": {
-              "base_supply": 1.0,
-              "base_price": 1.0,
-              "price_per_supply": 1.0
+              "base_supply": 0.0,
+              "base_price": 100.0,
+              "price_per_supply": -0.2
             }
           }
         }
