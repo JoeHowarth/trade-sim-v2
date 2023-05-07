@@ -1,8 +1,6 @@
-use std::ops::Index;
-
-use serde::ser::SerializeStruct;
-
 use crate::prelude::*;
+use serde::ser::SerializeStruct;
+use std::ops::Index;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct StaticInfo {
@@ -132,7 +130,7 @@ impl Context {
             .ports
             .values()
             .map(|port| {
-                let mut next_table = HTMap::new();
+                let mut next_table = HTMap::default();
                 for (good, market_info) in port.market.table.iter() {
                     let mut market_info = market_info.clone();
                     market_info.produce_and_consume();

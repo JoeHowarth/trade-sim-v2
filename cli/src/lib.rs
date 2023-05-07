@@ -3,22 +3,59 @@ pub mod tabular;
 use serde::de::DeserializeOwned;
 use simulation::prelude::*;
 use std::path::PathBuf;
-use tabular::extract_json;
+use tabular::tabularize;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Opts {
     pub ticks: u32,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct InputFormat {
+    pub opts: Opts,
+    pub edges: Vec<(PortId, PortId)>,
+    pub agents: Vec<Agent>,
+    pub ports: Vec<Port>,
+}
+
+impl Into<History> for InputFormat {
+    fn into(self) -> History {
+        History {
+            static_info: StaticInfo::new_static(&self.edges),
+            states: vec![State {
+                tick: 0,
+                ports: self
+                    .ports
+                    .into_iter()
+                    .map(|p| (p.id, p))
+                    .collect(),
+                agents: self
+                    .agents
+                    .into_iter()
+                    .map(|p| (p.id, p))
+                    .collect(),
+            }],
+            actions: vec![],
+        }
+    }
+}
+
+pub fn run(input: InputFormat) -> Result<History> {
+    let opts = input.opts.clone();
+    let mut history = input.into();
+    simulation_loop(opts, &mut history)?;
+    Ok(history)
+}
+
 pub fn simulation_loop(
     opts: Opts,
-    mut history: History,
-) -> Result<History> {
+    history: &mut History,
+) -> Result<()> {
     for _ in 0..opts.ticks {
         info!("Tick {}", history.state().tick);
         history.step()?;
     }
-    Ok(history)
+    Ok(())
 }
 
 pub fn load_json_file<T: DeserializeOwned>(
@@ -47,5 +84,5 @@ pub fn save_output(
     tabular_path: impl Into<PathBuf>,
 ) -> Result<()> {
     save_json_file(history_path, history)?;
-    save_json_file(tabular_path, extract_json(history)?)
+    save_json_file(tabular_path, tabularize(history)?)
 }

@@ -7,7 +7,7 @@ use serde::Deserializer;
 
 use crate::prelude::*;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct History {
     #[serde(deserialize_with = "deserialize_static_info")]
     pub static_info: &'static StaticInfo,
@@ -69,8 +69,8 @@ mod test {
             )]),
             states: vec![State {
                 tick: 0,
-                agents: HTMap::new(),
-                ports: HTMap::new(),
+                agents: HTMap::default(),
+                ports: HTMap::default(),
             }],
             actions: vec![vec![]],
         };

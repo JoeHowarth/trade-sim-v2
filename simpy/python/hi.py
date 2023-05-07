@@ -1,3 +1,4 @@
-from simrs import sum_as_string, foo
+from simrs import History
 
-print(sum_as_string(1,2))
+def hi():
+  print("hi 2")

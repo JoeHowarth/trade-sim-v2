@@ -2,16 +2,16 @@ use serde_json::{json, Value};
 use simulation::prelude::*;
 use std::iter::repeat;
 
-pub fn extract_json(history: &History) -> Result<impl Serialize> {
-    let agents = extract_agents_json(&history)?;
-    let markets = extract_markets_json(&history)?;
-    let actions = extract_actions_json(&history)?;
+pub fn tabularize(history: &History) -> Result<impl Serialize> {
+    let agents = tabularize_agents_json(&history)?;
+    let markets = tabularize_markets_json(&history)?;
+    let actions = tabularize_actions_json(&history)?;
     Ok(
         ht_map!["agents" => agents, "markets" => markets, "actions" => actions],
     )
 }
 
-fn extract_agents_json(history: &History) -> Result<Vec<Value>> {
+fn tabularize_agents_json(history: &History) -> Result<Vec<Value>> {
     history
         .states
         .iter()
@@ -28,7 +28,7 @@ fn extract_agents_json(history: &History) -> Result<Vec<Value>> {
         .collect()
 }
 
-fn extract_actions_json(history: &History) -> Result<Vec<Value>> {
+fn tabularize_actions_json(history: &History) -> Result<Vec<Value>> {
     history
         .actions
         .iter()
@@ -47,7 +47,7 @@ fn extract_actions_json(history: &History) -> Result<Vec<Value>> {
         .collect()
 }
 
-fn extract_markets_json(history: &History) -> Result<Vec<Value>> {
+fn tabularize_markets_json(history: &History) -> Result<Vec<Value>> {
     let ports_with_tick = history.states.iter().flat_map(|state| {
         state.ports.values().zip(repeat(state.tick.clone()))
     });

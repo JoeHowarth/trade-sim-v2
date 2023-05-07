@@ -7,8 +7,8 @@ pub use log::{debug, error, info, warn};
 pub use petgraph::graphmap::UnGraphMap as GraphMap;
 use petgraph::prelude::*;
 pub use rpds::{
-    ht_map, ht_set, HashTrieMap as HTMap, HashTrieSet as HTSet,
-    Vector,
+    ht_map_sync as ht_map, ht_set_sync as ht_set,
+    HashTrieMapSync as HTMap, HashTrieSetSync as HTSet, Vector,
 };
 pub use serde::{Deserialize, Serialize};
 pub use std::{

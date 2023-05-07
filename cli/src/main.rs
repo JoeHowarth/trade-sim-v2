@@ -5,7 +5,7 @@ use std::path::{Path, PathBuf};
 use clap::{Parser, Subcommand};
 use cli::{
     load_json_file, save_json_file, save_output, simulation_loop,
-    tabular::extract_json, Opts,
+    tabular::tabularize, InputFormat, Opts,
 };
 use simulation::prelude::*;
 
@@ -15,14 +15,6 @@ use simulation::prelude::*;
 struct Cli {
     #[command(subcommand)]
     command: Commands,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct InputFormat {
-    pub opts: Opts,
-    pub edges: Vec<(PortId, PortId)>,
-    pub agents: Vec<Agent>,
-    pub ports: Vec<Port>,
 }
 
 #[derive(Subcommand)]
@@ -70,7 +62,7 @@ fn main() -> Result<()> {
 
             save_json_file(
                 "output/tabular/last_run.json",
-                extract_json(&history)?,
+                tabularize(&history)?,
             )
         }
     }
@@ -100,7 +92,7 @@ fn run(
         actions: vec![],
     };
 
-    let history = simulation_loop(opts, history)?;
+    simulation_loop(opts, &mut history)?;
 
     save_output(&history, output_path, tabular_path)
 }
@@ -113,13 +105,13 @@ fn resume(
     tabular_path: String,
     additional_ticks: u32,
 ) -> Result<()> {
-    let history = load_json_file(prev_output)?;
+    let mut history = load_json_file(prev_output)?;
 
-    let history = simulation_loop(
+    simulation_loop(
         Opts {
             ticks: additional_ticks,
         },
-        history,
+        &mut history,
     )?;
 
     save_output(&history, history_path, tabular_path)
