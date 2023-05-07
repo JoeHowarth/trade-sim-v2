@@ -12,7 +12,7 @@ pub enum Action {
     Noop,
     BuyAndMove {
         good: Good,
-        port: PortId,
+        port_id: PortId,
     },
     Move {
         port_id: PortId,
@@ -58,11 +58,27 @@ impl Agent {
             .next()
             .unwrap();
 
+        // sell cargo immediately if we have any
         if let Some(cargo) = self.cargo {
             let prices = nbs_by_price(ctx, self.pos, &good);
-            return Ok(Action::Sell{good: cargo});
+            return Ok(Action::Sell { good: cargo });
         }
 
+        // buy cargo and move to neighbor port with highest prices (to sell)
+        if let Some((price, port_id)) =
+            nbs_by_price(ctx, self.pos, good)
+                .min_by_key(|(price, _)| *price)
+        {
+            // continue if we can't buy
+            if price < self.coins {
+                return Ok(Action::BuyAndMove {
+                    good: *good,
+                    port_id,
+                });
+            }
+        }
+
+        // move to neighbor with lowest prices and try to buy next tick
         let local_price =
             ctx.state.ports.index(&self.pos).market.price(&good);
         if let Some((price, port_id)) =
@@ -70,18 +86,11 @@ impl Agent {
                 .max_by_key(|(price, _)| *price)
         {
             if price < local_price {
-                return Ok(Action::Move{port_id});
+                return Ok(Action::Move { port_id });
             }
         }
-        if let Some((price, port_id)) =
-            nbs_by_price(ctx, self.pos, good)
-                .min_by_key(|(price, _)| *price)
-        {
-            return Ok(Action::BuyAndMove {
-                good: *good,
-                port: port_id,
-            });
-        }
+
+        // fall back to noop
         return Ok(Action::Noop);
     }
 
@@ -92,8 +101,8 @@ impl Agent {
             ctx.static_info.graph.neighbors(self.pos).collect();
         let nbr = rng.sample(&nbrs).ok_or(eyre!("no neighbors"))?;
 
-        if rng.chance(0.5) {
-            Ok(Action::Move{port_id: *nbr})
+        if rng.chance(0.7) {
+            Ok(Action::Move { port_id: *nbr })
         } else {
             Ok(Action::Noop)
         }

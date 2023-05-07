@@ -3,20 +3,6 @@
 use pyo3::prelude::*;
 use simulation::{history::History, prelude::*};
 
-// #[pyfunction]
-// fn price(
-//     // py: Python<'_>,
-//     obj: &PyObject,
-// ) -> PyResult<f64> {
-//     let (consumption, supply, production, pricer): (
-//         f64,
-//         f64,
-//         f64,
-//         (f64, f64, f64),
-//     ) = obj.extract(py);
-//     todo!()
-// }
-
 #[pyfunction]
 fn foo(x: u32) -> PyResult<u32> {
     Ok(x * 2 + 13)

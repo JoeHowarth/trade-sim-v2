@@ -4,8 +4,8 @@ use std::path::{Path, PathBuf};
 
 use clap::{Parser, Subcommand};
 use cli::{
-    extract_actions_json, extract_agents_json, extract_markets_json,
-    load_json_file, save_json_file,
+    load_json_file, save_json_file, save_output, simulation_loop,
+    tabular::extract_json, Opts,
 };
 use simulation::prelude::*;
 
@@ -21,13 +21,8 @@ struct Cli {
 struct InputFormat {
     pub opts: Opts,
     pub edges: Vec<(PortId, PortId)>,
-    pub agents: HTMap<AgentId, Agent>,
-    pub ports: HTMap<PortId, Port>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Opts {
-    ticks: u32,
+    pub agents: Vec<Agent>,
+    pub ports: Vec<Port>,
 }
 
 #[derive(Subcommand)]
@@ -73,35 +68,21 @@ fn main() -> Result<()> {
         Commands::Tabular => {
             let history = load_json_file("output/last_run.json")?;
 
-            let agents = extract_agents_json(&history)?;
-            let markets = extract_markets_json(&history)?;
-            let actions = extract_actions_json(&history)?;
-
             save_json_file(
                 "output/tabular/last_run.json",
-                &ht_map!["agents" => agents, "markets" => markets, "actions" => actions],
+                extract_json(&history)?,
             )
         }
     }
 }
 
-fn simulation_loop(
-    opts: Opts,
-    mut history: History,
-) -> Result<History> {
-    for _ in 0..opts.ticks {
-        info!("Tick {}", history.state().tick);
-        history.step()?;
-    }
-    Ok(history)
-}
-
+/// run a new simulation from the given `input` file
+/// then save output
 fn run(
     input: String,
     output_path: String,
     tabular_path: String,
 ) -> Result<()> {
-    // load input file
     let InputFormat {
         opts,
         edges,
@@ -109,34 +90,31 @@ fn run(
         ports,
     } = load_json_file(input)?;
 
-    // construct history
     let mut history = History {
         static_info: StaticInfo::new_static(&edges),
         states: vec![State {
             tick: 0,
-            ports,
-            agents,
+            ports: ports.into_iter().map(|p| (p.id, p)).collect(),
+            agents: agents.into_iter().map(|p| (p.id, p)).collect(),
         }],
         actions: vec![],
     };
 
-    // run simulation loop
     let history = simulation_loop(opts, history)?;
 
-    // write output file
     save_output(&history, output_path, tabular_path)
 }
 
+/// resume a simulation from `prev_output` file and continue for `additional_ticks`
+/// then save new output
 fn resume(
     prev_output: String,
     history_path: String,
     tabular_path: String,
     additional_ticks: u32,
 ) -> Result<()> {
-    // load existing history to resume at
     let history = load_json_file(prev_output)?;
 
-    // run simulation loop
     let history = simulation_loop(
         Opts {
             ticks: additional_ticks,
@@ -145,20 +123,4 @@ fn resume(
     )?;
 
     save_output(&history, history_path, tabular_path)
-}
-
-fn save_output(
-    history: &History,
-    history_path: impl Into<PathBuf>,
-    tabular_path: impl Into<PathBuf>,
-) -> Result<()> {
-    let agents = extract_agents_json(&history)?;
-    let markets = extract_markets_json(&history)?;
-    let actions = extract_actions_json(&history)?;
-
-    save_json_file(history_path, history)?;
-    save_json_file(
-        tabular_path,
-        &ht_map!["agents" => agents, "markets" => markets, "actions" => actions],
-    )
 }

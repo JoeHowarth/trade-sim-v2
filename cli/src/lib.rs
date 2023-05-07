@@ -1,80 +1,24 @@
-use std::{iter::repeat, path::PathBuf};
+pub mod tabular;
 
 use serde::de::DeserializeOwned;
-use serde_json::{json, Value};
 use simulation::prelude::*;
+use std::path::PathBuf;
+use tabular::extract_json;
 
-pub fn extract_agents_json(history: &History) -> Result<Vec<Value>> {
-    history
-        .states
-        .iter()
-        .flat_map(|state| {
-            state.agents.values().map(|agent| {
-                extend_obj(
-                    agent,
-                    json!({
-                        "tick": state.tick,
-                    }),
-                )
-            })
-        })
-        .collect()
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Opts {
+    pub ticks: u32,
 }
 
-pub fn extract_actions_json(history: &History) -> Result<Vec<Value>> {
-    history
-        .actions
-        .iter()
-        .enumerate()
-        .flat_map(|(tick, actions)| {
-            actions.iter().map(move |(agent_id, action)| {
-                extend_obj(
-                    action,
-                    json!({
-                        "tick": tick,
-                        "agent_id": agent_id
-                    }),
-                )
-            })
-        })
-        .collect()
-}
-
-pub fn extract_markets_json(history: &History) -> Result<Vec<Value>> {
-    let ports_with_tick = history.states.iter().flat_map(|state| {
-        state.ports.values().zip(repeat(state.tick.clone()))
-    });
-    ports_with_tick
-        .flat_map(|(port, tick)| {
-            port.market.table.iter().map(move |(good, market)| {
-                let price = market.current_price();
-                extend_obj(
-                    market,
-                    json!({
-                        "port": port.id,
-                        "tick": tick,
-                        "price": price,
-                        "good": *good
-                    }),
-                )
-            })
-        })
-        .collect()
-}
-
-fn extend(row: &mut Value, mut other: Value) {
-    row.as_object_mut()
-        .unwrap()
-        .append(other.as_object_mut().unwrap());
-}
-
-pub fn extend_obj(
-    row: impl Serialize,
-    other: Value,
-) -> Result<Value> {
-    let mut row = serde_json::to_value(row)?;
-    extend(&mut row, other);
-    Ok(row)
+pub fn simulation_loop(
+    opts: Opts,
+    mut history: History,
+) -> Result<History> {
+    for _ in 0..opts.ticks {
+        info!("Tick {}", history.state().tick);
+        history.step()?;
+    }
+    Ok(history)
 }
 
 pub fn load_json_file<T: DeserializeOwned>(
@@ -97,17 +41,11 @@ pub fn save_json_file(
     Ok(())
 }
 
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn save_output(
+    history: &History,
+    history_path: impl Into<PathBuf>,
+    tabular_path: impl Into<PathBuf>,
+) -> Result<()> {
+    save_json_file(history_path, history)?;
+    save_json_file(tabular_path, extract_json(history)?)
 }

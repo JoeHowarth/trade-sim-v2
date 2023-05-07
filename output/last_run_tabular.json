@@ -1,53 +1,39 @@
 {
-  "agents": [
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Genoa",
-      "tick": 0
-    },
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Rome",
-      "tick": 1
-    },
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Rome",
-      "tick": 2
-    },
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Rome",
-      "tick": 3
-    }
-  ],
   "actions": [
     {
-      "action": "Move",
+      "action": "BuyAndMove",
       "agent_id": "A",
+      "good": "Wheat",
       "port_id": "Rome",
       "tick": 0
     },
     {
       "action": "Noop",
+      "agent_id": "B",
+      "tick": 0
+    },
+    {
+      "action": "Sell",
       "agent_id": "A",
+      "good": "Wheat",
       "tick": 1
     },
     {
       "action": "Noop",
+      "agent_id": "B",
+      "tick": 1
+    },
+    {
+      "action": "BuyAndMove",
       "agent_id": "A",
+      "good": "Wheat",
+      "port_id": "Genoa",
+      "tick": 2
+    },
+    {
+      "action": "Move",
+      "agent_id": "B",
+      "port_id": "Rome",
       "tick": 2
     }
   ],
@@ -81,20 +67,6 @@
       "tick": 0
     },
     {
-      "consumption": 30.0,
-      "good": "Wheat",
-      "port": "Rome",
-      "price": 82.0,
-      "pricer": {
-        "base_price": 100.0,
-        "base_supply": 0.0,
-        "price_per_supply": -0.2
-      },
-      "production": 20.0,
-      "supply": 90.0,
-      "tick": 1
-    },
-    {
       "consumption": 20.0,
       "good": "Wheat",
       "port": "Genoa",
@@ -112,15 +84,15 @@
       "consumption": 30.0,
       "good": "Wheat",
       "port": "Rome",
-      "price": 84.0,
+      "price": 82.0,
       "pricer": {
         "base_price": 100.0,
         "base_supply": 0.0,
         "price_per_supply": -0.2
       },
       "production": 20.0,
-      "supply": 80.0,
-      "tick": 2
+      "supply": 90.0,
+      "tick": 1
     },
     {
       "consumption": 20.0,
@@ -140,15 +112,15 @@
       "consumption": 30.0,
       "good": "Wheat",
       "port": "Rome",
-      "price": 86.0,
+      "price": 84.0,
       "pricer": {
         "base_price": 100.0,
         "base_supply": 0.0,
         "price_per_supply": -0.2
       },
       "production": 20.0,
-      "supply": 70.0,
-      "tick": 3
+      "supply": 80.0,
+      "tick": 2
     },
     {
       "consumption": 20.0,
@@ -162,6 +134,86 @@
       },
       "production": 25.0,
       "supply": 115.0,
+      "tick": 3
+    },
+    {
+      "consumption": 30.0,
+      "good": "Wheat",
+      "port": "Rome",
+      "price": 86.0,
+      "pricer": {
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
+      },
+      "production": 20.0,
+      "supply": 70.0,
+      "tick": 3
+    }
+  ],
+  "agents": [
+    {
+      "behavior": "Greedy",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "A",
+      "pos": "Genoa",
+      "tick": 0
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "B",
+      "pos": "Genoa",
+      "tick": 0
+    },
+    {
+      "behavior": "Greedy",
+      "cargo": "Wheat",
+      "coins": 20.0,
+      "id": "A",
+      "pos": "Rome",
+      "tick": 1
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "B",
+      "pos": "Genoa",
+      "tick": 1
+    },
+    {
+      "behavior": "Greedy",
+      "cargo": null,
+      "coins": 101.8,
+      "id": "A",
+      "pos": "Rome",
+      "tick": 2
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "B",
+      "pos": "Genoa",
+      "tick": 2
+    },
+    {
+      "behavior": "Greedy",
+      "cargo": "Wheat",
+      "coins": 17.799999999999997,
+      "id": "A",
+      "pos": "Genoa",
+      "tick": 3
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "B",
+      "pos": "Rome",
       "tick": 3
     }
   ]

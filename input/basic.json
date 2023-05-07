@@ -3,8 +3,8 @@
     "ticks": 3
   },
   "edges": [["Rome", "Genoa"]],
-  "ports": {
-    "Rome": {
+  "ports": [
+    {
       "id": "Rome",
       "market": {
         "table": {
@@ -21,7 +21,7 @@
         }
       }
     },
-    "Genoa": {
+    {
       "id": "Genoa",
       "market": {
         "table": {
@@ -38,14 +38,21 @@
         }
       }
     }
-  },
-  "agents": {
-    "A": {
+  ],
+  "agents": [
+    {
       "id": "A",
+      "pos": "Genoa",
+      "coins": 100,
+      "cargo": null,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "B",
       "pos": "Genoa",
       "coins": 100,
       "cargo": null,
       "behavior": "Random"
     }
-  }
+  ]
 }

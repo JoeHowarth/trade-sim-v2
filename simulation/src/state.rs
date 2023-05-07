@@ -56,30 +56,13 @@ impl Context {
         actions: &[(AgentId, Action)],
     ) -> Result<Self> {
         let mut agents = self.state.agents.clone();
-        let ports = self.state.ports.clone();
+        let mut ports = self.state.ports.clone();
 
         for (agent_id, action) in actions {
-            // todo: action validation
-            match action {
-                Action::Noop => {}
-                Action::Move{port_id} => {
-                    agents = agents.update_with(*agent_id, |agent| {
-                        agent.pos = *port_id
-                    });
-                }
-                Action::BuyAndMove { good, port } => {
-                    todo!()
-                }
-                Action::Sell{good} => {
-                    let mut agent = agents.index(agent_id).clone();
-                    let mut port = ports.index(&agent.pos).clone();
-
-                    port.market.sell(good, &mut agent.coins, 1)
-                    .ok_or_else(|| eyre!("Invalid Action: tried to sell when impossible"))?;
-                    agents = agents.update(*agent_id, agent);
-                }
-            }
+            (ports, agents) =
+                self.apply_action(action, agent_id, ports, agents)?;
         }
+
         Ok(Context {
             state: State {
                 agents,
@@ -88,6 +71,58 @@ impl Context {
             },
             static_info: self.static_info,
         })
+    }
+
+    fn apply_action(
+        &self,
+        action: &Action,
+        agent_id: &AgentId,
+        ports: HTMap<PortId, Port>,
+        agents: HTMap<AgentId, Agent>,
+    ) -> Result<(HTMap<PortId, Port>, HTMap<AgentId, Agent>)> {
+        let ports = ports;
+        let mut agents = agents;
+        match action {
+            Action::Noop => {}
+            Action::Move { port_id } => {
+                agents = agents.try_update_with(*agent_id, |agent| {
+                        if !self
+                            .static_info
+                            .are_neighbors(agent.pos, *port_id)
+                        {
+                            return Err(eyre!("Invalid Action: cannot move to a non-adjacent port"));
+                        }
+                        agent.pos = *port_id;
+                        Ok(())
+                })?;
+            }
+            Action::BuyAndMove { good, port_id } => {
+                let mut agent = agents.index(agent_id).clone();
+                let mut port = ports.index(&agent.pos).clone();
+                if !self
+                    .static_info
+                    .are_neighbors(agent.pos, *port_id)
+                {
+                    return Err(eyre!("Invalid Action: cannot move to a non-adjacent port"));
+                }
+                agent.pos = *port_id;
+
+                port.market.buy(good, &mut agent.coins, 1)
+                        .ok_or_else(|| eyre!("Invalid Action: tried to buy when impossible"))?;
+                agent.cargo = Some(*good);
+                agents = agents.update(*agent_id, agent);
+            }
+            Action::Sell { good } => {
+                let mut agent = agents.index(agent_id).clone();
+                let mut port = ports.index(&agent.pos).clone();
+
+                port.market.sell(good, &mut agent.coins, 1)
+                        .ok_or_else(|| eyre!("Invalid Action: tried to sell when impossible"))?;
+                agent.cargo = None;
+                agents = agents.update(*agent_id, agent);
+            }
+        }
+        Ok((ports, agents))
     }
 
     fn update_world_systems(&self) -> Self {
@@ -134,6 +169,9 @@ impl Context {
 }
 
 impl StaticInfo {
+    pub fn are_neighbors(&self, a: PortId, b: PortId) -> bool {
+        self.graph.neighbors(a).find(|&n| n == b).is_some()
+    }
     pub fn new_static(edges: &[(PortId, PortId)]) -> &'static Self {
         Box::leak(Box::new(Self::new(edges)))
     }
