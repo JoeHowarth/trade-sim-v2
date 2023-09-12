@@ -48,7 +48,7 @@ impl Context {
         Ok((ctx.state, actions))
     }
 
-    fn apply_actions(self, actions: &[(AgentId, Action)]) -> Result<Self> {
+    pub fn apply_actions(self, actions: &[(AgentId, Action)]) -> Result<Self> {
         let mut state = self.state.clone();
 
         for (i, (agent_id, action)) in actions.iter().enumerate() {
@@ -143,7 +143,7 @@ impl Context {
         })
     }
 
-    fn update_world_systems(&self) -> Self {
+    pub fn update_world_systems(&self) -> Self {
         let state = &self.state;
 
         let ports = state

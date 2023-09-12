@@ -41,11 +41,19 @@ enum Commands {
         #[arg(short, long)]
         additional_ticks: u32,
     },
+    ResumeCrash {
+        #[arg(default_value_t = String::from("output/crash_report.json"))]
+        crash_report: String,
+    },
     Tabular,
 }
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
+    if std::env::var("RUST_LOG").is_err() {
+        std::env::set_var("RUST_LOG", "debug")
+    }
+    env_logger::init();
 
     // You can check for the existence of subcommands, and if found use their
     // matches just as you would the top level cmd
@@ -63,12 +71,35 @@ fn main() -> Result<()> {
             crash_report,
             additional_ticks,
         } => resume(prev_output, output, tabular, crash_report, additional_ticks),
+        Commands::ResumeCrash { crash_report } => resume_crash(crash_report),
         Commands::Tabular => {
             let history = load_json_file("output/last_run.json")?;
 
             save_json_file("output/tabular/last_run.json", tabularize(&history)?)
         }
     }
+}
+
+fn resume_crash(crash_report: String) -> Result<()> {
+    let crash_report: CrashReport = load_json_file(crash_report)?;
+    let SimulationError {
+        state,
+        unapplied_actions,
+        ..
+    } = crash_report.error;
+    let history = crash_report.history;
+
+    let mut ctx = Context {
+        state,
+        static_info: history.static_info,
+    };
+
+    ctx = ctx.apply_actions(&unapplied_actions)?;
+
+    // non-agent world processes
+    ctx = ctx.update_world_systems();
+
+    Ok(())
 }
 
 /// run a new simulation from the given `input` file

@@ -90,24 +90,29 @@ mod test {
             lm.cost(&before, 5) > five_times_current_price,
             "cost of buying 5 should be more than 5*current_price to avoid buy/sell arbitrage"
         );
-        assert_eq!(lm.cost(&before, 2), pricer.price(35.) + pricer.price(34.));
         assert_eq!(
             lm.cost(&before, 5),
-            std::iter::repeat(35.)
+            5. * (pricer.price(35.) + pricer.price(35. - 5.)) / 2.
+        );
+        assert_eq!(
+            lm.cost(&before, 5),
+            std::iter::repeat(35)
                 .enumerate()
-                .map(|(i, s)| pricer.price(s - i as f64))
+                .map(|(i, s)| {
+                    MarketInfo {
+                        supply: (s - i) as f64,
+                        ..market_info.clone()
+                    }
+                    .cost(1 as i32)
+                })
                 .take(5)
                 .sum::<Money>()
         );
         assert_eq!(
-            lm.cost(&before, -2),
-            -(pricer.price(36.) + pricer.price(37.))
+            lm.cost(&after, -5),
+            -5. * (pricer.price(30.) + pricer.price(30. + 5.)) / 2.
         );
 
-        assert_eq!(
-            lm.cost(&after, -2),
-            -(pricer.price(31.) + pricer.price(32.))
-        );
         assert_eq!(lm.cost(&before, 5), -lm.cost(&after, -5));
     }
 

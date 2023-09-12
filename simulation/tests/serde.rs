@@ -6,7 +6,7 @@ use simulation::prelude::*;
 fn test_state_serde() {
     let market_info = MarketInfo {
         supply: 100.,
-        pricer: pricer::LinearPricer::new(1., 1., 1.),
+        pricer: pricer::LinearPricer::new(1., 1., -1.),
         consumption: 80.,
         production: 20.,
     };
