@@ -1,6 +1,6 @@
 #![allow(unused_imports)]
 
-use cli::{simulation_loop, tabular::tabularize, InputFormat, Opts};
+use cli::{simulation_loop, tabular::tabularize, CrashReport, InputFormat, Opts};
 use pyo3::{
     exceptions::{self, PyValueError},
     prelude::*,
@@ -31,20 +31,23 @@ fn run(input: InputFormatPy) -> Result<HistoryPy> {
 #[pyclass(name = "History")]
 pub struct HistoryPy {
     pub history: History,
-    pub err: Option<SimulationError>,
+    pub crash_report_path: String,
 }
 
 impl From<History> for HistoryPy {
     fn from(history: History) -> Self {
-        HistoryPy { history, err: None }
+        HistoryPy {
+            history,
+            crash_report_path: "../../output/crash_report.json".to_string(),
+        }
     }
 }
 
 #[pymethods]
 impl HistoryPy {
     #[new]
-    pub fn new(ob: &PyAny) -> Result<HistoryPy> {
-        Ok(depythonize::<History>(ob)?.into())
+    pub fn new(history: &PyAny) -> Result<HistoryPy> {
+        Ok(depythonize::<History>(history)?.into())
     }
 
     #[staticmethod]
@@ -54,29 +57,9 @@ impl HistoryPy {
     }
 
     pub fn run(&mut self, opts: OptsPy) -> Result<()> {
-        for _ in 0..opts.0.ticks {
-            info!("Tick {}", self.history.state().tick);
-            if let Err(err) = self.history.step() {
-                self.err = err.downcast_ref::<SimulationError>().cloned();
-                Err(err)?;
-            }
-        }
-        Ok(())
+        simulation_loop(opts.0, &mut self.history)
+            .map_err(|e| CrashReport::save(&self.history, e, &self.crash_report_path))
     }
-
-    pub fn error(&self) -> PyResult<PyObject> {
-        Python::with_gil(|py| pythonize(py, &self.err)).map_err(Into::into)
-    }
-
-    // pub fn invalid_action(&self) -> PyResult<PyObject> {
-    //     let Some(err) = self.err else {
-    //         return Python::with_gil(|py| Ok(py.None()))
-    //     };
-    //     todo!()
-    //     // let err =
-
-    //     // Python::with_gil(|py| pythonize(py, ))
-    // }
 
     #[getter]
     pub fn history(&self) -> PyResult<PyObject> {

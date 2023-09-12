@@ -4,8 +4,8 @@ use std::path::{Path, PathBuf};
 
 use clap::{Parser, Subcommand};
 use cli::{
-    load_json_file, save_json_file, save_output, simulation_loop, tabular::tabularize, InputFormat,
-    Opts,
+    load_json_file, save_json_file, save_output, simulation_loop, tabular::tabularize, CrashReport,
+    InputFormat, Opts,
 };
 use simulation::prelude::*;
 
@@ -26,6 +26,8 @@ enum Commands {
         output: String,
         #[arg(default_value_t = String::from("output/last_run_tabular.json"))]
         tabular: String,
+        #[arg(default_value_t = String::from("output/crash_report.json"))]
+        crash_report: String,
     },
     Resume {
         #[arg(default_value_t = String::from("output/last_run.json"))]
@@ -34,6 +36,8 @@ enum Commands {
         output: String,
         #[arg(default_value_t = String::from("output/last_run_tabular.json"))]
         tabular: String,
+        #[arg(default_value_t = String::from("output/crash_report.json"))]
+        crash_report: String,
         #[arg(short, long)]
         additional_ticks: u32,
     },
@@ -50,13 +54,15 @@ fn main() -> Result<()> {
             input,
             output,
             tabular,
-        } => run(input, output, tabular),
+            crash_report,
+        } => run(input, output, tabular, crash_report),
         Commands::Resume {
             prev_output,
             output,
             tabular,
+            crash_report,
             additional_ticks,
-        } => resume(prev_output, output, tabular, additional_ticks),
+        } => resume(prev_output, output, tabular, crash_report, additional_ticks),
         Commands::Tabular => {
             let history = load_json_file("output/last_run.json")?;
 
@@ -67,7 +73,12 @@ fn main() -> Result<()> {
 
 /// run a new simulation from the given `input` file
 /// then save output
-fn run(input: String, output_path: String, tabular_path: String) -> Result<()> {
+fn run(
+    input: String,
+    output_path: String,
+    tabular_path: String,
+    crash_report_path: String,
+) -> Result<()> {
     let InputFormat {
         opts,
         edges,
@@ -85,7 +96,8 @@ fn run(input: String, output_path: String, tabular_path: String) -> Result<()> {
         actions: vec![],
     };
 
-    simulation_loop(opts, &mut history)?;
+    simulation_loop(opts, &mut history)
+        .map_err(|e| CrashReport::save(&history, e, &crash_report_path))?;
 
     save_output(&history, output_path, tabular_path)
 }
@@ -96,6 +108,7 @@ fn resume(
     prev_output: String,
     history_path: String,
     tabular_path: String,
+    crash_report_path: String,
     additional_ticks: u32,
 ) -> Result<()> {
     let mut history = load_json_file(prev_output)?;

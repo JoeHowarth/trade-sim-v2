@@ -48,11 +48,38 @@ pub fn run(input: InputFormat) -> Result<History> {
 }
 
 pub fn simulation_loop(opts: Opts, history: &mut History) -> Result<()> {
+    info!("Hello from sim loop");
     for _ in 0..opts.ticks {
         info!("Tick {}", history.state().tick);
         history.step()?;
     }
     Ok(())
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CrashReport {
+    pub history: History,
+    #[serde(flatten)]
+    pub error: SimulationError,
+}
+
+impl CrashReport {
+    pub fn save(history: &History, error: Report, path: &str) -> Report {
+        match error.downcast_ref::<SimulationError>() {
+            Some(sim_err) => {
+                let crash = CrashReport {
+                    history: history.clone(),
+                    error: sim_err.clone(),
+                };
+                if let Err(file_err) = save_json_file(path, crash) {
+                    error!("Didn't save file correctly");
+                    return error.wrap_err(file_err);
+                }
+                error
+            }
+            None => error.wrap_err("Expected SimulationError"),
+        }
+    }
 }
 
 pub fn load_json_file<T: DeserializeOwned>(path: impl Into<PathBuf>) -> Result<T> {
