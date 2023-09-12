@@ -4,8 +4,8 @@ use std::path::{Path, PathBuf};
 
 use clap::{Parser, Subcommand};
 use cli::{
-    load_json_file, save_json_file, save_output, simulation_loop,
-    tabular::tabularize, InputFormat, Opts,
+    load_json_file, save_json_file, save_output, simulation_loop, tabular::tabularize, InputFormat,
+    Opts,
 };
 use simulation::prelude::*;
 
@@ -60,21 +60,14 @@ fn main() -> Result<()> {
         Commands::Tabular => {
             let history = load_json_file("output/last_run.json")?;
 
-            save_json_file(
-                "output/tabular/last_run.json",
-                tabularize(&history)?,
-            )
+            save_json_file("output/tabular/last_run.json", tabularize(&history)?)
         }
     }
 }
 
 /// run a new simulation from the given `input` file
 /// then save output
-fn run(
-    input: String,
-    output_path: String,
-    tabular_path: String,
-) -> Result<()> {
+fn run(input: String, output_path: String, tabular_path: String) -> Result<()> {
     let InputFormat {
         opts,
         edges,

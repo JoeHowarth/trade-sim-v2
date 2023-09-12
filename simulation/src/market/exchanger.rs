@@ -10,17 +10,9 @@ use std::ops::DerefMut;
 
 pub trait Exchanger {
     fn cost(&self, amt: i32) -> Money;
-    fn dry_run_by(
-        &self,
-        wallet: &mut Money,
-        amt: i32,
-    ) -> Option<Money>;
+    fn dry_run_by(&self, wallet: &mut Money, amt: i32) -> Option<Money>;
     fn buy(&mut self, wallet: &mut Money, amt: i32) -> Option<Money>;
-    fn sell(
-        &mut self,
-        wallet: &mut Money,
-        amt: i32,
-    ) -> Option<Money> {
+    fn sell(&mut self, wallet: &mut Money, amt: i32) -> Option<Money> {
         self.buy(wallet, -amt)
     }
 }
@@ -34,11 +26,7 @@ impl<'a, T: Exchanger> Exchanger for DryRunExchanger<'a, T> {
     fn cost(&self, amt: i32) -> Money {
         self.inner.cost(amt)
     }
-    fn dry_run_by(
-        &self,
-        wallet: &mut Money,
-        amt: i32,
-    ) -> Option<Money> {
+    fn dry_run_by(&self, wallet: &mut Money, amt: i32) -> Option<Money> {
         self.inner.dry_run_by(wallet, amt)
     }
     fn buy(&mut self, wallet: &mut Money, amt: i32) -> Option<Money> {
@@ -46,9 +34,7 @@ impl<'a, T: Exchanger> Exchanger for DryRunExchanger<'a, T> {
     }
 }
 
-#[derive(
-    Serialize, Deserialize, Debug, PartialOrd, PartialEq, Clone,
-)]
+#[derive(Serialize, Deserialize, Debug, PartialOrd, PartialEq, Clone)]
 pub struct MarketInfo {
     pub consumption: f64,
     pub supply: f64,
@@ -71,11 +57,7 @@ impl Exchanger for MarketInfo {
         (avg_price * amt as f64).into()
     }
 
-    fn dry_run_by(
-        &self,
-        wallet: &mut Money,
-        amt: i32,
-    ) -> Option<Money> {
+    fn dry_run_by(&self, wallet: &mut Money, amt: i32) -> Option<Money> {
         info!("Dry run buy");
         if amt == 0 {
             return Some(0.0.into());
@@ -109,8 +91,7 @@ impl MarketInfo {
         self.pricer.price(self.supply)
     }
     pub fn produce_and_consume(&mut self) -> &mut Self {
-        self.supply =
-            self.supply + self.production - self.consumption;
+        self.supply = self.supply + self.production - self.consumption;
         self
     }
 }
@@ -144,14 +125,8 @@ mod tests {
             let initial_cost = market_info.cost(amt as i32);
             let initial_money = Some(initial_cost.into());
 
-            assert_eq!(
-                market_info.buy(&mut wallet, amt as i32),
-                initial_money
-            );
-            assert_eq!(
-                wallet,
-                starting_balance - initial_money.unwrap()
-            );
+            assert_eq!(market_info.buy(&mut wallet, amt as i32), initial_money);
+            assert_eq!(wallet, starting_balance - initial_money.unwrap());
 
             assert_eq!(
                 market_info.sell(&mut wallet, amt as i32),

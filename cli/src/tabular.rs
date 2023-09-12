@@ -6,9 +6,7 @@ pub fn tabularize(history: &History) -> Result<impl Serialize> {
     let agents = tabularize_agents_json(&history)?;
     let markets = tabularize_markets_json(&history)?;
     let actions = tabularize_actions_json(&history)?;
-    Ok(
-        ht_map!["agents" => agents, "markets" => markets, "actions" => actions],
-    )
+    Ok(ht_map!["agents" => agents, "markets" => markets, "actions" => actions])
 }
 
 fn tabularize_agents_json(history: &History) -> Result<Vec<Value>> {
@@ -49,22 +47,28 @@ fn tabularize_actions_json(history: &History) -> Result<Vec<Value>> {
 
 fn tabularize_markets_json(history: &History) -> Result<Vec<Value>> {
     let ports_with_tick = history.states.iter().flat_map(|state| {
-        state.ports.values().zip(repeat(state.tick.clone()))
+        state
+            .ports
+            .values()
+            .zip(repeat(state.tick.clone()))
     });
     ports_with_tick
         .flat_map(|(port, tick)| {
-            port.market.table.iter().map(move |(good, market)| {
-                let price = market.current_price();
-                extend_obj(
-                    market,
-                    json!({
-                        "port": port.id,
-                        "tick": tick,
-                        "price": price,
-                        "good": *good
-                    }),
-                )
-            })
+            port.market
+                .table
+                .iter()
+                .map(move |(good, market)| {
+                    let price = market.current_price();
+                    extend_obj(
+                        market,
+                        json!({
+                            "port": port.id,
+                            "tick": tick,
+                            "price": price,
+                            "good": *good
+                        }),
+                    )
+                })
         })
         .collect()
 }
@@ -75,10 +79,7 @@ fn extend(row: &mut Value, mut other: Value) {
         .append(other.as_object_mut().unwrap());
 }
 
-pub fn extend_obj(
-    row: impl Serialize,
-    other: Value,
-) -> Result<Value> {
+pub fn extend_obj(row: impl Serialize, other: Value) -> Result<Value> {
     let mut row = serde_json::to_value(row)?;
     extend(&mut row, other);
     Ok(row)

@@ -66,8 +66,7 @@ impl Agent {
 
         // buy cargo and move to neighbor port with highest prices (to sell)
         if let Some((price, port_id)) =
-            nbs_by_price(ctx, self.pos, good)
-                .min_by_key(|(price, _)| *price)
+            nbs_by_price(ctx, self.pos, good).min_by_key(|(price, _)| *price)
         {
             // continue if we can't buy
             if price < self.coins {
@@ -79,11 +78,14 @@ impl Agent {
         }
 
         // move to neighbor with lowest prices and try to buy next tick
-        let local_price =
-            ctx.state.ports.index(&self.pos).market.price(&good);
+        let local_price = ctx
+            .state
+            .ports
+            .index(&self.pos)
+            .market
+            .price(&good);
         if let Some((price, port_id)) =
-            nbs_by_price(ctx, self.pos, good)
-                .max_by_key(|(price, _)| *price)
+            nbs_by_price(ctx, self.pos, good).max_by_key(|(price, _)| *price)
         {
             if price < local_price {
                 return Ok(Action::Move { port_id });
@@ -97,8 +99,11 @@ impl Agent {
     pub fn act_random(&self, ctx: &Context) -> Result<Action> {
         let rng = Rng::default();
 
-        let nbrs: Vec<_> =
-            ctx.static_info.graph.neighbors(self.pos).collect();
+        let nbrs: Vec<_> = ctx
+            .static_info
+            .graph
+            .neighbors(self.pos)
+            .collect();
         let nbr = rng.sample(&nbrs).ok_or(eyre!("no neighbors"))?;
 
         if rng.chance(0.7) {
@@ -115,6 +120,14 @@ fn nbs_by_price<'a>(
     good: &'a Good,
 ) -> impl Iterator<Item = (Money, PortId)> + 'a {
     ctx.static_info.graph.neighbors(port).map(|port| {
-        (ctx.state.ports.get(&port).unwrap().market.price(good), port)
+        (
+            ctx.state
+                .ports
+                .get(&port)
+                .unwrap()
+                .market
+                .price(good),
+            port,
+        )
     })
 }

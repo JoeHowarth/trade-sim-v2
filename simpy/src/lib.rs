@@ -57,8 +57,7 @@ impl HistoryPy {
         for _ in 0..opts.0.ticks {
             info!("Tick {}", self.history.state().tick);
             if let Err(err) = self.history.step() {
-                self.err =
-                    err.downcast_ref::<SimulationError>().cloned();
+                self.err = err.downcast_ref::<SimulationError>().cloned();
                 Err(err)?;
             }
         }
@@ -66,8 +65,7 @@ impl HistoryPy {
     }
 
     pub fn error(&self) -> PyResult<PyObject> {
-        Python::with_gil(|py| pythonize(py, &self.err))
-            .map_err(Into::into)
+        Python::with_gil(|py| pythonize(py, &self.err)).map_err(Into::into)
     }
 
     // pub fn invalid_action(&self) -> PyResult<PyObject> {
@@ -82,14 +80,12 @@ impl HistoryPy {
 
     #[getter]
     pub fn history(&self) -> PyResult<PyObject> {
-        Python::with_gil(|py| pythonize(py, &self.history))
-            .map_err(Into::into)
+        Python::with_gil(|py| pythonize(py, &self.history)).map_err(Into::into)
     }
 
     pub fn tabular(&self) -> PyResult<PyObject> {
         let tabular = tabularize(&self.history)?;
-        Python::with_gil(|py| pythonize(py, &tabular))
-            .map_err(Into::into)
+        Python::with_gil(|py| pythonize(py, &tabular)).map_err(Into::into)
     }
 }
 

@@ -47,10 +47,7 @@ pub fn run(input: InputFormat) -> Result<History> {
     Ok(history)
 }
 
-pub fn simulation_loop(
-    opts: Opts,
-    history: &mut History,
-) -> Result<()> {
+pub fn simulation_loop(opts: Opts, history: &mut History) -> Result<()> {
     for _ in 0..opts.ticks {
         info!("Tick {}", history.state().tick);
         history.step()?;
@@ -58,19 +55,12 @@ pub fn simulation_loop(
     Ok(())
 }
 
-pub fn load_json_file<T: DeserializeOwned>(
-    path: impl Into<PathBuf>,
-) -> Result<T> {
-    serde_json::from_reader(std::io::BufReader::new(
-        std::fs::File::open(path.into())?,
-    ))
-    .map_err(Into::into)
+pub fn load_json_file<T: DeserializeOwned>(path: impl Into<PathBuf>) -> Result<T> {
+    serde_json::from_reader(std::io::BufReader::new(std::fs::File::open(path.into())?))
+        .map_err(Into::into)
 }
 
-pub fn save_json_file(
-    path: impl Into<PathBuf>,
-    json: impl Serialize,
-) -> Result<()> {
+pub fn save_json_file(path: impl Into<PathBuf>, json: impl Serialize) -> Result<()> {
     serde_json::to_writer_pretty(
         std::io::BufWriter::new(std::fs::File::create(path.into())?),
         &json,

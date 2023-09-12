@@ -36,10 +36,7 @@ impl Money {
 }
 
 impl Debug for Money {
-    fn fmt(
-        &self,
-        f: &mut Formatter<'_>,
-    ) -> Result<(), std::fmt::Error> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
         f.write_str(&format!("${:.2}", self.0))
     }
 }
@@ -87,9 +84,7 @@ impl Eq for Money {}
 
 impl Ord for Money {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.partial_cmp(other).expect(&*format!(
-            "Failed ordering {:?} cmp {:?}",
-            self, other
-        ))
+        self.partial_cmp(other)
+            .expect(&*format!("Failed ordering {:?} cmp {:?}", self, other))
     }
 }

@@ -63,10 +63,7 @@ mod test {
     #[test]
     fn test_round_trip() {
         let history = History {
-            static_info: StaticInfo::new_static(&[(
-                "a".into(),
-                "b".into(),
-            )]),
+            static_info: StaticInfo::new_static(&[("a".into(), "b".into())]),
             states: vec![State {
                 tick: 0,
                 agents: HTMap::default(),
@@ -76,7 +73,6 @@ mod test {
         };
 
         let serialized = serde_json::to_string(&history).unwrap();
-        let deserialized: History =
-            serde_json::from_str(&serialized).unwrap();
+        let deserialized: History = serde_json::from_str(&serialized).unwrap();
     }
 }

@@ -36,10 +36,7 @@ impl Market {
             .expect(&*format!("Good: {} not found in market", *good))
     }
 
-    pub fn info_mut(
-        &mut self,
-        good: &Good,
-    ) -> &mut exchanger::MarketInfo {
+    pub fn info_mut(&mut self, good: &Good) -> &mut exchanger::MarketInfo {
         self.table
             .get_mut(&good)
             .expect(&*format!("Good: {} not found in market", *good))
@@ -47,12 +44,7 @@ impl Market {
 
     /// Inverse of buy
     /// returns price paid for selling `amt` of `good`
-    pub fn sell(
-        &mut self,
-        good: &Good,
-        wallet: &mut Money,
-        amt: i32,
-    ) -> Option<Money> {
+    pub fn sell(&mut self, good: &Good, wallet: &mut Money, amt: i32) -> Option<Money> {
         self.info_mut(good).sell(wallet, amt)
     }
 
@@ -60,12 +52,7 @@ impl Market {
     /// if cost is greater than contents of wallet, return None
     /// the cost of the transaction is removed from `wallet` and the cost is returned
     /// the supply of goods is decreased by `amt`
-    pub fn buy(
-        &mut self,
-        good: &Good,
-        wallet: &mut Money,
-        amt: i32,
-    ) -> Option<Money> {
+    pub fn buy(&mut self, good: &Good, wallet: &mut Money, amt: i32) -> Option<Money> {
         self.info_mut(good).buy(wallet, amt)
     }
 }
@@ -88,8 +75,7 @@ mod test {
             supply: 30.,
             ..market_info.clone()
         };
-        let (before, after) =
-            (Good::from("Before"), Good::from("After"));
+        let (before, after) = (Good::from("Before"), Good::from("After"));
         let lm: Market = [
             (before.clone(), market_info.clone()),
             (after.clone(), market_info_after.clone()),
@@ -99,16 +85,12 @@ mod test {
         .collect::<HTMap<Good, MarketInfo>>()
         .into();
 
-        let five_times_current_price: Money =
-            market_info.current_price() * 5.;
+        let five_times_current_price: Money = market_info.current_price() * 5.;
         assert!(
             lm.cost(&before, 5) > five_times_current_price,
             "cost of buying 5 should be more than 5*current_price to avoid buy/sell arbitrage"
         );
-        assert_eq!(
-            lm.cost(&before, 2),
-            pricer.price(35.) + pricer.price(34.)
-        );
+        assert_eq!(lm.cost(&before, 2), pricer.price(35.) + pricer.price(34.));
         assert_eq!(
             lm.cost(&before, 5),
             std::iter::repeat(35.)

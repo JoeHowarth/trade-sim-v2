@@ -19,34 +19,11 @@ use crate::prelude::*;
 pub struct PortId(pub Ustr);
 
 #[derive(
-    Serialize,
-    Deserialize,
-    Debug,
-    Clone,
-    Copy,
-    Default,
-    Deref,
-    DerefMut,
-    From,
-    PartialEq,
-    Eq,
-    Hash,
+    Serialize, Deserialize, Debug, Clone, Copy, Default, Deref, DerefMut, From, PartialEq, Eq, Hash,
 )]
 pub struct AgentId(pub Ustr);
 
-#[derive(
-    Deserialize,
-    Serialize,
-    Eq,
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Hash,
-    From,
-    Into,
-    Display,
-)]
+#[derive(Deserialize, Serialize, Eq, Clone, Copy, Debug, PartialEq, Hash, From, Into, Display)]
 #[serde(transparent)]
 pub struct Good {
     pub name: Ustr,
