@@ -16,7 +16,7 @@ impl Pricer for LinearPricer {
     fn price(&self, amt: f64) -> Money {
         let p = self.price_per_supply * (amt as f64 - self.base_supply) + self.base_price;
         if p < 0. {
-            warn!("Negative price, clipping to 0");
+            warn!("Negative price, clipping to zero");
             Money::from(0.)
         } else {
             Money::from(p)
