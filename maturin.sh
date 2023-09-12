@@ -14,4 +14,4 @@ source "${venv_path}/bin/activate" || { echo "Failed to activate virtual environ
 cd .. || { echo "Failed to cd to parent directory. Exiting."; exit 1; }
 
 # Run cargo watch with maturin develop
-cargo watch -s "cd simpy; maturin develop" || { echo "Cargo watch failed. Exiting."; exit 1; }
+cargo watch --ignore "simpy/notebooks" -s "cd simpy; maturin develop" || { echo "Cargo watch failed. Exiting."; exit 1; }

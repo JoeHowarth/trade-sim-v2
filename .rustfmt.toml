@@ -1,6 +1,7 @@
 # Ideal width of each line.
 # Default: 80
-max_width = 70
+# max_width = 70
+chain_width = 50
 
 # Reorder import statements alphabetically.
 # Default: false

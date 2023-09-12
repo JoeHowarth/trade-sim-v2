@@ -1,3 +1,3 @@
 #! /bin/sh
 
-cargo watch -x build 
+cargo watch --ignore "simpy" -x build 

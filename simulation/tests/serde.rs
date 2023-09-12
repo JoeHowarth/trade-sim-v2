@@ -1,6 +1,5 @@
 use std::default::Default;
 
-use rpds::ht_map;
 use simulation::prelude::*;
 
 #[test]

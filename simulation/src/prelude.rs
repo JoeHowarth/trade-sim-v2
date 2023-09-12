@@ -14,7 +14,7 @@ pub use serde::{Deserialize, Serialize};
 pub use std::{
     collections::HashMap, default::Default, error::Error, rc::Rc,
 };
-use std::{hash::Hash, ops::Index};
+use std::{hash::Hash, ops::Index, borrow::Borrow};
 pub use ustr::{ustr, Ustr};
 
 // crate's modules
@@ -32,7 +32,7 @@ pub trait Update<K, V>: Sized {
     ) -> Result<Self>;
 }
 
-impl<K: Hash + Eq, V: Clone> Update<K, V> for HTMap<K, V> {
+impl<K: Hash + Eq + Clone, V: Clone> Update<K, V> for HTMap<K, V> {
     fn update(&self, key: K, val: V) -> Self {
         self.remove(&key).insert(key, val)
     }

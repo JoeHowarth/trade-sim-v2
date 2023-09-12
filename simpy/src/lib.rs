@@ -29,9 +29,15 @@ fn run(input: InputFormatPy) -> Result<HistoryPy> {
 }
 
 #[pyclass(name = "History")]
-#[derive(From, Into)]
 pub struct HistoryPy {
     pub history: History,
+    pub err: Option<SimulationError>,
+}
+
+impl From<History> for HistoryPy {
+    fn from(history: History) -> Self {
+        HistoryPy { history, err: None }
+    }
 }
 
 #[pymethods]
@@ -50,10 +56,29 @@ impl HistoryPy {
     pub fn run(&mut self, opts: OptsPy) -> Result<()> {
         for _ in 0..opts.0.ticks {
             info!("Tick {}", self.history.state().tick);
-            self.history.step()?;
+            if let Err(err) = self.history.step() {
+                self.err =
+                    err.downcast_ref::<SimulationError>().cloned();
+                Err(err)?;
+            }
         }
         Ok(())
     }
+
+    pub fn error(&self) -> PyResult<PyObject> {
+        Python::with_gil(|py| pythonize(py, &self.err))
+            .map_err(Into::into)
+    }
+
+    // pub fn invalid_action(&self) -> PyResult<PyObject> {
+    //     let Some(err) = self.err else {
+    //         return Python::with_gil(|py| Ok(py.None()))
+    //     };
+    //     todo!()
+    //     // let err =
+
+    //     // Python::with_gil(|py| pythonize(py, ))
+    // }
 
     #[getter]
     pub fn history(&self) -> PyResult<PyObject> {
@@ -66,16 +91,24 @@ impl HistoryPy {
         Python::with_gil(|py| pythonize(py, &tabular))
             .map_err(Into::into)
     }
-
 }
-    #[pyfunction]
-    pub fn bar() -> String {
-        "hi".into()
-    }
+
+#[pyfunction]
+pub fn bar() -> String {
+    error!("bad 2");
+    sus();
+    "hi".into()
+}
+
+fn sus() {
+    error!("sus 2");
+}
 
 /// A Python module implemented in Rust.
 #[pymodule]
 fn simrs(_py: Python, m: &PyModule) -> PyResult<()> {
+    pyo3_log::init();
+
     m.add_function(wrap_pyfunction!(run, m)?)?;
     m.add_function(wrap_pyfunction!(bar, m)?)?;
     m.add_class::<HistoryPy>()?;

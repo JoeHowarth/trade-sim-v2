@@ -76,14 +76,17 @@ impl Exchanger for MarketInfo {
         wallet: &mut Money,
         amt: i32,
     ) -> Option<Money> {
+        info!("Dry run buy");
         if amt == 0 {
             return Some(0.0.into());
         }
         if self.supply < amt as f64 {
+            error!("self.supply < amt");
             return None;
         }
         let cost = self.cost(amt);
         if cost > *wallet {
+            error!("cost {cost} > wallet {wallet}");
             return None;
         }
         *wallet -= cost;

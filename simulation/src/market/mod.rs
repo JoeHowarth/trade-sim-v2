@@ -1,5 +1,4 @@
 pub mod exchanger;
-pub mod linear_market;
 pub mod money;
 pub mod pricer;
 
