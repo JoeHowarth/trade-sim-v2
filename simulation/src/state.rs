@@ -1,6 +1,6 @@
-use crate::prelude::*;
+use crate::{error::SimulationErrorKind, prelude::*};
 use serde::ser::SerializeStruct;
-use std::{borrow::Cow, ops::Index};
+use std::{borrow::Cow, ops::Index, str::FromStr};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct StaticInfo {
@@ -34,6 +34,7 @@ impl Context {
             .agents
             .iter()
             .map(|(agent_id, agent)| agent.act(self).map(|action| (*agent_id, action)))
+            // todo: handle errors
             .collect::<Result<Vec<(AgentId, Action)>>>()?;
 
         let mut ctx = self.clone();
@@ -47,11 +48,27 @@ impl Context {
         Ok((ctx.state, actions))
     }
 
-    fn apply_actions(self, actions: &[(AgentId, Action)]) -> Result<Self> {
+    pub fn apply_actions(self, actions: &[(AgentId, Action)]) -> Result<Self> {
         let mut state = self.state.clone();
 
-        for (agent_id, action) in actions {
-            state = self.apply_action(action, agent_id, state)?;
+        for (i, (agent_id, action)) in actions.iter().enumerate() {
+            state = self
+                .apply_action(action, agent_id, state.clone())
+                .map_err(|r| {
+                    let (applied_actions, unapplied_actions) = actions.split_at(i);
+                    let x = SimulationError {
+                        applied_actions: applied_actions.to_vec(),
+                        unapplied_actions: unapplied_actions.to_vec(),
+                        state,
+                        e: SimulationErrorKind::InvalidAction {
+                            action: action.clone(),
+                            agent_id: agent_id.clone(),
+                            msg: r.to_string(),
+                        },
+                    };
+
+                    r.wrap_err(x)
+                })?;
         }
 
         Ok(Context {
@@ -67,55 +84,31 @@ impl Context {
             tick,
         } = state;
 
-        // closure to make error construction ergonomic
-        let err = |msg, ports: &HTMap<PortId, Port>, agents: &HTMap<AgentId, Agent>| {
-            SimulationError::InvalidAction {
-                action: action.clone(),
-                agent: agents[agent_id].clone(),
-                state: State {
-                    ports: ports.clone(),
-                    agents: agents.clone(),
-                    tick,
-                },
-                msg,
-            }
-        };
-
         match action {
             Action::Noop => {}
             Action::Move { port_id } => {
                 agents = agents.try_update_with(*agent_id, |agent| {
-                    if !self
-                        .static_info
-                        .are_neighbors(agent.pos, *port_id)
-                    {
-                        // return Err(eyre!("Invalid Action: cannot move to a non-adjacent port"));
-                        return Err(eyre!(err(
-                            "Cannot move to a non-adjacent port",
-                            &ports,
-                            &agents
-                        )));
-                    }
+                    ensure!(
+                        self.static_info
+                            .are_neighbors(agent.pos, *port_id),
+                        "Cannot move to a non-adjacent port"
+                    );
                     agent.pos = *port_id;
                     Ok(())
                 })?;
             }
             Action::BuyAndMove { good, port_id } => {
-                let logic = |agent: &mut Agent,
-                             port: &mut Port,
-                             err: &dyn Fn(&'static str) -> SimulationError|
-                 -> Result<()> {
-                    if !self
-                        .static_info
-                        .are_neighbors(agent.pos, *port_id)
-                    {
-                        return Err(eyre!(err("Cannot move to a non-adjacent port")));
-                    }
+                let logic = |agent: &mut Agent, port: &mut Port| -> Result<()> {
+                    ensure!(
+                        self.static_info
+                            .are_neighbors(agent.pos, *port_id),
+                        "Cannot move to a non-adjacent port"
+                    );
                     agent.pos = *port_id;
 
                     port.market
                         .buy(good, &mut agent.coins, 1)
-                        .ok_or_else(|| eyre!(err("Tried to buy when impossible")))?;
+                        .ok_or_else(|| eyre!("Tried to buy when impossible"))?;
                     agent.cargo = Some(*good);
 
                     Ok(())
@@ -123,41 +116,34 @@ impl Context {
 
                 // update
                 agents = agents.try_update_with(*agent_id, |agent| {
-                    ports = ports.try_update_with(agent.pos, |port| {
-                        logic(agent, port, &|s| err(s, &ports, &agents))
-                    })?;
+                    ports = ports.try_update_with(agent.pos, |port| logic(agent, port))?;
                     Ok(())
                 })?;
             }
             Action::Sell { good } => {
-                let logic = |agent: &mut Agent,
-                             port: &mut Port,
-                             err: &dyn Fn(&'static str) -> SimulationError|
-                 -> Result<()> {
+                let logic = |agent: &mut Agent, port: &mut Port| -> Result<()> {
                     port.market
                         .sell(good, &mut agent.coins, 1)
-                        .ok_or_else(|| eyre!(err("Tried to sell when impossible")))?;
+                        .ok_or_else(|| eyre!("Tried to sell when impossible"))?;
                     agent.cargo = None;
                     Ok(())
                 };
 
                 // update
                 agents = agents.try_update_with(*agent_id, |agent| {
-                    ports = ports.try_update_with(agent.pos, |port| {
-                        logic(agent, port, &|s| err(s, &ports, &agents))
-                    })?;
+                    ports = ports.try_update_with(agent.pos, |port| logic(agent, port))?;
                     Ok(())
                 })?;
             }
         }
         Ok(State {
-            tick,
+            tick: tick,
             ports,
             agents,
         })
     }
 
-    fn update_world_systems(&self) -> Self {
+    pub fn update_world_systems(&self) -> Self {
         let state = &self.state;
 
         let ports = state
@@ -241,17 +227,3 @@ pub struct Port {
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct RouteId {}
-
-// pub struct ApplyActionError(pub Action, pub AgentId, HTMap<PortId, Agent>, HTMap<AgentId, Agent>);
-use thiserror::Error;
-
-#[derive(Error, Debug, Clone, Serialize, Deserialize)]
-pub enum SimulationError {
-    #[error("Invalid Action: {msg}. Agent: {agent:?}, Action: {action:?})")]
-    InvalidAction {
-        action: Action,
-        agent: Agent,
-        state: State,
-        msg: &'static str,
-    },
-}

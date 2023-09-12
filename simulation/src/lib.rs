@@ -2,6 +2,7 @@
 #![feature(return_position_impl_trait_in_trait)]
 
 pub mod agent;
+pub mod error;
 pub mod history;
 pub mod ids;
 pub mod market;

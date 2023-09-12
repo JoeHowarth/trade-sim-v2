@@ -1,5 +1,5 @@
 // dependencies
-pub use color_eyre::eyre::{eyre, Result, WrapErr};
+pub use color_eyre::eyre::{bail, ensure, eyre, Report, Result, WrapErr};
 pub use derive_more::{Add, Deref, DerefMut, Display, Div, From, Into, Mul, Sub};
 pub use log::{debug, error, info, warn};
 pub use petgraph::graphmap::UnGraphMap as GraphMap;
@@ -14,7 +14,7 @@ pub use std::{collections::HashMap, default::Default, error::Error, rc::Rc};
 pub use ustr::{ustr, Ustr};
 
 // crate's modules
-pub use crate::{agent::*, history::*, ids::*, market::*, state::*};
+pub use crate::{agent::*, error::*, history::*, ids::*, market::*, state::*};
 
 pub trait Update<K, V>: Sized {
     fn update(&self, key: K, val: V) -> Self;

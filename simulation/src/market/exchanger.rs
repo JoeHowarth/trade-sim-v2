@@ -48,17 +48,16 @@ impl Exchanger for MarketInfo {
         if amt == 0 {
             return 0.0.into();
         }
-        let p = |amt| self.pricer.price(amt);
+        let price = |amt| self.pricer.price(amt);
         let avg_price = if amt > 0 {
-            (p(self.supply) + p(self.supply - amt as f64 + 1.)) / 2.
+            (price(self.supply) + price(self.supply - amt as f64)) / 2.
         } else {
-            (p(self.supply + 1.) + p(self.supply - amt as f64)) / 2.
+            (price(self.supply) + price(self.supply - amt as f64)) / 2.
         };
         (avg_price * amt as f64).into()
     }
 
     fn dry_run_by(&self, wallet: &mut Money, amt: i32) -> Option<Money> {
-        info!("Dry run buy");
         if amt == 0 {
             return Some(0.0.into());
         }
@@ -98,15 +97,44 @@ impl MarketInfo {
 
 mod tests {
     use crate::market::{
+        self,
         exchanger::{Exchanger, MarketInfo},
         pricer::{LinearPricer, Pricer},
         Money,
     };
 
     #[test]
-    fn linear_price_pricer() {
-        let pricer = LinearPricer::new(50., 10., -2.);
-        assert_eq!(pricer.price(51.), 8.0.into());
+    fn cost() {
+        let pricer = LinearPricer::new(35., 100., -1.);
+        let market_info = MarketInfo {
+            consumption: 0.,
+            supply: 35.,
+            production: 0.,
+            pricer: pricer.clone(),
+        };
+        assert_eq!(
+            market_info.cost(1),
+            (market_info.pricer.price(market_info.supply)
+                + market_info.pricer.price(market_info.supply - 1.))
+                / 2.
+        );
+        assert_eq!(market_info.cost(1), Money::from(100.5));
+        assert_eq!(
+            market_info.cost(-1),
+            (market_info.pricer.price(market_info.supply)
+                + market_info.pricer.price(market_info.supply + 1.))
+                / -2.
+        );
+        assert_eq!(market_info.cost(-1), Money::from(-99.5));
+
+        assert_eq!(
+            market_info.cost(10),
+            10. * (market_info.pricer.price(market_info.supply)
+                + market_info.pricer.price(market_info.supply - 10.))
+                / 2.
+        );
+        assert_eq!(market_info.cost(10), Money::from(10. * (100. + 110.) / 2.));
+        assert_eq!(market_info.cost(-10), Money::from(-10. * (100. + 90.) / 2.));
     }
 
     #[test]
@@ -127,6 +155,9 @@ mod tests {
 
             assert_eq!(market_info.buy(&mut wallet, amt as i32), initial_money);
             assert_eq!(wallet, starting_balance - initial_money.unwrap());
+
+            market_info.buy(&mut wallet, amt as i32 * 2);
+            market_info.sell(&mut wallet, amt as i32 * 2);
 
             assert_eq!(
                 market_info.sell(&mut wallet, amt as i32),
