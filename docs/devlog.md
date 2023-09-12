@@ -6,7 +6,8 @@
 - Want to figure out how to use a debugger w/ rust
 - Want a crash report file that can be loaded up so crash can be reproduced (and looked at with debugger!)
 - By eod want a good debugging workflow for applying actions
-- Tomorrow 
+- Note: would like to refactor logic out of obj methods and into free 
+  functions that operate on objects
 
 
 ## Wed 9/6/23

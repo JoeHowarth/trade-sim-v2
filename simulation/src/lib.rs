@@ -7,5 +7,6 @@ pub mod ids;
 pub mod market;
 pub mod prelude;
 pub mod state;
+pub mod error;
 
 use prelude::*;

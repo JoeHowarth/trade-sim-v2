@@ -20,20 +20,6 @@ impl History {
         self.states.last().unwrap()
     }
 
-    pub fn push(&mut self, ctx: Context) {
-        if (ctx.state.tick as usize) < self.states.len() {
-            panic!("Tick {} already exists", ctx.state.tick)
-        }
-        if (ctx.state.tick as usize) > self.states.len() {
-            panic!(
-                "Tick {} not next, last: {}",
-                ctx.state.tick,
-                self.states.last().unwrap().tick
-            );
-        }
-        self.states.push(ctx.state);
-    }
-
     pub fn step(&mut self) -> Result<()> {
         let ctx = Context {
             state: self.state().clone(),

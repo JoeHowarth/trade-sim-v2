@@ -2,6 +2,7 @@ use crate::prelude::*;
 
 #[derive(
     Debug,
+    Display,
     Serialize,
     Deserialize,
     Clone,
@@ -19,7 +20,19 @@ use crate::prelude::*;
 pub struct PortId(pub Ustr);
 
 #[derive(
-    Serialize, Deserialize, Debug, Clone, Copy, Default, Deref, DerefMut, From, PartialEq, Eq, Hash,
+    Serialize,
+    Deserialize,
+    Debug,
+    Display,
+    Clone,
+    Copy,
+    Default,
+    Deref,
+    DerefMut,
+    From,
+    PartialEq,
+    Eq,
+    Hash,
 )]
 pub struct AgentId(pub Ustr);
 
