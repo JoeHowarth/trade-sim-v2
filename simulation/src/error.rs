@@ -21,5 +21,4 @@ pub enum SimulationErrorKind {
         agent_id: AgentId,
         msg: String,
     },
-
 }
