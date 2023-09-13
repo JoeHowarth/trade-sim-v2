@@ -22,6 +22,8 @@ pub trait Update<K, V>: Sized {
     fn update_with(&self, key: K, f: impl FnOnce(&mut V)) -> Self;
 
     fn try_update_with(&self, key: K, f: impl FnOnce(&mut V) -> Result<()>) -> Result<Self>;
+
+    fn g(&self, key: impl Borrow<K>) -> &V;
 }
 
 impl<K: Hash + Eq + Clone, V: Clone> Update<K, V> for HTMap<K, V> {
@@ -39,5 +41,9 @@ impl<K: Hash + Eq + Clone, V: Clone> Update<K, V> for HTMap<K, V> {
         let mut v = self.index(&key).clone();
         f(&mut v)?;
         Ok(self.update(key, v))
+    }
+
+    fn g(&self, key: impl Borrow<K>) -> &V {
+        self.get(key.borrow()).unwrap()
     }
 }

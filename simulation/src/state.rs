@@ -97,43 +97,36 @@ impl Context {
                     Ok(())
                 })?;
             }
-            Action::BuyAndMove { good, port_id } => {
-                let logic = |agent: &mut Agent, port: &mut Port| -> Result<()> {
-                    ensure!(
-                        self.static_info
-                            .are_neighbors(agent.pos, *port_id),
-                        "Cannot move to a non-adjacent port"
-                    );
-                    agent.pos = *port_id;
+            Action::BuyAndMove { good, port_id: dst } => {
+                let mut agent = agents.get(&agent_id).unwrap().clone();
+                let src = agent.pos;
+                let mut port = ports.get(&src).unwrap().clone();
 
-                    port.market
-                        .buy(good, &mut agent.coins, 1)
-                        .ok_or_else(|| eyre!("Tried to buy when impossible"))?;
-                    agent.cargo = Some(*good);
+                ensure!(
+                    self.static_info.are_neighbors(src, *dst),
+                    "Cannot move to a non-adjacent port"
+                );
+                agent.pos = *dst;
 
-                    Ok(())
-                };
+                port.market
+                    .buy(good, &mut agent.coins, 1)
+                    .ok_or_else(|| eyre!("Tried to buy when impossible"))?;
+                agent.cargo = Some(*good);
 
-                // update
-                agents = agents.try_update_with(*agent_id, |agent| {
-                    ports = ports.try_update_with(agent.pos, |port| logic(agent, port))?;
-                    Ok(())
-                })?;
+                ports = ports.update(src, port);
+                agents = agents.update(*agent_id, agent);
             }
             Action::Sell { good } => {
-                let logic = |agent: &mut Agent, port: &mut Port| -> Result<()> {
-                    port.market
-                        .sell(good, &mut agent.coins, 1)
-                        .ok_or_else(|| eyre!("Tried to sell when impossible"))?;
-                    agent.cargo = None;
-                    Ok(())
-                };
+                let mut agent = agents.get(&agent_id).unwrap().clone();
+                let mut port = ports.get(&agent.pos).unwrap().clone();
 
-                // update
-                agents = agents.try_update_with(*agent_id, |agent| {
-                    ports = ports.try_update_with(agent.pos, |port| logic(agent, port))?;
-                    Ok(())
-                })?;
+                port.market
+                    .sell(good, &mut agent.coins, 1)
+                    .ok_or_else(|| eyre!("Tried to sell when impossible"))?;
+                agent.cargo = None;
+
+                ports = ports.update(port.id, port);
+                agents = agents.update(*agent_id, agent);
             }
         }
         Ok(State {
