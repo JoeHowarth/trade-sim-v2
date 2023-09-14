@@ -1,8 +1,9 @@
 {
   "actions": [
     {
-      "action": "Noop",
+      "action": "Move",
       "agent_id": "B",
+      "port_id": "Rome",
       "tick": 0
     },
     {
@@ -13,7 +14,7 @@
     {
       "action": "Move",
       "agent_id": "B",
-      "port_id": "Rome",
+      "port_id": "Genoa",
       "tick": 1
     },
     {
@@ -26,7 +27,7 @@
     {
       "action": "Move",
       "agent_id": "B",
-      "port_id": "Genoa",
+      "port_id": "Rome",
       "tick": 2
     },
     {
@@ -36,16 +37,70 @@
       "tick": 2
     }
   ],
-  "events": [
+  "agents": [
     {
-      "Trade": {
-        "agent": "A",
-        "amt": 1,
-        "cost": 79.1,
-        "good": "Wheat",
-        "port": "Genoa"
-      },
-      "tick": 1
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "B",
+      "pos": "Genoa",
+      "tick": 0
+    },
+    {
+      "behavior": "Greedy",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "A",
+      "pos": "Genoa",
+      "tick": 0
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "B",
+      "pos": "Rome",
+      "tick": 0
+    },
+    {
+      "behavior": "Greedy",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "A",
+      "pos": "Genoa",
+      "tick": 0
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "B",
+      "pos": "Genoa",
+      "tick": 0
+    },
+    {
+      "behavior": "Greedy",
+      "cargo": "Wheat",
+      "coins": 20.900000000000006,
+      "id": "A",
+      "pos": "Rome",
+      "tick": 0
+    },
+    {
+      "behavior": "Random",
+      "cargo": null,
+      "coins": 100.0,
+      "id": "B",
+      "pos": "Rome",
+      "tick": 0
+    },
+    {
+      "behavior": "Greedy",
+      "cargo": null,
+      "coins": 104.80000000000001,
+      "id": "A",
+      "pos": "Rome",
+      "tick": 0
     }
   ],
   "markets": [
@@ -89,7 +144,7 @@
       },
       "production": 20.0,
       "supply": 90.0,
-      "tick": 1
+      "tick": 0
     },
     {
       "consumption": 20.0,
@@ -103,7 +158,7 @@
       },
       "production": 25.0,
       "supply": 105.0,
-      "tick": 1
+      "tick": 0
     },
     {
       "consumption": 20.0,
@@ -117,7 +172,7 @@
       },
       "production": 25.0,
       "supply": 109.0,
-      "tick": 2
+      "tick": 0
     },
     {
       "consumption": 30.0,
@@ -131,21 +186,7 @@
       },
       "production": 20.0,
       "supply": 80.0,
-      "tick": 2
-    },
-    {
-      "consumption": 30.0,
-      "good": "Wheat",
-      "port": "Rome",
-      "price": 85.8,
-      "pricer": {
-        "base_price": 100.0,
-        "base_supply": 0.0,
-        "price_per_supply": -0.2
-      },
-      "production": 20.0,
-      "supply": 71.0,
-      "tick": 3
+      "tick": 0
     },
     {
       "consumption": 20.0,
@@ -159,73 +200,41 @@
       },
       "production": 25.0,
       "supply": 114.0,
-      "tick": 3
+      "tick": 0
+    },
+    {
+      "consumption": 30.0,
+      "good": "Wheat",
+      "port": "Rome",
+      "price": 85.8,
+      "pricer": {
+        "base_price": 100.0,
+        "base_supply": 0.0,
+        "price_per_supply": -0.2
+      },
+      "production": 20.0,
+      "supply": 71.0,
+      "tick": 0
     }
   ],
-  "agents": [
+  "events": [
     {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "B",
-      "pos": "Genoa",
-      "tick": 0
-    },
-    {
-      "behavior": "Greedy",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Genoa",
-      "tick": 0
-    },
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "B",
-      "pos": "Genoa",
+      "agent": "A",
+      "amt": 1,
+      "cost": 79.1,
+      "event": "Trade",
+      "good": "Wheat",
+      "port": "Genoa",
       "tick": 1
     },
     {
-      "behavior": "Greedy",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "A",
-      "pos": "Genoa",
-      "tick": 1
-    },
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "B",
-      "pos": "Rome",
+      "agent": "A",
+      "amt": -1,
+      "cost": -83.9,
+      "event": "Trade",
+      "good": "Wheat",
+      "port": "Rome",
       "tick": 2
-    },
-    {
-      "behavior": "Greedy",
-      "cargo": "Wheat",
-      "coins": 20.900000000000006,
-      "id": "A",
-      "pos": "Rome",
-      "tick": 2
-    },
-    {
-      "behavior": "Random",
-      "cargo": null,
-      "coins": 100.0,
-      "id": "B",
-      "pos": "Genoa",
-      "tick": 3
-    },
-    {
-      "behavior": "Greedy",
-      "cargo": null,
-      "coins": 104.80000000000001,
-      "id": "A",
-      "pos": "Rome",
-      "tick": 3
     }
   ]
 }

@@ -1,12 +1,12 @@
 #![allow(unused_imports)]
 
-use cli::{simulation_loop, tabular::tabularize, CrashReport, InputFormat, Opts};
+use cli::{tabular::tabularize, CrashReport, InputFormat};
 use pyo3::{
     exceptions::{self, PyValueError},
     prelude::*,
 };
 use pythonize::{depythonize, pythonize};
-use simulation::{history::History, prelude::*};
+use simulation::{history::History, prelude::*, Opts, simulation_loop};
 
 pub struct InputFormatPy(pub InputFormat);
 pub struct OptsPy(pub Opts);

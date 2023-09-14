@@ -21,16 +21,10 @@ impl History {
         self.states.last().unwrap()
     }
 
-    pub fn step(&mut self) -> Result<()> {
-        let ctx = Context {
-            state: self.state().clone(),
-            static_info: self.static_info,
-        };
-        let (state, actions, events) = ctx.step()?;
+    pub fn update(&mut self, state: State, actions: Vec<(AgentId, Action)>, events: Vec<Event>) {
         self.states.push(state);
         self.actions.push(actions);
         self.events.push(events);
-        Ok(())
     }
 }
 

@@ -4,10 +4,9 @@ use std::path::{Path, PathBuf};
 
 use clap::{Parser, Subcommand};
 use cli::{
-    load_json_file, save_json_file, save_output, simulation_loop, tabular::tabularize, CrashReport,
-    InputFormat, Opts,
+    load_json_file, save_json_file, save_output, tabular::tabularize, CrashReport, InputFormat,
 };
-use simulation::prelude::*;
+use simulation::{apply_actions, prelude::*, simulation_loop, update_world_systems, Opts};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -94,10 +93,10 @@ fn resume_crash(crash_report: String) -> Result<()> {
         static_info: history.static_info,
     };
 
-    let (mut ctx, events) = ctx.apply_actions(&unapplied_actions)?;
+    let events = apply_actions(&mut ctx, &unapplied_actions)?;
 
     // non-agent world processes
-    ctx = ctx.update_world_systems();
+    update_world_systems(&mut ctx);
 
     Ok(())
 }
@@ -125,7 +124,7 @@ fn run(
             agents: agents.into_iter().map(|p| (p.id, p)).collect(),
         }],
         actions: vec![],
-        events: vec![]
+        events: vec![],
     };
 
     simulation_loop(opts, &mut history)

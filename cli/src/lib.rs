@@ -1,14 +1,10 @@
 pub mod tabular;
 
 use serde::de::DeserializeOwned;
-use simulation::prelude::*;
+use simulation::{prelude::*, Opts, simulation_loop};
 use std::path::PathBuf;
 use tabular::tabularize;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Opts {
-    pub ticks: u32,
-}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct InputFormat {
@@ -46,15 +42,6 @@ pub fn run(input: InputFormat) -> Result<History> {
     let mut history = input.into();
     simulation_loop(opts, &mut history)?;
     Ok(history)
-}
-
-pub fn simulation_loop(opts: Opts, history: &mut History) -> Result<()> {
-    info!("Hello from sim loop");
-    for _ in 0..opts.ticks {
-        info!("Tick {}", history.state().tick);
-        history.step()?;
-    }
-    Ok(())
 }
 
 #[derive(Debug, Serialize, Deserialize)]
