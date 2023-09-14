@@ -13,6 +13,7 @@ pub struct History {
     pub static_info: &'static StaticInfo,
     pub states: Vec<State>,
     pub actions: Vec<Vec<(AgentId, Action)>>,
+    pub events: Vec<Vec<Event>>,
 }
 
 impl History {
@@ -25,9 +26,10 @@ impl History {
             state: self.state().clone(),
             static_info: self.static_info,
         };
-        let (state, actions) = ctx.step()?;
+        let (state, actions, events) = ctx.step()?;
         self.states.push(state);
         self.actions.push(actions);
+        self.events.push(events);
         Ok(())
     }
 }
@@ -55,7 +57,20 @@ mod test {
                 agents: HTMap::default(),
                 ports: HTMap::default(),
             }],
-            actions: vec![vec![]],
+            actions: vec![vec![(
+                "a".into(),
+                Action::BuyAndMove {
+                    good: "Wheat".into(),
+                    port_id: "Genoa".into(),
+                },
+            )]],
+            events: vec![vec![Event::Trade {
+                port: "Genoa".into(),
+                agent: "a".into(),
+                good: "Wheat".into(),
+                amt: 1,
+                cost: (2.).into(),
+            }]],
         };
 
         let serialized = serde_json::to_string(&history).unwrap();

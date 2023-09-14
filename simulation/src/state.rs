@@ -26,8 +26,20 @@ pub struct Context {
     pub static_info: &'static StaticInfo,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(tag = "event")]
+pub enum Event {
+    Trade {
+        port: PortId,
+        agent: AgentId,
+        good: Good,
+        amt: i32,
+        cost: Money,
+    },
+}
+
 impl Context {
-    pub fn step(&self) -> Result<(State, Vec<(AgentId, Action)>)> {
+    pub fn step(&self) -> Result<(State, Vec<(AgentId, Action)>, Vec<Event>)> {
         // agent actions
         let actions = self
             .state
@@ -37,23 +49,24 @@ impl Context {
             // todo: handle errors
             .collect::<Result<Vec<(AgentId, Action)>>>()?;
 
-        let mut ctx = self.clone();
+        let ctx = self.clone();
 
         // apply agent actions
-        ctx = ctx.apply_actions(&actions)?;
+        let (mut ctx, events) = ctx.apply_actions(&actions)?;
 
         // non-agent world processes
         ctx = ctx.update_world_systems();
 
-        Ok((ctx.state, actions))
+        Ok((ctx.state, actions, events))
     }
 
-    pub fn apply_actions(self, actions: &[(AgentId, Action)]) -> Result<Self> {
+    pub fn apply_actions(self, actions: &[(AgentId, Action)]) -> Result<(Self, Vec<Event>)> {
         let mut state = self.state.clone();
+        let mut events = Vec::with_capacity(actions.len());
 
         for (i, (agent_id, action)) in actions.iter().enumerate() {
             state = self
-                .apply_action(action, agent_id, state.clone())
+                .apply_action(action, *agent_id, state.clone(), &mut events)
                 .map_err(|r| {
                     let (applied_actions, unapplied_actions) = actions.split_at(i);
                     let x = SimulationError {
@@ -71,13 +84,22 @@ impl Context {
                 })?;
         }
 
-        Ok(Context {
-            state,
-            static_info: self.static_info,
-        })
+        Ok((
+            Context {
+                state,
+                static_info: self.static_info,
+            },
+            events,
+        ))
     }
 
-    fn apply_action(&self, action: &Action, agent_id: &AgentId, state: State) -> Result<State> {
+    fn apply_action(
+        &self,
+        action: &Action,
+        agent_id: AgentId,
+        state: State,
+        events: &mut Vec<Event>,
+    ) -> Result<State> {
         let State {
             mut ports,
             mut agents,
@@ -87,7 +109,7 @@ impl Context {
         match action {
             Action::Noop => {}
             Action::Move { port_id } => {
-                agents = agents.try_update_with(*agent_id, |agent| {
+                agents = agents.try_update_with(agent_id, |agent| {
                     ensure!(
                         self.static_info
                             .are_neighbors(agent.pos, *port_id),
@@ -102,31 +124,52 @@ impl Context {
                 let src = agent.pos;
                 let mut port = ports.get(&src).unwrap().clone();
 
+                // Buy
+                ensure!(agent.cargo.is_none(), "Cargo must be empty to buy");
+                let amt = 1; 
+                let cost = port.market
+                    .buy(good, &mut agent.coins, amt)
+                    .ok_or_else(|| eyre!("Tried to buy when impossible"))?;
+                agent.cargo = Some(*good);
+                events.push(Event::Trade {
+                    port: port.id,
+                    agent: agent.id,
+                    good: *good,
+                    amt,
+                    cost,
+                });
+
+                // Move
                 ensure!(
                     self.static_info.are_neighbors(src, *dst),
                     "Cannot move to a non-adjacent port"
                 );
                 agent.pos = *dst;
 
-                port.market
-                    .buy(good, &mut agent.coins, 1)
-                    .ok_or_else(|| eyre!("Tried to buy when impossible"))?;
-                agent.cargo = Some(*good);
-
-                ports = ports.update(src, port);
-                agents = agents.update(*agent_id, agent);
+                ports = ports.insert(src, port);
+                agents = agents.insert(agent_id, agent);
             }
             Action::Sell { good } => {
                 let mut agent = agents.get(&agent_id).unwrap().clone();
                 let mut port = ports.get(&agent.pos).unwrap().clone();
 
-                port.market
-                    .sell(good, &mut agent.coins, 1)
+                // Sell
+                ensure!(matches!(agent.cargo, Some(good)), "Agent must have matching cargo to sell");
+                let amt = -1;
+                let cost = port.market
+                    .sell(good, &mut agent.coins, -amt)
                     .ok_or_else(|| eyre!("Tried to sell when impossible"))?;
                 agent.cargo = None;
+                events.push(Event::Trade {
+                    port: port.id,
+                    agent: agent.id,
+                    good: *good,
+                    amt,
+                    cost,
+                });
 
-                ports = ports.update(port.id, port);
-                agents = agents.update(*agent_id, agent);
+                ports = ports.insert(port.id, port);
+                agents = agents.insert(agent_id, agent);
             }
         }
         Ok(State {

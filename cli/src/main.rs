@@ -94,7 +94,7 @@ fn resume_crash(crash_report: String) -> Result<()> {
         static_info: history.static_info,
     };
 
-    ctx = ctx.apply_actions(&unapplied_actions)?;
+    let (mut ctx, events) = ctx.apply_actions(&unapplied_actions)?;
 
     // non-agent world processes
     ctx = ctx.update_world_systems();
@@ -125,6 +125,7 @@ fn run(
             agents: agents.into_iter().map(|p| (p.id, p)).collect(),
         }],
         actions: vec![],
+        events: vec![]
     };
 
     simulation_loop(opts, &mut history)

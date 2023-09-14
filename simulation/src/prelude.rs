@@ -17,8 +17,6 @@ pub use ustr::{ustr, Ustr};
 pub use crate::{agent::*, error::*, history::*, ids::*, market::*, state::*};
 
 pub trait Update<K, V>: Sized {
-    fn update(&self, key: K, val: V) -> Self;
-
     fn update_with(&self, key: K, f: impl FnOnce(&mut V)) -> Self;
 
     fn try_update_with(&self, key: K, f: impl FnOnce(&mut V) -> Result<()>) -> Result<Self>;
@@ -27,20 +25,16 @@ pub trait Update<K, V>: Sized {
 }
 
 impl<K: Hash + Eq + Clone, V: Clone> Update<K, V> for HTMap<K, V> {
-    fn update(&self, key: K, val: V) -> Self {
-        self.remove(&key).insert(key, val)
-    }
-
     fn update_with(&self, key: K, f: impl FnOnce(&mut V)) -> Self {
         let mut v = self.index(&key).clone();
         f(&mut v);
-        self.update(key, v)
+        self.insert(key, v)
     }
 
     fn try_update_with(&self, key: K, f: impl FnOnce(&mut V) -> Result<()>) -> Result<Self> {
         let mut v = self.index(&key).clone();
         f(&mut v)?;
-        Ok(self.update(key, v))
+        Ok(self.insert(key, v))
     }
 
     fn g(&self, key: impl Borrow<K>) -> &V {

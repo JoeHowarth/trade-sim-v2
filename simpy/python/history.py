@@ -7,4 +7,5 @@ def tabular(h: History):
     actions = pl.DataFrame(tabular["actions"])
     agents = pl.DataFrame(tabular["agents"])
     markets = pl.DataFrame(tabular["markets"])
-    return (actions, agents, markets)
+    events = pl.DataFrame(tabular["events"])
+    return (actions, agents, markets, events)

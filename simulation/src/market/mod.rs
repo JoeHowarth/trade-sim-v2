@@ -48,10 +48,10 @@ impl Market {
         self.info_mut(good).sell(wallet, amt)
     }
 
-    /// `buy` takes a good, mutable `wallet` and an amount, `amt`, to buy and performs the transaction if possible
-    /// if cost is greater than contents of wallet, return None
-    /// the cost of the transaction is removed from `wallet` and the cost is returned
-    /// the supply of goods is decreased by `amt`
+    /// `buy` takes a good, mutable `wallet` and an amount, `amt`, to buy and performs the transaction if possible.
+    /// If cost is greater than contents of wallet, return None.
+    /// The cost of the transaction is removed from `wallet` and the cost is returned.
+    /// The supply of goods is decreased by `amt`.
     pub fn buy(&mut self, good: &Good, wallet: &mut Money, amt: i32) -> Option<Money> {
         self.info_mut(good).buy(wallet, amt)
     }

@@ -36,6 +36,7 @@ impl Into<History> for InputFormat {
                     .collect(),
             }],
             actions: vec![],
+            events: vec![]
         }
     }
 }

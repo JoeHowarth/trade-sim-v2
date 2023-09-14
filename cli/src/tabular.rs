@@ -6,7 +6,8 @@ pub fn tabularize(history: &History) -> Result<impl Serialize> {
     let agents = tabularize_agents_json(&history)?;
     let markets = tabularize_markets_json(&history)?;
     let actions = tabularize_actions_json(&history)?;
-    Ok(ht_map!["agents" => agents, "markets" => markets, "actions" => actions])
+    let events = tabularize_events_json(&history)?;
+    Ok(ht_map!["agents" => agents, "markets" => markets, "actions" => actions, "events" => events])
 }
 
 fn tabularize_agents_json(history: &History) -> Result<Vec<Value>> {
@@ -38,6 +39,24 @@ fn tabularize_actions_json(history: &History) -> Result<Vec<Value>> {
                     json!({
                         "tick": tick,
                         "agent_id": agent_id
+                    }),
+                )
+            })
+        })
+        .collect()
+}
+
+fn tabularize_events_json(history: &History) -> Result<Vec<Value>> {
+    history
+        .events
+        .iter()
+        .enumerate()
+        .flat_map(|(tick, events)| {
+            events.iter().map(move |event| {
+                extend_obj(
+                    event,
+                    json!({
+                        "tick": tick,
                     }),
                 )
             })
