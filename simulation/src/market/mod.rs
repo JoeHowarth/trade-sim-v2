@@ -5,11 +5,7 @@ pub mod pricer;
 use crate::prelude::*;
 use std::fmt::Debug;
 
-pub use self::{
-    exchanger::{Exchanger, MarketInfo},
-    money::Money,
-    pricer::Pricer,
-};
+pub use self::{exchanger::MarketInfo, money::Money, pricer::Pricer};
 
 #[derive(Serialize, Deserialize, From, Debug, Clone)]
 pub struct Market {
@@ -64,7 +60,7 @@ mod test {
 
     #[test]
     fn linear_market_cost() {
-        let pricer = pricer::LinearPricer::new(35., 100., -1.);
+        let pricer = pricer::Pricer::linear(35., 100., -1.);
         let market_info = MarketInfo {
             consumption: 30.,
             supply: 35.,
@@ -127,7 +123,7 @@ mod test {
     fn linear_market_basics() {
         let base_price = 100.;
         let good = goods().next().unwrap();
-        let pricer = pricer::LinearPricer::new(35., base_price, -1.);
+        let pricer = pricer::Pricer::linear(35., base_price, -1.);
         let base_supply = 35.;
         let market_info = MarketInfo {
             consumption: 30.,

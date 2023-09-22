@@ -41,7 +41,7 @@ pub fn act_greedy(agent: &Agent, ctx: &Context) -> Result<Action> {
 }
 
 mod tests {
-    use crate::market::pricer::LinearPricer;
+    use crate::market::pricer::Pricer;
 
     use super::*;
 
@@ -51,7 +51,7 @@ mod tests {
                     consumption: 1.,
                     supply: 50. - (price - 50.),
                     production: 1.,
-                    pricer: LinearPricer {
+                    pricer: Pricer::Linear {
                         base_supply: 50.,
                         base_price: 50.,
                         price_per_supply: -1.,

@@ -1,5 +1,16 @@
 # Devlog
 
+## Friday 9/22/23
+I want to move on to an actual game "Epic of Emporia" (see notion), 
+but I want to have something complete here first.
+What's left:
+- Non-linear exchanger
+- A visualization
+- Hosting 
+- Multi-good 
+
+Today I want to make a non-linear exchanger based off a/x + b instead of -mx + c
+
 ## Friday 9/15/23
 Goals:
 - Today I want to build a look-ahead agent behavior that can get 

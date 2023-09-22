@@ -1,49 +1,23 @@
 use crate::{
     market::{
         money::Money,
-        pricer::{LinearPricer, Pricer},
+        pricer::{Pricer},
     },
     prelude::*,
     PortId,
 };
 use std::ops::DerefMut;
 
-pub trait Exchanger {
-    fn cost(&self, amt: i32) -> Money;
-    fn dry_run_by(&self, wallet: &mut Money, amt: i32) -> Option<Money>;
-    fn buy(&mut self, wallet: &mut Money, amt: i32) -> Option<Money>;
-    fn sell(&mut self, wallet: &mut Money, amt: i32) -> Option<Money> {
-        self.buy(wallet, -amt)
-    }
-}
-
-#[derive(Debug, Clone)]
-pub struct DryRunExchanger<'a, T: Exchanger> {
-    pub inner: &'a T,
-}
-
-impl<'a, T: Exchanger> Exchanger for DryRunExchanger<'a, T> {
-    fn cost(&self, amt: i32) -> Money {
-        self.inner.cost(amt)
-    }
-    fn dry_run_by(&self, wallet: &mut Money, amt: i32) -> Option<Money> {
-        self.inner.dry_run_by(wallet, amt)
-    }
-    fn buy(&mut self, wallet: &mut Money, amt: i32) -> Option<Money> {
-        self.inner.dry_run_by(wallet, amt)
-    }
-}
-
 #[derive(Serialize, Deserialize, Debug, PartialOrd, PartialEq, Clone)]
 pub struct MarketInfo {
     pub consumption: f64,
     pub supply: f64,
     pub production: f64,
-    pub pricer: LinearPricer,
+    pub pricer: Pricer,
 }
 
-impl Exchanger for MarketInfo {
-    fn cost(&self, amt: i32) -> Money {
+impl MarketInfo {
+    pub fn cost(&self, amt: i32) -> Money {
         // Invariant: cost of buying followed by selling the same number must sum to 0.
         if amt == 0 {
             return 0.0.into();
@@ -57,7 +31,11 @@ impl Exchanger for MarketInfo {
         (avg_price * amt as f64).into()
     }
 
-    fn dry_run_by(&self, wallet: &mut Money, amt: i32) -> Option<Money> {
+    /// `buy` takes a mutable `wallet` and an amount, `amt`, to buy and performs the transaction if possible
+    /// if cost is greater than contents of wallet, return None
+    /// the cost of the transaction is removed from `wallet` and the cost is returned
+    /// the supply of goods is decreased by `amt`
+    pub fn buy(&mut self, wallet: &mut Money, amt: i32) -> Option<Money> {
         if amt == 0 {
             return Some(0.0.into());
         }
@@ -71,17 +49,12 @@ impl Exchanger for MarketInfo {
             return None;
         }
         *wallet -= cost;
-        Some(cost.into())
-    }
-
-    /// `buy` takes a mutable `wallet` and an amount, `amt`, to buy and performs the transaction if possible
-    /// if cost is greater than contents of wallet, return None
-    /// the cost of the transaction is removed from `wallet` and the cost is returned
-    /// the supply of goods is decreased by `amt`
-    fn buy(&mut self, wallet: &mut Money, amt: i32) -> Option<Money> {
-        let cost = self.dry_run_by(wallet, amt)?;
         self.supply -= amt as f64;
         Some(cost)
+    }
+
+    pub fn sell(&mut self, wallet: &mut Money, amt: i32) -> Option<Money> {
+        self.buy(wallet, -amt)
     }
 }
 
@@ -96,16 +69,11 @@ impl MarketInfo {
 }
 
 mod tests {
-    use crate::market::{
-        self,
-        exchanger::{Exchanger, MarketInfo},
-        pricer::{LinearPricer, Pricer},
-        Money,
-    };
+    use super::*;
 
     #[test]
     fn cost() {
-        let pricer = LinearPricer::new(35., 100., -1.);
+        let pricer = Pricer::linear(35., 100., -1.);
         let market_info = MarketInfo {
             consumption: 0.,
             supply: 35.,
@@ -139,7 +107,7 @@ mod tests {
 
     #[test]
     fn buy_sell() {
-        let pricer = LinearPricer::new(35., 100., -1.);
+        let pricer = Pricer::linear(35., 100., -1.);
         let mut market_info = MarketInfo {
             consumption: 30.,
             supply: 35.,
