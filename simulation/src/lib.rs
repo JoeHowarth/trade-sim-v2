@@ -183,4 +183,5 @@ pub fn update_world_systems(ctx: &mut Context) {
             )
         })
         .collect();
+    ctx.state.tick += 1;
 }
