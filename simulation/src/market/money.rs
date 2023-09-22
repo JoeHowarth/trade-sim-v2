@@ -88,3 +88,10 @@ impl Ord for Money {
             .expect(&*format!("Failed ordering {:?} cmp {:?}", self, other))
     }
 }
+
+// todo: use fixed point crate instead of floats
+impl std::hash::Hash for Money {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        ((self.0 * 64.).round() as i32).hash(state);
+    }
+}

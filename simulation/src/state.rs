@@ -80,6 +80,16 @@ impl StaticInfo {
     }
 }
 
+pub fn nbs_with_price<'a>(
+    ctx: &'a Context,
+    port: PortId,
+    good: &'a Good,
+) -> impl Iterator<Item = (Money, PortId)> + 'a {
+    ctx.static_info
+        .graph
+        .neighbors(port)
+        .map(|port| (ctx.state.ports.g(port).market.price(good), port))
+}
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Port {

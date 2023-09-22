@@ -1,7 +1,9 @@
 #![allow(unused_imports, dead_code, incomplete_features, unused_variables)]
 #![feature(return_position_impl_trait_in_trait)]
+#![feature(test)]
 
 pub mod agent;
+pub mod behaviors;
 pub mod error;
 pub mod history;
 pub mod ids;

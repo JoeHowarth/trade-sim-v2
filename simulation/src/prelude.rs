@@ -14,7 +14,7 @@ pub use std::{collections::HashMap, default::Default, error::Error, rc::Rc};
 pub use ustr::{ustr, Ustr};
 
 // crate's modules
-pub use crate::{agent::*, error::*, history::*, ids::*, market::*, state::*};
+pub use crate::{agent::*, behaviors::*, error::*, history::*, ids::*, market::*, state::*};
 
 pub trait Update<K, V>: Sized {
     fn update_with(&self, key: K, f: impl FnOnce(&mut V)) -> Self;

@@ -1,5 +1,20 @@
 # Devlog
 
+## Friday 9/15/23
+Goals:
+- Today I want to build a look-ahead agent behavior that can get 
+  most topologies into equilibrium with enough agents
+- If this works, next I want to start a visualization in bevy
+
+Log
+- [11:00] Feeling a bit tired today and have the blue origins tour at 4
+
+## Wed 9/13/23 (retroactive)
+- Did a bunch of analysis work and learned polars much better
+- Created 'routes' table
+- Added events
+- Refactored logic into free functions instead of obj methods
+
 ## Tue 9/12/23
 
 - I want to have a "thing" by the end of this week's work-break
