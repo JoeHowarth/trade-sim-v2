@@ -2,63 +2,63 @@
   "agents": [
     {
       "id": "a1",
-      "pos": "Genoa",
+      "pos": "la",
       "cargo": null,
       "coins": 1000,
       "behavior": "Exhaustive"
     },
     {
       "id": "a2",
-      "pos": "Rome",
+      "pos": "la",
       "cargo": null,
       "coins": 1000,
       "behavior": "Exhaustive"
     },
     {
       "id": "a3",
-      "pos": "Milan",
+      "pos": "la",
       "cargo": null,
       "coins": 1000,
       "behavior": "Exhaustive"
     },
     {
       "id": "a4",
-      "pos": "Venice",
+      "pos": "la",
       "cargo": null,
       "coins": 1000,
       "behavior": "Exhaustive"
     },
     {
       "id": "a5",
-      "pos": "Marsailles",
+      "pos": "la",
       "cargo": null,
       "coins": 1000,
       "behavior": "Exhaustive"
     },
     {
       "id": "a6",
-      "pos": "Genoa",
+      "pos": "la",
       "cargo": null,
       "coins": 1000,
       "behavior": "Exhaustive"
     },
     {
       "id": "a7",
-      "pos": "Rome",
+      "pos": "la",
       "cargo": null,
       "coins": 1000,
       "behavior": "Exhaustive"
     },
     {
       "id": "a8",
-      "pos": "Milan",
+      "pos": "la",
       "cargo": null,
       "coins": 1000,
       "behavior": "Exhaustive"
     },
     {
       "id": "a9",
-      "pos": "Venice",
+      "pos": "la",
       "cargo": null,
       "coins": 1000,
       "behavior": "Exhaustive"
@@ -66,90 +66,96 @@
   ],
   "ports": [
     {
-      "id": "Genoa",
+      "id": "la",
       "market": {
         "table": {
           "Wheat": {
-            "consumption": 8,
-            "supply": 1002,
-            "production": 10,
+            "consumption": 100,
+            "supply": 980,
+            "production": 100,
             "pricer": {
-              "tag": "Linear",
-              "base_price": 100,
-              "base_supply": 1000,
-              "price_per_supply": -0.2
+              "tag": "Inverse",
+              "coef": 100000
             }
           }
         }
       }
     },
     {
-      "id": "Milan",
+      "id": "lb",
       "market": {
         "table": {
           "Wheat": {
-            "consumption": 9,
-            "supply": 1001,
-            "production": 10,
+            "consumption": 100,
+            "supply": 980,
+            "production": 100,
             "pricer": {
-              "tag": "Linear",
-              "base_price": 100,
-              "base_supply": 1000,
-              "price_per_supply": -0.2
+              "tag": "Inverse",
+              "coef": 100000
             }
           }
         }
       }
     },
     {
-      "id": "Rome",
+      "id": "m1",
       "market": {
         "table": {
           "Wheat": {
-            "consumption": 10,
+            "consumption": 100,
+            "supply": 980,
+            "production": 100,
+            "pricer": {
+              "tag": "Inverse",
+              "coef": 100000
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "m2",
+      "market": {
+        "table": {
+          "Wheat": {
+            "consumption": 100,
             "supply": 1000,
-            "production": 10,
+            "production": 100,
             "pricer": {
-              "tag": "Linear",
-              "base_price": 100,
-              "base_supply": 1000,
-              "price_per_supply": -0.2
+              "tag": "Inverse",
+              "coef": 100000
             }
           }
         }
       }
     },
     {
-      "id": "Venice",
+      "id": "m3",
       "market": {
         "table": {
           "Wheat": {
-            "consumption": 11,
-            "supply": 999,
-            "production": 10,
+            "consumption": 100,
+            "supply": 1000,
+            "production": 100,
             "pricer": {
-              "tag": "Linear",
-              "base_price": 100,
-              "base_supply": 1000,
-              "price_per_supply": -0.2
+              "tag": "Inverse",
+              "coef": 100000
             }
           }
         }
       }
     },
     {
-      "id": "Marsailles",
+      "id": "ra",
       "market": {
         "table": {
           "Wheat": {
-            "consumption": 12,
-            "supply": 998,
-            "production": 10,
+            "consumption": 100,
+            "supply": 1020,
+            "production": 100,
             "pricer": {
-              "tag": "Linear",
-              "base_price": 100,
-              "base_supply": 1000,
-              "price_per_supply": -0.2
+              "tag": "Inverse",
+              "coef": 100000
             }
           }
         }
@@ -158,27 +164,31 @@
   ],
   "edges": [
     [
-      "Genoa",
-      "Milan"
+      "la",
+      "lb"
     ],
     [
-      "Milan",
-      "Marsailles"
+      "la",
+      "m1"
     ],
     [
-      "Rome",
-      "Venice"
+      "lb",
+      "m1"
     ],
     [
-      "Rome",
-      "Genoa"
+      "m1",
+      "m2"
     ],
     [
-      "Venice",
-      "Milan"
+      "m2",
+      "m3"
+    ],
+    [
+      "m3",
+      "ra"
     ]
   ],
   "opts": {
-    "ticks": 50
+    "ticks": 100
   }
 }

@@ -66,7 +66,6 @@ fn dfs(
         //     "Final state: {} {:?}     {}",
         //     sstate.agent.pos, sstate.agent.cargo, sstate.agent.coins
         // );
-
         // let mut s = String::with_capacity(100);
         // s.push_str("[");
         // for x in &path {
@@ -74,20 +73,15 @@ fn dfs(
         // }
         // s.push_str("]");
         // info!("{}", s);
-
         // info!("Evaluate: {}", evaluate(ctx, &sstate));
         return Ok((sstate, path));
     }
-
-    // visited.insert(sstate.clone());
 
     let mut max_value = i32::MIN;
     let mut ret = None;
 
     for action in valid_actions(ctx, &sstate) {
-        // info!("Iter actions {}", &action);
         let new_state = simulate(ctx, &sstate, &action)?;
-        // if !visited.contains(&new_state) {
         let (terminal_state, actions) = dfs(
             ctx,
             new_state,
@@ -95,20 +89,12 @@ fn dfs(
             path.push_front(action.clone()),
             depth - 1,
         )?;
-        // info!(
-        //     "{}, {:?}, {}",
-        //     &terminal_state.agent.pos,
-        //     &action,
-        //     evaluate(ctx, &terminal_state)
-        // );
 
         let val = evaluate(&ctx, &terminal_state);
         if val >= max_value {
-            // info!("Found better");
             max_value = val;
             ret = Some((terminal_state, actions));
         }
-        // }
     }
 
     Ok(ret.unwrap_or((sstate, path)))
