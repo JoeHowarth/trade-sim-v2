@@ -17,20 +17,29 @@ def _agent(id: str, pos: str, coins: int, behavior: str, cargo: str = None):
 # defaults to 1000 supply, -0.2 price per supply, 100 base price
 # at 0 supply, price is 300
 # for 5 additional supply, price is reduced by 1
-def _pricer(base_price=100, price_per_supply=-0.2, base_supply=1000):
+def _linearp(base_price=100, price_per_supply=-0.2, base_supply=1000):
     assert price_per_supply < 0
     return {
+        "tag": "Linear",
         "base_price": base_price,
         "base_supply": base_supply,
         "price_per_supply": price_per_supply,
     }
+
+def _inversep(coef=1000):
+    assert coef > 0
+    return {
+        "tag": "Inverse",
+        "coef": coef,
+    }
+
 
 
 def _market_info(
     production: float = None,
     consumption: float = None,
     supply: float = 1000,
-    pricer: dict = _pricer(),
+    pricer: dict = _linearp(),
     net=None,
 ):
     if net is not None:

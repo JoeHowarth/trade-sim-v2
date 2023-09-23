@@ -17,6 +17,7 @@ use crate::prelude::*;
     PartialOrd,
     Ord,
 )]
+#[display(fmt = "{}", .0)]
 pub struct PortId(pub Ustr);
 
 #[derive(
@@ -34,13 +35,13 @@ pub struct PortId(pub Ustr);
     Eq,
     Hash,
 )]
+#[display(fmt = "{}", .0)]
 pub struct AgentId(pub Ustr);
 
 #[derive(Deserialize, Serialize, Eq, Clone, Copy, Debug, PartialEq, Hash, From, Into, Display)]
 #[serde(transparent)]
-pub struct Good {
-    pub name: Ustr,
-}
+#[display(fmt = "{}", .0)]
+pub struct Good(pub Ustr);
 
 impl From<&str> for Good {
     fn from(value: &str) -> Self {

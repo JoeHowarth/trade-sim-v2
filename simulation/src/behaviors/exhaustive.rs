@@ -15,6 +15,7 @@ fn simulate(ctx: &Context, sstate: &SearchState, action: &Action) -> Result<Sear
         .agents
         .insert(sstate.agent.id, sstate.agent.clone());
 
+    // info!("Apply {}", &action);
     let state = apply_action(&ctx, action, sstate.agent.id, &mut vec![])?;
 
     Ok(SearchState {
@@ -55,36 +56,62 @@ fn dfs(
     ctx: &Context,
     sstate: SearchState,
     visited: &mut HashSet<SearchState>,
+    path: rpds::List<Action>,
     depth: u8,
-) -> Result<(SearchState, VecDeque<Action>)> {
-    println!("Frame, depth: {depth}");
+) -> Result<(SearchState, rpds::List<Action>)> {
     if depth == 0 {
-        return Ok((sstate, VecDeque::new()));
+        // info!("");
+        // info!("Terminal");
+        // info!(
+        //     "Final state: {} {:?}     {}",
+        //     sstate.agent.pos, sstate.agent.cargo, sstate.agent.coins
+        // );
+
+        // let mut s = String::with_capacity(100);
+        // s.push_str("[");
+        // for x in &path {
+        //     s.push_str(&format!("{}, ", x));
+        // }
+        // s.push_str("]");
+        // info!("{}", s);
+
+        // info!("Evaluate: {}", evaluate(ctx, &sstate));
+        return Ok((sstate, path));
     }
 
-    visited.insert(sstate.clone());
+    // visited.insert(sstate.clone());
 
-    let mut max_value = evaluate(ctx, &sstate);
+    let mut max_value = i32::MIN;
     let mut ret = None;
 
     for action in valid_actions(ctx, &sstate) {
-        dbg!(&action);
+        // info!("Iter actions {}", &action);
         let new_state = simulate(ctx, &sstate, &action)?;
-        if !visited.contains(&new_state) {
-            println!("not visited");
-            let (terminal_state, mut actions) = dfs(ctx, new_state, visited, depth - 1)?;
-            dbg!(&terminal_state, &action, evaluate(ctx, &terminal_state));
+        // if !visited.contains(&new_state) {
+        let (terminal_state, actions) = dfs(
+            ctx,
+            new_state,
+            visited,
+            path.push_front(action.clone()),
+            depth - 1,
+        )?;
+        // info!(
+        //     "{}, {:?}, {}",
+        //     &terminal_state.agent.pos,
+        //     &action,
+        //     evaluate(ctx, &terminal_state)
+        // );
 
-            actions.push_front(action);
-            let val = evaluate(&ctx, &terminal_state);
-            if val > max_value {
-                max_value = val;
-                ret = Some((terminal_state, actions));
-            }
+        let val = evaluate(&ctx, &terminal_state);
+        if val >= max_value {
+            // info!("Found better");
+            max_value = val;
+            ret = Some((terminal_state, actions));
         }
+        // }
     }
 
-    Ok(ret.unwrap_or_else(|| (sstate, VecDeque::new())))
+    Ok(ret.unwrap_or((sstate, path)))
 }
 
 pub fn act_exhaustive(agent: &Agent, ctx: &Context, depth: u8) -> Result<Action> {
@@ -94,21 +121,25 @@ pub fn act_exhaustive(agent: &Agent, ctx: &Context, depth: u8) -> Result<Action>
     };
     let mut visited = HashSet::with_capacity(100);
 
-    let (best_state, mut actions) = dfs(ctx, sstate, &mut visited, depth)?;
+    let (best_state, actions) = dfs(ctx, sstate, &mut visited, rpds::List::new(), depth)?;
 
-    dbg!(&actions);
-    dbg!(&best_state);
-    dbg!(evaluate(ctx, &best_state));
+    let mut reversed = actions.iter().cloned().collect::<Vec<_>>();
+    reversed.reverse();
+    info!("True Best actions:     {:?}", &reversed);
+    info!("True Final state:     {:?}", &best_state);
+    info!("True Final evaluation {:?}", evaluate(ctx, &best_state));
+    assert_eq!(reversed.get(0).unwrap(), &actions.last().unwrap().clone());
 
     actions
-        .pop_front()
+        .last()
+        .cloned()
         .ok_or_else(|| eyre!("Expected best path to have at least one action"))
 }
 
 fn evaluate(ctx: &Context, sstate: &SearchState) -> i32 {
-    dbg!(&sstate);
     let value_if_sold = if let Some(good) = sstate.agent.cargo {
-        -ctx.state
+        1.0 * -ctx
+            .state
             .ports
             .g(sstate.agent.pos)
             .market
@@ -149,6 +180,80 @@ mod tests {
         Ok(())
     }
 
+    // #[test]
+    // fn fuckme() {
+    //     let mut x = rpds::List::new();
+    //     x = x.push_front("hi");
+    // }
+
+    #[test]
+    fn valid_actions_test() {
+        let ctx = ctx();
+        let agent = Agent {
+            id: "A1".into(),
+            pos: mid_port().id,
+            cargo: None,
+            coins: (500.).into(),
+            behavior: Behavior::Exhaustive,
+        };
+
+        let sstate = SearchState {
+            tick: ctx.state.tick,
+            agent: agent.clone(),
+        };
+
+        let sstate_1 = simulate(
+            &ctx,
+            &sstate,
+            &Action::BuyAndMove {
+                good: "Good".into(),
+                port_id: high_port().id,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(
+            &sstate_1,
+            &SearchState {
+                tick: 2,
+                agent: Agent {
+                    pos: "high_port".into(),
+                    cargo: Some("Good".into()),
+                    coins: (448.5).into(),
+                    ..sstate.agent.clone()
+                }
+            }
+        );
+
+        let actions: Vec<Action> = valid_actions(&ctx, &sstate_1).collect();
+        assert_eq!(
+            &actions,
+            &[
+                Action::Noop,
+                Action::Move {
+                    port_id: "mid_port".into()
+                },
+                Action::Move {
+                    port_id: "low_port".into()
+                },
+                Action::Sell {
+                    good: "Good".into()
+                }
+            ]
+        );
+
+        let (terminal, actions) =
+            dfs(&ctx, sstate_1, &mut HashSet::new(), Default::default(), 1).unwrap();
+        let actions = Vec::from_iter(actions.iter().cloned());
+
+        assert_eq!(
+            actions.last().unwrap(),
+            &Action::Sell {
+                good: "Good".into()
+            }
+        );
+    }
+
     #[test]
     fn one_step_from_mid_no_cargo() -> Result<()> {
         let ctx = ctx();
@@ -174,7 +279,7 @@ mod tests {
     }
 
     #[test]
-    fn two_step_dfs() -> Result<()> {
+    fn two_step_dfs() {
         let ctx = ctx();
         let agent = Agent {
             id: "A1".into(),
@@ -190,24 +295,24 @@ mod tests {
         };
         let mut visited = HashSet::with_capacity(100);
 
-        let (best_state, actions) = dfs(&ctx, sstate, &mut visited, 2)?;
+        let (best_state, actions) = dfs(&ctx, sstate, &mut visited, rpds::List::new(), 2).unwrap();
 
-        let actions = actions.into_iter().collect::<Vec<_>>();
+        let mut actions = actions.into_iter().cloned().collect::<Vec<_>>();
+        actions.reverse();
 
         dbg!(&actions);
         assert_eq!(
             actions.as_slice(),
             &[
                 Action::Move {
-                    port_id: low_port().id
+                    port_id: "low_port".into()
                 },
                 Action::BuyAndMove {
                     good: "Good".into(),
                     port_id: high_port().id
-                }
+                },
             ]
         );
-        Ok(())
     }
 
     #[bench]
@@ -221,16 +326,39 @@ mod tests {
                 coins: (500.).into(),
                 behavior: Behavior::Exhaustive,
             };
+            let sstate = SearchState {
+                tick: ctx.state.tick,
+                agent: agent.clone(),
+            };
+            let mut visited = HashSet::with_capacity(100);
 
-            let action = act_exhaustive(&agent, &ctx, 10).unwrap();
+            let (best_state, actions) =
+                dfs(&ctx, sstate, &mut visited, rpds::List::new(), 6).unwrap();
 
-            dbg!(&action);
+            let mut actions = actions.into_iter().cloned().collect::<Vec<_>>();
+            actions.reverse();
+            dbg!(&actions);
+
+            let low = low_port().id;
+            let high = high_port().id;
+            // dbg!(&action);
+            let good = "Good".into();
             assert_eq!(
-                &action,
-                &Action::BuyAndMove {
-                    good: "Good".into(),
-                    port_id: high_port().id
-                }
+                &actions,
+                &[
+                    Action::Move { port_id: low },
+                    Action::BuyAndMove {
+                        good,
+                        port_id: high,
+                    },
+                    Action::Sell { good },
+                    Action::Move { port_id: low },
+                    Action::BuyAndMove {
+                        good,
+                        port_id: high,
+                    },
+                    Action::Sell { good },
+                ]
             );
         });
     }
@@ -262,15 +390,17 @@ mod tests {
                 agent: agent.clone(),
             };
             let eval = evaluate(&ctx, &sstate);
-            assert!(ctx
+            let before = agent.coins;
+            let received = -ctx
                 .state
                 .ports
                 .g(sstate.agent.pos)
                 .market
                 .clone()
                 .sell(&good, &mut agent.coins, 1)
-                .is_some());
-            assert_eq!(eval, agent.coins.0.round() as i32);
+                .unwrap();
+            println!("{:?}", received);
+            assert_eq!(eval, (before + (received * 1.0)).0.round() as i32);
         }
     }
 }

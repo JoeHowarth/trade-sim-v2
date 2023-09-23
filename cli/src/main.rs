@@ -13,13 +13,13 @@ use simulation::{apply_actions, prelude::*, simulation_loop, update_world_system
 #[command(propagate_version = true)]
 struct Cli {
     #[command(subcommand)]
-    command: Commands,
+    command: Option<Commands>,
 }
 
 #[derive(Subcommand)]
 enum Commands {
     Run {
-        #[arg(default_value_t = String::from("input/basic.json"))]
+        #[arg(default_value_t = String::from("input/last.json"))]
         input: String,
         #[arg(default_value_t = String::from("output/last_run.json"))]
         output: String,
@@ -49,33 +49,38 @@ enum Commands {
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
-    if std::env::var("RUST_LOG").is_err() {
-        std::env::set_var("RUST_LOG", "debug")
-    }
-    env_logger::init();
+    simple_logger::init_with_level(log::Level::Debug);
+
+    error!("test");
 
     // You can check for the existence of subcommands, and if found use their
     // matches just as you would the top level cmd
     match cli.command {
-        Commands::Run {
+        Some(Commands::Run {
             input,
             output,
             tabular,
             crash_report,
-        } => run(input, output, tabular, crash_report),
-        Commands::Resume {
+        }) => run(input, output, tabular, crash_report),
+        Some(Commands::Resume {
             prev_output,
             output,
             tabular,
             crash_report,
             additional_ticks,
-        } => resume(prev_output, output, tabular, crash_report, additional_ticks),
-        Commands::ResumeCrash { crash_report } => resume_crash(crash_report),
-        Commands::Tabular => {
+        }) => resume(prev_output, output, tabular, crash_report, additional_ticks),
+        Some(Commands::ResumeCrash { crash_report }) => resume_crash(crash_report),
+        Some(Commands::Tabular) => {
             let history = load_json_file("output/last_run.json")?;
 
             save_json_file("output/tabular/last_run.json", tabularize(&history)?)
         }
+        None => run(
+            "input/last.json".into(),
+            "output/last_run.json".into(),
+            "output/last_run_tabular.json".into(),
+            "output/crash_report.json".into(),
+        ),
     }
 }
 
@@ -109,6 +114,7 @@ fn run(
     tabular_path: String,
     crash_report_path: String,
 ) -> Result<()> {
+    error!("test2");
     let InputFormat {
         opts,
         edges,

@@ -8,18 +8,21 @@ use crate::{
     prelude::*,
 };
 
-#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq, Eq, Display)]
 #[serde(tag = "action")]
 pub enum Action {
     #[default]
     Noop,
+    #[display(fmt = "BuyAndMove to {}", port_id)]
     BuyAndMove {
         good: Good,
         port_id: PortId,
     },
+    #[display(fmt = "Move to {}", port_id)]
     Move {
         port_id: PortId,
     },
+    #[display(fmt = "Sell")]
     Sell {
         good: Good,
     },
@@ -43,10 +46,11 @@ pub enum Behavior {
 
 impl Agent {
     pub fn act(&self, ctx: &Context) -> Result<Action> {
+        info!("----- New -----");
         match self.behavior {
             Behavior::Random => act_random(self, ctx),
             Behavior::Greedy => act_greedy(self, ctx),
-            Behavior::Exhaustive => act_exhaustive(self, ctx, 5),
+            Behavior::Exhaustive => act_exhaustive(self, ctx, 6),
         }
     }
 }

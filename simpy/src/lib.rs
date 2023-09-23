@@ -72,24 +72,13 @@ impl HistoryPy {
     }
 }
 
-#[pyfunction]
-pub fn bar() -> String {
-    error!("bad 2");
-    sus();
-    "hi".into()
-}
-
-fn sus() {
-    error!("sus 2");
-}
-
 /// A Python module implemented in Rust.
 #[pymodule]
 fn simrs(_py: Python, m: &PyModule) -> PyResult<()> {
+    // todo: fixme
     pyo3_log::init();
 
     m.add_function(wrap_pyfunction!(run, m)?)?;
-    m.add_function(wrap_pyfunction!(bar, m)?)?;
     m.add_class::<HistoryPy>()?;
     Ok(())
 }

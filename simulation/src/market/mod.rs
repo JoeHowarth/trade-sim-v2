@@ -1,11 +1,11 @@
-pub mod exchanger;
+pub mod market_info;
 pub mod money;
 pub mod pricer;
 
 use crate::prelude::*;
 use std::fmt::Debug;
 
-pub use self::{exchanger::MarketInfo, money::Money, pricer::Pricer};
+pub use self::{market_info::MarketInfo, money::Money, pricer::Pricer};
 
 #[derive(Serialize, Deserialize, From, Debug, Clone)]
 pub struct Market {
@@ -26,13 +26,13 @@ impl Market {
         self.table.keys()
     }
 
-    pub fn info(&self, good: &Good) -> &exchanger::MarketInfo {
+    pub fn info(&self, good: &Good) -> &market_info::MarketInfo {
         self.table
             .get(&good)
             .expect(&*format!("Good: {} not found in market", *good))
     }
 
-    pub fn info_mut(&mut self, good: &Good) -> &mut exchanger::MarketInfo {
+    pub fn info_mut(&mut self, good: &Good) -> &mut market_info::MarketInfo {
         self.table
             .get_mut(&good)
             .expect(&*format!("Good: {} not found in market", *good))

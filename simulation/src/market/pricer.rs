@@ -1,6 +1,7 @@
 use crate::{market::Money, prelude::*};
 
 #[derive(Deserialize, Serialize, Debug, PartialOrd, PartialEq, Clone)]
+#[serde(tag = "tag")]
 pub enum Pricer {
     Linear {
         base_supply: f64,
@@ -8,7 +9,7 @@ pub enum Pricer {
         price_per_supply: f64,
     },
     Inverse {
-        coef: f64,
+        coef: f64, // note: 1000 is a decent number for this 
     },
 }
 

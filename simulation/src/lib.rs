@@ -85,8 +85,16 @@ fn apply_action(
         tick,
     } = ctx.state.clone();
 
+    const UPKEEP: Money = Money(1.);
+
     match action {
-        Action::Noop => {}
+        Action::Noop => {
+            agents = agents.try_update_with(agent_id, |agent| {
+                // Upkeep cost for doing nothing
+                agent.coins -= UPKEEP;
+                Ok(())
+            })?;
+        }
         Action::Move { port_id } => {
             agents = agents.try_update_with(agent_id, |agent| {
                 ensure!(
@@ -94,6 +102,7 @@ fn apply_action(
                     "Cannot move to a non-adjacent port"
                 );
                 agent.pos = *port_id;
+                agent.coins -= UPKEEP;
                 Ok(())
             })?;
         }
@@ -124,6 +133,7 @@ fn apply_action(
                 "Cannot move to a non-adjacent port"
             );
             agent.pos = *dst;
+            agent.coins -= UPKEEP;
 
             ports = ports.insert(src, port);
             agents = agents.insert(agent_id, agent);
@@ -150,6 +160,7 @@ fn apply_action(
                 amt,
                 cost,
             });
+            agent.coins -= UPKEEP;
 
             ports = ports.insert(port.id, port);
             agents = agents.insert(agent_id, agent);

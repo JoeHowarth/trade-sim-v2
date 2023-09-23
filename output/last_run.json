@@ -2,15 +2,15 @@
   "static_info": {
     "graph": {
       "nodes": [
-        "Rome",
-        "Genoa"
+        "Genoa",
+        "Rome"
       ],
       "node_holes": [],
       "edge_property": "undirected",
       "edges": [
         [
-          1,
           0,
+          1,
           {}
         ]
       ]
@@ -20,19 +20,12 @@
     {
       "tick": 0,
       "agents": {
-        "B": {
-          "id": "B",
+        "a1": {
+          "id": "a1",
           "pos": "Genoa",
           "cargo": null,
-          "coins": 100.0,
-          "behavior": "Random"
-        },
-        "A": {
-          "id": "A",
-          "pos": "Genoa",
-          "cargo": null,
-          "coins": 100.0,
-          "behavior": "Greedy"
+          "coins": 1000.0,
+          "behavior": "Exhaustive"
         }
       },
       "ports": {
@@ -41,11 +34,12 @@
           "market": {
             "table": {
               "Wheat": {
-                "consumption": 30.0,
-                "supply": 100.0,
-                "production": 20.0,
+                "consumption": 10.0,
+                "supply": 1000.0,
+                "production": 10.0,
                 "pricer": {
-                  "base_supply": 0.0,
+                  "tag": "Linear",
+                  "base_supply": 1000.0,
                   "base_price": 100.0,
                   "price_per_supply": -0.2
                 }
@@ -58,11 +52,12 @@
           "market": {
             "table": {
               "Wheat": {
-                "consumption": 20.0,
-                "supply": 100.0,
-                "production": 25.0,
+                "consumption": 10.0,
+                "supply": 1002.0,
+                "production": 10.0,
                 "pricer": {
-                  "base_supply": 0.0,
+                  "tag": "Linear",
+                  "base_supply": 1000.0,
                   "base_price": 100.0,
                   "price_per_supply": -0.2
                 }
@@ -73,34 +68,28 @@
       }
     },
     {
-      "tick": 0,
+      "tick": 1,
       "agents": {
-        "B": {
-          "id": "B",
-          "pos": "Rome",
-          "cargo": null,
-          "coins": 100.0,
-          "behavior": "Random"
-        },
-        "A": {
-          "id": "A",
+        "a1": {
+          "id": "a1",
           "pos": "Genoa",
           "cargo": null,
-          "coins": 100.0,
-          "behavior": "Greedy"
+          "coins": 1000.0,
+          "behavior": "Exhaustive"
         }
       },
       "ports": {
-        "Rome": {
-          "id": "Rome",
+        "Genoa": {
+          "id": "Genoa",
           "market": {
             "table": {
               "Wheat": {
-                "consumption": 30.0,
-                "supply": 90.0,
-                "production": 20.0,
+                "consumption": 10.0,
+                "supply": 1002.0,
+                "production": 10.0,
                 "pricer": {
-                  "base_supply": 0.0,
+                  "tag": "Linear",
+                  "base_supply": 1000.0,
                   "base_price": 100.0,
                   "price_per_supply": -0.2
                 }
@@ -108,16 +97,17 @@
             }
           }
         },
-        "Genoa": {
-          "id": "Genoa",
+        "Rome": {
+          "id": "Rome",
           "market": {
             "table": {
               "Wheat": {
-                "consumption": 20.0,
-                "supply": 105.0,
-                "production": 25.0,
+                "consumption": 10.0,
+                "supply": 1000.0,
+                "production": 10.0,
                 "pricer": {
-                  "base_supply": 0.0,
+                  "tag": "Linear",
+                  "base_supply": 1000.0,
                   "base_price": 100.0,
                   "price_per_supply": -0.2
                 }
@@ -128,21 +118,14 @@
       }
     },
     {
-      "tick": 0,
+      "tick": 2,
       "agents": {
-        "B": {
-          "id": "B",
+        "a1": {
+          "id": "a1",
           "pos": "Genoa",
           "cargo": null,
-          "coins": 100.0,
-          "behavior": "Random"
-        },
-        "A": {
-          "id": "A",
-          "pos": "Rome",
-          "cargo": "Wheat",
-          "coins": 20.900000000000006,
-          "behavior": "Greedy"
+          "coins": 1000.0,
+          "behavior": "Exhaustive"
         }
       },
       "ports": {
@@ -151,11 +134,12 @@
           "market": {
             "table": {
               "Wheat": {
-                "consumption": 20.0,
-                "supply": 109.0,
-                "production": 25.0,
+                "consumption": 10.0,
+                "supply": 1002.0,
+                "production": 10.0,
                 "pricer": {
-                  "base_supply": 0.0,
+                  "tag": "Linear",
+                  "base_supply": 1000.0,
                   "base_price": 100.0,
                   "price_per_supply": -0.2
                 }
@@ -168,66 +152,12 @@
           "market": {
             "table": {
               "Wheat": {
-                "consumption": 30.0,
-                "supply": 80.0,
-                "production": 20.0,
+                "consumption": 10.0,
+                "supply": 1000.0,
+                "production": 10.0,
                 "pricer": {
-                  "base_supply": 0.0,
-                  "base_price": 100.0,
-                  "price_per_supply": -0.2
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "tick": 0,
-      "agents": {
-        "B": {
-          "id": "B",
-          "pos": "Rome",
-          "cargo": null,
-          "coins": 100.0,
-          "behavior": "Random"
-        },
-        "A": {
-          "id": "A",
-          "pos": "Rome",
-          "cargo": null,
-          "coins": 104.80000000000001,
-          "behavior": "Greedy"
-        }
-      },
-      "ports": {
-        "Genoa": {
-          "id": "Genoa",
-          "market": {
-            "table": {
-              "Wheat": {
-                "consumption": 20.0,
-                "supply": 114.0,
-                "production": 25.0,
-                "pricer": {
-                  "base_supply": 0.0,
-                  "base_price": 100.0,
-                  "price_per_supply": -0.2
-                }
-              }
-            }
-          }
-        },
-        "Rome": {
-          "id": "Rome",
-          "market": {
-            "table": {
-              "Wheat": {
-                "consumption": 30.0,
-                "supply": 71.0,
-                "production": 20.0,
-                "pricer": {
-                  "base_supply": 0.0,
+                  "tag": "Linear",
+                  "base_supply": 1000.0,
                   "base_price": 100.0,
                   "price_per_supply": -0.2
                 }
@@ -241,14 +171,7 @@
   "actions": [
     [
       [
-        "B",
-        {
-          "action": "Move",
-          "port_id": "Rome"
-        }
-      ],
-      [
-        "A",
+        "a1",
         {
           "action": "Noop"
         }
@@ -256,59 +179,15 @@
     ],
     [
       [
-        "B",
+        "a1",
         {
-          "action": "Move",
-          "port_id": "Genoa"
-        }
-      ],
-      [
-        "A",
-        {
-          "action": "BuyAndMove",
-          "good": "Wheat",
-          "port_id": "Rome"
-        }
-      ]
-    ],
-    [
-      [
-        "B",
-        {
-          "action": "Move",
-          "port_id": "Rome"
-        }
-      ],
-      [
-        "A",
-        {
-          "action": "Sell",
-          "good": "Wheat"
+          "action": "Noop"
         }
       ]
     ]
   ],
   "events": [
     [],
-    [
-      {
-        "event": "Trade",
-        "port": "Genoa",
-        "agent": "A",
-        "good": "Wheat",
-        "amt": 1,
-        "cost": 79.1
-      }
-    ],
-    [
-      {
-        "event": "Trade",
-        "port": "Rome",
-        "agent": "A",
-        "good": "Wheat",
-        "amt": -1,
-        "cost": -83.9
-      }
-    ]
+    []
   ]
 }
