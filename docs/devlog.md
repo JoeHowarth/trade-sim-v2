@@ -1,5 +1,12 @@
 # Devlog
 
+## Saturday 9/23/23
+[10:00 AM] Today we have octoberfest at 3pm, so only ~4 hours of work 
+- Need a behavior that treats routes as first class
+- Would like stateful behaviors: make plan -> execute plan
+- Want to start on Visualization 
+  - Web based, react + konva 
+
 ## Friday 9/22/23
 I want to move on to an actual game "Epic of Emporia" (see notion), 
 but I want to have something complete here first.
@@ -10,6 +17,13 @@ What's left:
 - Multi-good 
 
 Today I want to make a non-linear exchanger based off a/x + b instead of -mx + c
+Retro:
+- Spent a long time debugging exhaustive behavior
+  - Unstable and often prioritizes noops so that the terminal state ends with holding a good or selling it instead of buying
+  - Hard to visualize all action branches 
+  - Slow 
+  - No discounting of future rewards
+- Finished non-linear pricer easily and quickly, but not super impactful yet  
 
 ## Friday 9/15/23
 Goals:
