@@ -1,10 +1,9 @@
 pub mod tabular;
 
 use serde::de::DeserializeOwned;
-use simulation::{prelude::*, Opts, simulation_loop};
+use simulation::{prelude::*, simulation_loop, Opts};
 use std::path::PathBuf;
 use tabular::tabularize;
-
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct InputFormat {
@@ -32,7 +31,7 @@ impl Into<History> for InputFormat {
                     .collect(),
             }],
             actions: vec![],
-            events: vec![]
+            events: vec![],
         }
     }
 }
@@ -71,8 +70,16 @@ impl CrashReport {
 }
 
 pub fn load_json_file<T: DeserializeOwned>(path: impl Into<PathBuf>) -> Result<T> {
-    serde_json::from_reader(std::io::BufReader::new(std::fs::File::open(path.into())?))
-        .map_err(Into::into)
+    let path: PathBuf = path.into();
+    serde_json::from_reader(std::io::BufReader::new(
+        std::fs::File::open(path.clone()).wrap_err_with(|| {
+            format!(
+                "File not found: {}",
+                path.clone().to_string_lossy().to_string()
+            )
+        })?,
+    ))
+    .map_err(Into::into)
 }
 
 pub fn save_json_file(path: impl Into<PathBuf>, json: impl Serialize) -> Result<()> {

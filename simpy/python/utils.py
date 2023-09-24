@@ -1,16 +1,60 @@
+import polars as pl
+
+
+def init_logging():
+    import logging
+    import os
+
+    # Path to the log file
+    log_file_path = "pylog.log"
+
+    # Remove the log file if it exists
+    if os.path.exists(log_file_path):
+        os.remove(log_file_path)
+
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+    # create file handler which logs even debug messages
+    fh = logging.FileHandler(log_file_path, mode="w")
+    # Create a formatter and set it for the handler
+    formatter = logging.Formatter("%(name)s|%(levelname)s| %(message)s")
+    fh.setFormatter(formatter)
+    fh.setLevel(logging.DEBUG)
+    logger.addHandler(fh)
+
+
+def _tabular(blob):
+    actions = pl.DataFrame(blob["actions"])
+    agents = pl.DataFrame(blob["agents"])
+    markets = pl.DataFrame(blob["markets"])
+    events = pl.DataFrame(blob["events"])
+    return (actions, agents, markets, events)
+
+
+def load_tabular(path="output/last_run_tabular.json"):
+    import json
+
+    with open(root_dir() + path) as json_file:
+        data = json.load(json_file)
+    return _tabular(data)
+
 
 def price(table):
     return pricer(table["pricer"], table["supply"])
 
+
 def pricer(info, supply):
-    return info["price_per_supply"] * (supply - info["base_supply"]) + info["base_price"]
+    return (
+        info["price_per_supply"] * (supply - info["base_supply"]) + info["base_price"]
+    )
+
 
 def root_dir():
     """Returns root directory for this project."""
     import git
 
-    repo = git.Repo('.', search_parent_directories=True)
-    return repo.working_tree_dir
+    repo = git.Repo(".", search_parent_directories=True)
+    return repo.working_tree_dir + "/"
 
 
 class DotDict(dict):
@@ -24,6 +68,7 @@ class DotDict(dict):
         if name in self:
             del self[name]
 
+
 def recursive_dotdict(obj):
     if isinstance(obj, dict):
         return DotDict({k: recursive_dotdict(v) for k, v in obj.items()})
@@ -31,6 +76,7 @@ def recursive_dotdict(obj):
         return [recursive_dotdict(element) for element in obj]
     else:
         return obj
+
 
 # # Test the function
 # nested_dict = {'a': 1, 'b': {'c': 2, 'd': {'e': 3}}, 'f': [1, {'g': 4}]}

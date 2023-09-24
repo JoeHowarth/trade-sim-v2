@@ -1,69 +1,5 @@
 {
-  "agents": [
-    {
-      "id": "a1",
-      "pos": "la",
-      "cargo": null,
-      "coins": 1000,
-      "behavior": "Exhaustive"
-    },
-    {
-      "id": "a2",
-      "pos": "la",
-      "cargo": null,
-      "coins": 1000,
-      "behavior": "Exhaustive"
-    },
-    {
-      "id": "a3",
-      "pos": "la",
-      "cargo": null,
-      "coins": 1000,
-      "behavior": "Exhaustive"
-    },
-    {
-      "id": "a4",
-      "pos": "la",
-      "cargo": null,
-      "coins": 1000,
-      "behavior": "Exhaustive"
-    },
-    {
-      "id": "a5",
-      "pos": "la",
-      "cargo": null,
-      "coins": 1000,
-      "behavior": "Exhaustive"
-    },
-    {
-      "id": "a6",
-      "pos": "la",
-      "cargo": null,
-      "coins": 1000,
-      "behavior": "Exhaustive"
-    },
-    {
-      "id": "a7",
-      "pos": "la",
-      "cargo": null,
-      "coins": 1000,
-      "behavior": "Exhaustive"
-    },
-    {
-      "id": "a8",
-      "pos": "la",
-      "cargo": null,
-      "coins": 1000,
-      "behavior": "Exhaustive"
-    },
-    {
-      "id": "a9",
-      "pos": "la",
-      "cargo": null,
-      "coins": 1000,
-      "behavior": "Exhaustive"
-    }
-  ],
+  "agents": [],
   "ports": [
     {
       "id": "la",
@@ -189,6 +125,6 @@
     ]
   ],
   "opts": {
-    "ticks": 100
+    "ticks": 10
   }
 }

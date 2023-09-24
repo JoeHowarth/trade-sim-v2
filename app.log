@@ -1,0 +1,402 @@
+20:35:40 [ERROR] test
+20:35:40 [ERROR] test2
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:40 [INFO] True Best actions:     [Move { port_id: PortId(u!("m1")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:40 [INFO] True Final state:     SearchState { tick: 6, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $895.89, behavior: Exhaustive } }
+20:35:40 [INFO] True Final evaluation 998
+20:35:40 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 7, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: None, coins: $996.88, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 997
+20:35:41 [INFO] ----- New -----
+20:35:41 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:41 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:41 [INFO] True Final evaluation 996
+20:35:41 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 996
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 996
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 996
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 996
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 996
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 996
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 996
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 996
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 8, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $893.81, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 996
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.71, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 995
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.61, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 995
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.51, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 995
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m1")), cargo: None, coins: $994.50, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 995
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.31, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 994
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.21, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 994
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.11, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 994
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.01, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 994
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.91, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 994
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 9, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.80, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 994
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.64, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 995
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: None, coins: $994.53, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 995
+20:35:42 [INFO] ----- New -----
+20:35:42 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:42 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.24, behavior: Exhaustive } }
+20:35:42 [INFO] True Final evaluation 994
+20:35:42 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.04, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 994
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.84, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 994
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.64, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 994
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: None, coins: $993.53, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 994
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.24, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 993
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.04, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 993
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 10, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $890.84, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 993
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.71, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 995
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.41, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 994
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $892.12, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 994
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.82, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 994
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.52, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 994
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.22, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 993
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $890.92, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 993
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $890.62, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 993
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $890.32, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 992
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 11, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $890.02, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 992
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.61, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 994
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $891.21, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 993
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $890.81, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 993
+20:35:43 [INFO] ----- New -----
+20:35:43 [INFO] True Best actions:     [Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:43 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m1")), cargo: None, coins: $992.50, behavior: Exhaustive } }
+20:35:43 [INFO] True Final evaluation 993
+20:35:43 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $890.01, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 992
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $889.61, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 992
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $889.21, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 991
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $888.81, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 991
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m1")), cargo: None, coins: $990.50, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 991
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 12, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $888.01, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 990
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $890.51, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 993
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $890.01, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 992
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $889.51, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 992
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m2")), cargo: Some(Good(u!("Wheat"))), coins: $891.38, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 992
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $888.61, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 991
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $888.11, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 990
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $887.61, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 990
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $887.11, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 989
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m2")), cargo: Some(Good(u!("Wheat"))), coins: $889.38, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 990
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 13, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $886.21, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 988
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $889.84, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 992
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $888.87, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 991
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $888.64, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 991
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $889.58, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 992
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $887.64, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 990
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $886.67, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 989
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: None, coins: $988.53, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 989
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $885.84, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 988
+20:35:44 [INFO] ----- New -----
+20:35:44 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:44 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $887.58, behavior: Exhaustive } }
+20:35:44 [INFO] True Final evaluation 990
+20:35:44 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 14, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $884.84, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 987
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a5")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $889.92, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 992
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a3")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $889.22, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 991
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a10")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $888.52, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 991
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }, Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m2")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a8")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $888.54, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 991
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a9")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $887.42, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 989
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a7")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $886.72, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 989
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a1")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $886.02, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 988
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a2")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $885.33, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 987
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Sell { good: Good(u!("Wheat")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a6")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $886.99, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 989
+20:35:45 [INFO] ----- New -----
+20:35:45 [INFO] True Best actions:     [Sell { good: Good(u!("Wheat")) }, Move { port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("ra")) }, BuyAndMove { good: Good(u!("Wheat")), port_id: PortId(u!("m3")) }, Move { port_id: PortId(u!("m2")) }, Move { port_id: PortId(u!("m1")) }]
+20:35:45 [INFO] True Final state:     SearchState { tick: 15, agent: Agent { id: AgentId(u!("a4")), pos: PortId(u!("m1")), cargo: Some(Good(u!("Wheat"))), coins: $884.23, behavior: Exhaustive } }
+20:35:45 [INFO] True Final evaluation 986

@@ -1,57 +1,115 @@
 #![allow(unused)]
 
-use std::path::{Path, PathBuf};
+use std::{
+    fs::File,
+    path::{Path, PathBuf},
+};
 
 use clap::{Parser, Subcommand};
 use cli::{
     load_json_file, save_json_file, save_output, tabular::tabularize, CrashReport, InputFormat,
 };
+use log::LevelFilter;
+use simplelog::{CombinedLogger, Config, SharedLogger, TermLogger};
 use simulation::{apply_actions, prelude::*, simulation_loop, update_world_systems, Opts};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 #[command(propagate_version = true)]
 struct Cli {
+    #[command(flatten)]
+    logging: Option<LoggingConfig>,
+
     #[command(subcommand)]
     command: Option<Commands>,
+}
+
+#[derive(Parser, Debug, Clone)]
+struct LoggingConfig {
+    /// Whether to log to stdout or not
+    #[arg(long)]
+    no_log_to_term: bool,
 }
 
 #[derive(Subcommand)]
 enum Commands {
     Run {
-        #[arg(default_value_t = String::from("input/last.json"))]
+        #[arg(long, default_value_t = String::from("input/last.json"))]
         input: String,
-        #[arg(default_value_t = String::from("output/last_run.json"))]
+        #[arg(long, default_value_t = String::from("output/last.json"))]
         output: String,
-        #[arg(default_value_t = String::from("output/last_run_tabular.json"))]
+        #[arg(long, default_value_t = String::from("output/last_tabular.json"))]
         tabular: String,
-        #[arg(default_value_t = String::from("output/crash_report.json"))]
+        #[arg(long, default_value_t = String::from("output/crash_report.json"))]
         crash_report: String,
+
+        #[command(flatten)]
+        logging: Option<LoggingConfig>,
     },
     Resume {
-        #[arg(default_value_t = String::from("output/last_run.json"))]
+        #[arg(long, default_value_t = String::from("input/last.json"))]
         prev_output: String,
-        #[arg(default_value_t = String::from("output/last_run.json"))]
+        #[arg(long, default_value_t = String::from("output/last.json"))]
         output: String,
-        #[arg(default_value_t = String::from("output/last_run_tabular.json"))]
+        #[arg(long, default_value_t = String::from("output/last_tabular.json"))]
         tabular: String,
-        #[arg(default_value_t = String::from("output/crash_report.json"))]
+        #[arg(long, default_value_t = String::from("output/crash_report.json"))]
         crash_report: String,
         #[arg(short, long)]
         additional_ticks: u32,
+
+        #[command(flatten)]
+        logging: Option<LoggingConfig>,
     },
     ResumeCrash {
         #[arg(default_value_t = String::from("output/crash_report.json"))]
         crash_report: String,
+
+        #[command(flatten)]
+        logging: Option<LoggingConfig>,
     },
     Tabular,
 }
 
+fn get_logging_config(cli: &Cli) -> LoggingConfig {
+    match &cli.logging {
+        Some(logging) => logging.clone(),
+        None => match &cli.command {
+            Some(Commands::Resume {
+                logging: Some(logging),
+                ..
+            }) => logging.clone(),
+            Some(Commands::Run {
+                logging: Some(logging),
+                ..
+            }) => logging.clone(),
+            Some(Commands::ResumeCrash {
+                logging: Some(logging),
+                ..
+            }) => logging.clone(),
+            _ => LoggingConfig { no_log_to_term: false },
+        },
+    }
+}
+
 fn main() -> Result<()> {
     let cli = Cli::parse();
-    simple_logger::init_with_level(log::Level::Debug);
 
-    error!("test");
+    let mut loggers: Vec<Box<dyn SharedLogger>> = vec![simplelog::WriteLogger::new(
+        log::LevelFilter::Debug,
+        simplelog::Config::default(),
+        std::fs::File::create("output/app.log").unwrap(),
+    )];
+    if (!get_logging_config(&cli).no_log_to_term) {
+        println!("log_to_term set");
+        loggers.push(simplelog::TermLogger::new(
+            log::LevelFilter::Debug,
+            simplelog::Config::default(),
+            simplelog::TerminalMode::Mixed,
+            simplelog::ColorChoice::Auto,
+        ));
+    }
+    CombinedLogger::init(loggers)?;
 
     // You can check for the existence of subcommands, and if found use their
     // matches just as you would the top level cmd
@@ -61,6 +119,7 @@ fn main() -> Result<()> {
             output,
             tabular,
             crash_report,
+            ..
         }) => run(input, output, tabular, crash_report),
         Some(Commands::Resume {
             prev_output,
@@ -68,17 +127,18 @@ fn main() -> Result<()> {
             tabular,
             crash_report,
             additional_ticks,
+            ..
         }) => resume(prev_output, output, tabular, crash_report, additional_ticks),
-        Some(Commands::ResumeCrash { crash_report }) => resume_crash(crash_report),
+        Some(Commands::ResumeCrash { crash_report, .. }) => resume_crash(crash_report),
         Some(Commands::Tabular) => {
-            let history = load_json_file("output/last_run.json")?;
+            let history = load_json_file("output/last.json")?;
 
-            save_json_file("output/tabular/last_run.json", tabularize(&history)?)
+            save_json_file("output/tabular/last.json", tabularize(&history)?)
         }
         None => run(
             "input/last.json".into(),
-            "output/last_run.json".into(),
-            "output/last_run_tabular.json".into(),
+            "output/last.json".into(),
+            "output/last_tabular.json".into(),
             "output/crash_report.json".into(),
         ),
     }
@@ -114,7 +174,6 @@ fn run(
     tabular_path: String,
     crash_report_path: String,
 ) -> Result<()> {
-    error!("test2");
     let InputFormat {
         opts,
         edges,

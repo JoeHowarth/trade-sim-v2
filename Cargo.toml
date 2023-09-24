@@ -1,7 +1,7 @@
 [workspace]
-# members = ["simulation", "visualization", "cli"]
-# exclude = ["simpy"]
-members = ["simulation", "visualization", "cli", "simpy"]
+members = ["simulation", "visualization", "cli"]
+exclude = ["simpy"]
+# members = ["simulation", "visualization", "cli", "simpy"]
 resolver = "2"
 
 [profile.dev.package."*"]
