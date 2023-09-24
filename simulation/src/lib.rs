@@ -12,6 +12,7 @@ pub mod prelude;
 pub mod state;
 
 use prelude::*;
+use rayon::prelude::*;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Opts {
@@ -40,6 +41,14 @@ pub fn simulation_loop(opts: Opts, history: &mut History) -> Result<()> {
 
 pub fn fetch_agent_actions(ctx: &Context) -> Result<Vec<(AgentId, Action)>> {
     // todo: pluggable action api
+
+    // todo: figure out why the fuck this isn't faster?!?!
+    // let v = ctx.state.agents.iter().collect::<Vec<_>>();
+    // Ok(v.par_iter().map(|(agent_id, agent)| {
+    //     let action = agent.act(ctx).unwrap();
+    //     dbg!(agent_id);
+    //     (**agent_id, action)
+    // }).collect::<Vec<_>>())
 
     ctx.state
         .agents
