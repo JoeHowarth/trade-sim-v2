@@ -1,4 +1,11 @@
 # Devlog
+## Sunday 9/24/23
+- Moved over to pixijs 2D renderer
+- Made simple scene with rectangles + interactions
+- Extended with simple graph creation system 
+- Now unsure how to proceed
+- Want: 
+  - Scaffold for good workflow 
 
 ## Saturday 9/23/23
 [10:00 AM] Today we have octoberfest at 3pm, so only ~4 hours of work 
@@ -6,6 +13,11 @@
 - Would like stateful behaviors: make plan -> execute plan
 - Want to start on Visualization 
   - Web based, react + konva 
+
+Retro:
+- Set up vite + mantine styles + storybook
+- Experimented with cytoscape js (network viewer library)
+- Cytoscape not flexible enough to show agents etc. 
 
 ## Friday 9/22/23
 I want to move on to an actual game "Epic of Emporia" (see notion), 
