@@ -1,14 +1,29 @@
-import { Welcome } from '../components/Welcome/Welcome';
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
 import { useEffect, useRef } from 'react';
-import { Stack } from '@mantine/core';
-import { network } from '@/graphics/network';
+import {
+  interactiveNetworkBuilder,
+  makePixiApp,
+  networkFromData,
+  roundedRect,
+  setUpNetwork,
+} from '@/graphics/network';
+import { DefaultService } from '@/client';
 
 export function Graph() {
   const ref = useRef(null);
   console.log(ref);
   useEffect(() => {
-    network(ref.current!);
+    (async () => {
+      const service = new DefaultService();
+      const shape = await DefaultService.networkShape();
+      console.log(shape);
+
+      const app = await makePixiApp(ref.current!);
+      app.stage.addChild(roundedRect(50, 50, 100, 100, 10));
+      const containers = setUpNetwork(app);
+
+      networkFromData(containers, shape)
+      interactiveNetworkBuilder(app, containers);
+    })();
   }, []);
 
   return (

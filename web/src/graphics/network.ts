@@ -1,31 +1,79 @@
+import { NetworkShape } from '@/client';
 import {
   Application,
   Container,
   DisplayObject,
   Graphics,
   ICanvas,
+  Assets,
   Rectangle,
   RoundedRectangle,
   Sprite,
   Texture,
+  BitmapText,
 } from 'pixi.js';
 
 type App = Application<ICanvas> & { bg?: Sprite };
+interface NetworkContainers {
+  nodesContainer: Container;
+  edgesContainer: Container;
+  labelsContainer: Container;
+}
 
-export function network(view: HTMLCanvasElement) {
-  const app = makeApp(view);
+export function setUpNetwork(app: App): NetworkContainers {
+  const nodesContainer = new Container();
+  const edgesContainer = new Container();
+  const labelsContainer = new Container();
+  app.stage.addChild(nodesContainer);
+  app.stage.addChild(edgesContainer);
+  app.stage.addChild(labelsContainer);
+  return { nodesContainer, edgesContainer, labelsContainer };
+}
 
+export function networkFromData(
+  { nodesContainer, edgesContainer, labelsContainer }: NetworkContainers,
+  data: NetworkShape
+) {
+  const nodes = data.nodes;
+  const edges = data.edges;
+  const labelIdToIndex: Record<string, number> = {};
+  const nodeIdToIndex: Record<string, number> = {};
+  const nodeIndexToId: Record<number, string> = {};
+
+  for (const node of nodes) {
+    // todo: use a layout engine
+    const x = Math.random() * 500;
+    const y = Math.random() * 500;
+    const nodeObj = makeNode(x, y);
+
+    // indexing
+    nodeIdToIndex[node] = nodesContainer.children.length;
+    nodeIndexToId[nodesContainer.children.length] = node;
+
+    nodesContainer.addChild(nodeObj);
+
+    labelIdToIndex[node] = labelsContainer.children.length;
+    labelsContainer.addChild(makeLabel(node, x, y));
+  }
+
+  for (const edge of edges) {
+    const { u, v } = edge;
+    const fromNode = nodesContainer.children[nodeIdToIndex[u]];
+    const toNode = nodesContainer.children[nodeIdToIndex[v]];
+    const edgeObj = makeEdge(fromNode, toNode);
+    edgesContainer.addChild(edgeObj);
+  }
+}
+
+export function interactiveNetworkBuilder(
+  app: App,
+  { nodesContainer, edgesContainer, labelsContainer }: NetworkContainers
+) {
   // app.bg?.on('click', (e) => {
   //   app.stage.addChild(roundedRect(e.clientX, e.clientY, 100, 100, 10));
   // });
 
-  app.stage.addChild(roundedRect(50, 50, 100, 100, 10));
-
-  const nodesContainer = new Container();
-  const edgesContainer = new Container();
-
   let clickedNode: DisplayObject | null = null;
-
   app.bg?.on('click', (e) => {
     const node = makeNode(e.clientX, e.clientY);
     nodesContainer.addChild(node);
@@ -34,16 +82,13 @@ export function network(view: HTMLCanvasElement) {
     node.on('click', (e) => {
       if (!clickedNode) {
         clickedNode = node;
-      } else {
+      } else if (clickedNode !== node) {
         const edge = makeEdge(node, clickedNode);
         edgesContainer.addChild(edge);
         clickedNode = null;
       }
     });
   });
-
-  app.stage.addChild(nodesContainer);
-  app.stage.addChild(edgesContainer);
 }
 
 function makeEdge(from: DisplayObject, to: DisplayObject) {
@@ -61,10 +106,32 @@ function makeNode(x: number, y: number) {
   node.drawCircle(0, 0, 50);
   node.endFill();
   node.interactive = true;
+
   return node;
 }
 
-function roundedRect(x: number, y: number, width: number, height: number, radius: number = 5) {
+function makeLabel(text: string, x: number, y: number) {
+  const label = new BitmapText(
+    text,
+    { fontName: 'Desyrel', fontSize: 20, align: 'center' }
+    // node.attributes.normalizedname + ' (' + node.attributes.year + ')',
+    // { font: { name: 'Arial', size: Math.max(10, node.size) }, align: 'right' }
+  );
+  // label.size = node.size;
+  label.position.set(x, y);
+  // label.anchor.set(0.5, 0.5);
+  return label;
+  // if (node.size <= 95) label.visible = false;
+  // labels_container.addChild(label);
+}
+
+export function roundedRect(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  radius: number = 5
+) {
   const obj = new Graphics();
   obj.position.set(x, y);
 
@@ -79,7 +146,7 @@ function roundedRect(x: number, y: number, width: number, height: number, radius
   return obj;
 }
 
-function makeApp(view: HTMLCanvasElement) {
+export async function makePixiApp(view: HTMLCanvasElement) {
   const app: App = new Application({
     view,
     resolution: window.devicePixelRatio,
@@ -87,8 +154,9 @@ function makeApp(view: HTMLCanvasElement) {
     // backgroundColor: 0xfaafaa,
     width: window.innerWidth,
     height: window.innerHeight,
-    antialias: true
+    antialias: true,
   });
+  await Assets.load('https://pixijs.com/assets/bitmap-font/desyrel.xml');
 
   let bg = new Sprite(Texture.WHITE);
   // Set it to fill the screen
