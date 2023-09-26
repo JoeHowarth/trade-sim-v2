@@ -1,4 +1,23 @@
 # Devlog
+
+## Tue 9/26/23
+[8:44 AM] Today I want to build a "map mode" style network visualization system 
+- Nodes can visualize data based off:
+  - Color
+  - Size
+  - Label 
+- Agents represented by markers with labels. Same data viz options ^
+- UI container holding map mode buttons 
+- Hotkeys for selecting map modes
+- Hover tooltips (likely react, but maybe pixi text?)
+
+Log
+- Played around with rspc (rust trpc). Decent support for exposing methods from rust to typescript simply
+- Thought through sim <-> server <-> app flow and decided what the server is written in doesn't really matter
+- Sticking with FastAPI for now 
+- [1:50 pm] Moving on to map mode work 
+
+
 ## Sunday 9/24/23
 - Moved over to pixijs 2D renderer
 - Made simple scene with rectangles + interactions
@@ -6,6 +25,18 @@
 - Now unsure how to proceed
 - Want: 
   - Scaffold for good workflow 
+
+Retro:
+- Improved workflow a lot
+- Refactored python logic into files, cleaned up notebook
+- Invoke cli instead of using PyO3 bindings 
+  - Don't have to maintain python bindings (not too significant)
+  - Much simpler dev workflow: no `./maturin.sh` watch script, no restarting the notebook to pick up changes, just works
+  - Move to file oriented deving: everything is saved
+- Create FastApi server 
+  - starting with sending static graph information
+- Setup OpenAPI TS client generation 
+- Hook up network visualization with FastAPI server: can render graphs from output files 
 
 ## Saturday 9/23/23
 [10:00 AM] Today we have octoberfest at 3pm, so only ~4 hours of work 

@@ -11,6 +11,12 @@ dependencies:
   '@mantine/hooks':
     specifier: 7.0.0
     version: 7.0.0(react@18.2.0)
+  '@types/chroma-js':
+    specifier: ^2.4.1
+    version: 2.4.1
+  chroma-js:
+    specifier: ^2.4.2
+    version: 2.4.2
   pixi.js:
     specifier: ^7.3.1
     version: 7.3.1(@pixi/utils@7.3.1)
@@ -148,6 +154,9 @@ devDependencies:
   vite:
     specifier: ^4.4.9
     version: 4.4.9(less@4.2.0)
+  vite-plugin-full-reload:
+    specifier: ^1.0.5
+    version: 1.0.5(vite@4.4.9)
 
 packages:
 
@@ -4271,6 +4280,10 @@ packages:
       '@types/node': 20.6.3
     dev: true
 
+  /@types/chroma-js@2.4.1:
+    resolution: {integrity: sha512-YIm3RLfWdDU0/3rsNnu/Hh4uKCLQ9p/w1NvnFfBOBL/BGqOvuLNuhXwkJMUKMscmFJdan25lYqv2+qh1l7tZLg==}
+    dev: false
+
   /@types/connect@3.4.36:
     resolution: {integrity: sha512-P63Zd/JUGq+PdrM1lv0Wv5SBYeA2+CORvbrXbngriYY0jzLUWfQMQQxOhjONEz/wlHOAxOdY7CY65rgQdTjq2w==}
     dependencies:
@@ -5556,6 +5569,10 @@ packages:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
     dev: true
+
+  /chroma-js@2.4.2:
+    resolution: {integrity: sha512-U9eDw6+wt7V8z5NncY2jJfZa+hUH8XEj8FQHgFJTrUFnJfXYf4Ml4adI2vXZOjqRDpFWtYVWypDfZwnJ+HIR4A==}
+    dev: false
 
   /chrome-trace-event@1.0.3:
     resolution: {integrity: sha512-p3KULyQg4S7NIHixdwbGX+nFHkoBiA4YQmyWtjb8XngSKV124nJmRysgAeujbUVb15vh+RvFUfCPqU7rXk+hZg==}
@@ -11207,6 +11224,16 @@ packages:
   /vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
+    dev: true
+
+  /vite-plugin-full-reload@1.0.5(vite@4.4.9):
+    resolution: {integrity: sha512-kVZFDFWr0DxiHn6MuDVTQf7gnWIdETGlZh0hvTiMXzRN80vgF4PKbONSq8U1d0WtHsKaFODTQgJeakLacoPZEQ==}
+    peerDependencies:
+      vite: ^2 || ^3 || ^4
+    dependencies:
+      picocolors: 1.0.0
+      picomatch: 2.3.1
+      vite: 4.4.9(less@4.2.0)
     dev: true
 
   /vite@4.4.9(less@4.2.0):
