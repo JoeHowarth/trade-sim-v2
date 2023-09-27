@@ -2,7 +2,7 @@
   "name": "web-trade-sim-v2",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "pnpm run generate-client; vite",
     "generate-client": "openapi --input http://127.0.0.1:8000/openapi.json --output ./src/client --request src/request.ts",
     "build": "tsc && vite build",
     "preview": "vite preview",

@@ -22,4 +22,49 @@ export class DefaultService {
         });
     }
 
+    /**
+     * Price
+     * @param tick
+     * @returns number Successful Response
+     * @throws ApiError
+     */
+    public static price(
+        tick: number,
+    ): CancelablePromise<Record<string, number>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/network/{tick}/price',
+            path: {
+                'tick': tick,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Market Col
+     * @param tick
+     * @param field
+     * @returns number Successful Response
+     * @throws ApiError
+     */
+    public static marketCol(
+        tick: number,
+        field: string,
+    ): CancelablePromise<Record<string, number>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/network/{tick}/market/{field}',
+            path: {
+                'tick': tick,
+                'field': field,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
 }

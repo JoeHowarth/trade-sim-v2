@@ -5,7 +5,7 @@ import FullReload from 'vite-plugin-full-reload';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), FullReload(['config/routes.rb', 'src/graphics/**/*.ts'])],
+  plugins: [react(), FullReload(['config/routes.rb', 'src/**/*.ts'])],
   server: {
     hmr: true,
   },

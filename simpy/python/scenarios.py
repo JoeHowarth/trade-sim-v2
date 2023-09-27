@@ -69,6 +69,7 @@ def load_scneario(
     network = NetworkShape(
         nodes=nodes, edges=[Edge(nodes[e[0]], nodes[e[1]]) for e in raw_edges]
     )
+    mar = mar.select(pl.exclude("pricer"))
 
     return Scenario(actions=act, agents=ag, markets=mar, events=ev, network=network)
 

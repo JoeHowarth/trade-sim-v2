@@ -1,5 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
+  NetworkContainers,
+  NetworkIdMappings,
   interactiveNetworkBuilder,
   networkFromData,
   setColorFromData,
@@ -8,10 +10,15 @@ import {
 import { DefaultService } from '@/client';
 import { bitFnt, makePixiApp, roundedRect } from '@/graphics/setup';
 import { Assets, BitmapFont, BitmapText } from 'pixi.js';
+import { Text, Box, Center, Paper, SegmentedControl, Space, Stack, Title } from '@mantine/core';
 
 export function Graph() {
   const ref = useRef(null);
-  console.log(ref);
+  const [networkIdMappings, setNetworkIdMappings] = useState<null | NetworkIdMappings>(null);
+  const [containers, setContainers] = useState<null | NetworkContainers>(null);
+  const [mapMode, setMapMode] = useState('default');
+  const [domain, setDomain] = useState([0, 1]);
+
   useEffect(() => {
     (async () => {
       const shape = await DefaultService.networkShape();
@@ -22,15 +29,59 @@ export function Graph() {
 
       const networkIdMappings = networkFromData(containers, shape);
 
-      setColorFromData({ m1: Math.random(), m2: Math.random() }, containers.nodesContainer, networkIdMappings.nodeIdToIndex);
-
-      // interactiveNetworkBuilder(app, containers);
+      setNetworkIdMappings(networkIdMappings);
+      setContainers(containers);
     })();
   }, []);
 
+  useEffect(() => {
+    if (!networkIdMappings || !containers) return;
+
+    (async () => {
+      let data: Record<string, number> = {};
+      if (mapMode === 'default') {
+        for (const key of Object.keys(networkIdMappings.nodeIdToIndex)) {
+          data[key] = 1;
+        }
+      } else {
+        data = await DefaultService.marketCol(0, mapMode);
+      }
+      const domain = setColorFromData(
+        data,
+        containers.nodesContainer,
+        networkIdMappings.nodeIdToIndex
+      );
+      setDomain(domain);
+    })();
+  }, [mapMode]);
+
   return (
-    <div style={{ width: window.innerWidth, height: window.innerHeight }}>
-      <canvas ref={ref} style={{ border: '1px solid black', width: '100%', height: '100%' }} />
-    </div>
+    <>
+      <div style={{ width: window.innerWidth, height: window.innerHeight }}>
+        <canvas ref={ref} style={{ border: '1px solid black', width: '100%', height: '100%' }} />
+      </div>
+      <Paper
+        style={{ zIndex: 3, position: 'absolute', bottom: 0, right: 0 }}
+        shadow="xs"
+        radius="xs"
+        p="md"
+        m="sm"
+        withBorder
+      >
+        <Stack align="center">
+          <Title order={4}>Map Mode</Title>
+          <Text>{`${Math.round(domain[0])} to ${Math.round(domain[1])}`}</Text>
+          <SegmentedControl
+            orientation="vertical"
+            value={mapMode}
+            onChange={setMapMode}
+            data={['Default', 'Price', 'Supply', 'Consumption', 'Production'].map((x) => ({
+              label: x,
+              value: x.toLowerCase(),
+            }))}
+          />
+        </Stack>
+      </Paper>
+    </>
   );
 }

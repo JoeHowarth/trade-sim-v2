@@ -8,6 +8,8 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Edge } from './models/Edge';
+export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { NetworkShape } from './models/NetworkShape';
+export type { ValidationError } from './models/ValidationError';
 
 export { DefaultService } from './services/DefaultService';

@@ -81,6 +81,8 @@ export const getQueryString = (params: Record<string, any>): string => {
     return '';
 };
 
+export let baseUrl = 'http://127.0.0.1:8000'
+
 const getUrl = (config: OpenAPIConfig, options: ApiRequestOptions): string => {
     const encoder = config.ENCODE_PATH || encodeURI;
 
@@ -93,7 +95,7 @@ const getUrl = (config: OpenAPIConfig, options: ApiRequestOptions): string => {
             return substring;
         });
 
-    const url = `http://127.0.0.1:8000${path}`;
+    const url = `${baseUrl}${path}`;
     if (options.query) {
         return `${url}${getQueryString(options.query)}`;
     }

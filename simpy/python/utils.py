@@ -1,3 +1,4 @@
+from typing import Optional
 import polars as pl
 
 
@@ -29,6 +30,26 @@ def _tabular(blob):
     markets = pl.DataFrame(blob["markets"])
     events = pl.DataFrame(blob["events"])
     return (actions, agents, markets, events)
+
+
+def keyed_by(df: pl.DataFrame, index_col: str, extract: Optional[str]):
+    if extract is not None:
+        return {
+            index: frame.select(pl.exclude(index_col)).to_dicts()[0][extract]
+            for index, frame in (
+                df.unique(subset=[index_col], keep="last").partition_by(
+                    by=[index_col], as_dict=True, maintain_order=True
+                )
+            ).items()
+        }
+    return {
+        index: frame.select(pl.exclude(index_col)).to_dicts()[0]
+        for index, frame in (
+            df.unique(subset=[index_col], keep="last").partition_by(
+                by=[index_col], as_dict=True, maintain_order=True
+            )
+        ).items()
+    }
 
 
 def load_tabular(path="output/last_run_tabular.json"):

@@ -3,12 +3,12 @@ import { Container, DisplayObject, Graphics, BitmapText, BitmapFont } from 'pixi
 import { App, bitFnt, roundedRect } from './setup';
 import chroma from 'chroma-js';
 
-interface NetworkContainers {
+export interface NetworkContainers {
   nodesContainer: Container;
   edgesContainer: Container;
 }
 
-interface NetworkIdMappings {
+export interface NetworkIdMappings {
   nodeIdToIndex: Record<string, number>;
 }
 
@@ -63,14 +63,19 @@ export function setColorFromData(
   nodesContainer: Container,
   nodeIdToIndex: Record<string, number>
 ) {
-  const toColor = chroma.scale(['white', 'red']).domain([0, 1]);
+  const domain = Array.from(Object.values(nodeData)).reduce(
+    ([min, max], val) => [Math.min(min, val), Math.max(max, val)],
+    [10000000, -1000000]
+  );
 
-  console.log('book');
+  const toColor = chroma.scale(['white', 'red']).domain(domain);
+
   for (const id of Object.keys(nodeData)) {
     const node = nodesContainer.children[nodeIdToIndex[id]] as NetworkNode;
 
     node.body.tint = toColor(nodeData[id]).hex();
   }
+  return domain
 }
 
 export function interactiveNetworkBuilder(
