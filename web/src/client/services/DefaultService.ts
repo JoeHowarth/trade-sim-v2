@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AgentInfo } from '../models/AgentInfo';
 import type { NetworkShape } from '../models/NetworkShape';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -60,6 +61,39 @@ export class DefaultService {
             path: {
                 'tick': tick,
                 'field': field,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * List Map Mode
+     * @returns string Successful Response
+     * @throws ApiError
+     */
+    public static listMapMode(): CancelablePromise<Array<string>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/network/mapmode',
+        });
+    }
+
+    /**
+     * Get Agents Pos
+     * @param tick
+     * @returns AgentInfo Successful Response
+     * @throws ApiError
+     */
+    public static getAgentsPos(
+        tick: number,
+    ): CancelablePromise<Record<string, AgentInfo>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/agents/{tick}',
+            path: {
+                'tick': tick,
             },
             errors: {
                 422: `Validation Error`,

@@ -1,6 +1,15 @@
-import { Application, Graphics, ICanvas, Assets, Sprite, Texture, BitmapFont } from 'pixi.js';
+import {
+  Application,
+  Graphics,
+  ICanvas,
+  Assets,
+  Sprite,
+  Texture,
+  BitmapFont,
+  Container,
+} from 'pixi.js';
 
-export type App = Application<ICanvas> & { bg?: Sprite };
+export type App = Application<ICanvas> & { bg: Sprite; centered: Container };
 
 export function roundedRect(
   x: number,
@@ -26,14 +35,16 @@ export function roundedRect(
 export const bitFnt = 'bitFnt';
 
 export async function makePixiApp(view: HTMLCanvasElement) {
-  const app: App = new Application({
+  const app = new Application({
     view,
     resolution: window.devicePixelRatio,
     autoDensity: true,
     width: window.innerWidth,
     height: window.innerHeight,
     antialias: true,
-  });
+  }) as App;
+
+  // load bitmap fonts
   BitmapFont.from(bitFnt, { fill: 'white' });
 
   let bg = new Sprite(Texture.WHITE);
@@ -44,5 +55,15 @@ export async function makePixiApp(view: HTMLCanvasElement) {
   bg.interactive = true;
   app.stage.addChild(bg);
   app.bg = bg;
+
+  // center on middle of screen
+  const centered = new Container();
+  app.stage.addChild(centered);
+  app.centered = centered;
+  centered.position.set(app.screen.width / 2, app.screen.height / 2);
+
+  app.centered.addChild(roundedRect(0, 0, 10, 10));
+  console.log(app.centered.children[0].getGlobalPosition());
+
   return app;
 }

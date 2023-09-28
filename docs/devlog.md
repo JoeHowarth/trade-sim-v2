@@ -1,5 +1,59 @@
 # Devlog
 
+## Thur 9/28/23
+[10:00 AM]
+I'm reducing the scope of this project!  It will only be a tech demo, 
+that shows the full architecture the real game will use. 
+
+To that end, the components I need are:
+- Playback of history file
+- Output and input streaming for Simulation cli
+- Server streaming of current tick 
+- Hosting 
+- UI page for starting, saving, loading etc. a sim run  
+- Rewrite the sim logic to use Bevy ECS (or at least evaluate)
+- Route-based agent behavior (not strictly needed, but come on...)
+
+Up first:
+- Fix rendering agents
+- Playback
+
+
+## Wed 9/27/23
+[11:47 AM] Late start, made soup and read at bequest cafe
+- Haven't been getting deep sleep and having some motivation issues 
+- I like the architecture currently, but I'm worried there's too much focus on 
+  the UI and server glue compared to actually simulating things.
+- I also don't have a great idea what the UI should look like - mostly making it up 
+  as I go along which feels bad.
+- Might try working with figma a bit to mock out UI? Maybe that's a waste of time...
+
+What do I want from a UI?
+- Control what is displayed on nodes
+  - Choose map type
+  - Basic list of map types works, but what if they become too many like in EU4?
+  - Optional args
+    - Pop up?
+      - What about cycling between inputs? opening a pop up becomes irritating.
+      - Closes on submit by default, but have a toggle that keeps it open on submit?
+    - Inputs inline with map mode selector
+    - Could look funny..
+  - Save map modes w/ args for quick selection? 
+    - Could encode mapmode into url?
+- Display for agents too, but less straightforward
+- Playback: pause, play, +/- speed, jump to tick
+- Start run
+  - Select existing input files
+  - Change some settings 
+  - [Stretch] create whole input from scratch 
+
+Todo:
+- [] Include agents in visualization
+  - [X] Agents endpoint
+  - [] Render agents 
+- [] Make it play through whole history file
+
+
 ## Tue 9/26/23
 [8:44 AM] Today I want to build a "map mode" style network visualization system 
 - Nodes can visualize data based off:
@@ -16,6 +70,12 @@ Log
 - Thought through sim <-> server <-> app flow and decided what the server is written in doesn't really matter
 - Sticking with FastAPI for now 
 - [1:50 pm] Moving on to map mode work 
+
+Retro
+- Got map modes working for markets quite nicely 
+- Can color nodes easily 
+- Automatic bounds finding (max, min) to scale color space 
+- Reorged nodes into a `NetworkNode` class with a border, body, label and label background
 
 
 ## Sunday 9/24/23

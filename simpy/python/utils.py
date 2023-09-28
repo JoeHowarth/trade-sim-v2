@@ -32,24 +32,20 @@ def _tabular(blob):
     return (actions, agents, markets, events)
 
 
-def keyed_by(df: pl.DataFrame, index_col: str, extract: Optional[str]):
-    if extract is not None:
-        return {
-            index: frame.select(pl.exclude(index_col)).to_dicts()[0][extract]
-            for index, frame in (
-                df.unique(subset=[index_col], keep="last").partition_by(
-                    by=[index_col], as_dict=True, maintain_order=True
-                )
-            ).items()
-        }
-    return {
-        index: frame.select(pl.exclude(index_col)).to_dicts()[0]
-        for index, frame in (
-            df.unique(subset=[index_col], keep="last").partition_by(
-                by=[index_col], as_dict=True, maintain_order=True
-            )
-        ).items()
-    }
+def keyed_by(df: pl.DataFrame, index_col: str, extract: str = None, drop_index=True):
+    x = df.unique(subset=[index_col], keep="last").partition_by(
+        by=[index_col], as_dict=True, maintain_order=True
+    )
+
+    d = {}
+    for (index, frame) in x.items():
+        if drop_index:
+            frame = frame.select(pl.exclude(index_col))
+        row = frame.to_dicts()[0]
+        if extract is not None:
+            row = row[extract]
+        d[index] = row
+    return d
 
 
 def load_tabular(path="output/last_run_tabular.json"):

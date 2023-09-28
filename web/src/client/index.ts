@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AgentInfo } from './models/AgentInfo';
 export type { Edge } from './models/Edge';
 export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { NetworkShape } from './models/NetworkShape';

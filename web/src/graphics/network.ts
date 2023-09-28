@@ -1,7 +1,39 @@
 import { NetworkShape } from '@/client';
-import { Container, DisplayObject, Graphics, BitmapText, BitmapFont } from 'pixi.js';
-import { App, bitFnt, roundedRect } from './setup';
+import { Container, DisplayObject, Graphics, BitmapText } from 'pixi.js';
+import { App, bitFnt } from './setup';
 import chroma from 'chroma-js';
+import { circleLayout, getDomain } from './utils';
+
+export class Network {
+  nodesContainer: Container;
+  edgesContainer: Container;
+  nodeIdToIndex: Record<string, number>;
+
+  constructor(
+    nodesContainer: Container,
+    edgesContainer: Container,
+    nodeIdToIndex: Record<string, number>
+  ) {
+    this.nodesContainer = nodesContainer;
+    this.edgesContainer = edgesContainer;
+    this.nodeIdToIndex = nodeIdToIndex;
+  }
+
+  getNode(id: string): NetworkNode {
+    return this.nodesContainer.children[this.nodeIdToIndex[id]] as NetworkNode;
+  }
+
+  addNode(node: NetworkNode) {
+    this.nodeIdToIndex[node.id] = this.nodesContainer.children.length;
+    this.nodesContainer.addChild(node);
+  }
+
+  addEdge(from: NetworkNode, to: NetworkNode, edge: Graphics) {
+    from.addEdge(to, edge);
+    to.addEdge(from, edge);
+    this.edgesContainer.addChild(edge);
+  }
+}
 
 export interface NetworkContainers {
   nodesContainer: Container;
@@ -12,92 +44,49 @@ export interface NetworkIdMappings {
   nodeIdToIndex: Record<string, number>;
 }
 
-export function setUpNetwork(app: App): NetworkContainers {
+export function setUpNetwork(app: App): Network {
   const nodesContainer = new Container();
   const edgesContainer = new Container();
 
   // center in viewport
-  nodesContainer.position.set(app.stage.width / 2, app.stage.height / 2);
-  edgesContainer.position.set(app.stage.width / 2, app.stage.height / 2);
-  app.stage.addChild(edgesContainer);
-  app.stage.addChild(nodesContainer);
-  return { nodesContainer, edgesContainer };
+  app.centered.addChild(edgesContainer);
+  app.centered.addChild(nodesContainer);
+  return new Network(nodesContainer, edgesContainer, {});
 }
 
-export function networkFromData(
-  { nodesContainer, edgesContainer }: NetworkContainers,
-  data: NetworkShape
-): NetworkIdMappings {
+export function networkFromData(data: NetworkShape, network: Network) {
   const nodes = data.nodes;
   const edges = data.edges;
-  const nodeIdToIndex: Record<string, number> = {};
 
   const radius = 200;
   for (let i = 0; i < nodes.length; i++) {
     const nodeId = nodes[i];
 
     // layout in a circle
-    const radians = ((Math.PI * 2) / nodes.length) * i;
-    const x = radius * Math.cos(radians);
-    const y = radius * Math.sin(radians);
-    const nodeObj = new NetworkNode(x, y, nodeId, nodeId);
-
-    // indexing
-    nodeIdToIndex[nodeId] = nodesContainer.children.length;
-
-    // add to containers for rendering
-    nodesContainer.addChild(nodeObj);
+    const [x, y] = circleLayout(i, nodes.length, radius);
+    network.addNode(new NetworkNode(x, y, nodeId, nodeId));
   }
 
-  for (const edge of edges) {
-    const { u, v } = edge;
-    const uNode = nodesContainer.children[nodeIdToIndex[u]];
-    const vNode = nodesContainer.children[nodeIdToIndex[v]];
-    edgesContainer.addChild(makeEdge(uNode, vNode));
+  for (const { u, v } of edges) {
+    const uNode = network.getNode(u);
+    const vNode = network.getNode(v);
+    network.addEdge(uNode, vNode, makeEdge(uNode, vNode));
   }
-  return { nodeIdToIndex };
 }
 
 export function setColorFromData(
   nodeData: Record<string, number>,
-  nodesContainer: Container,
-  nodeIdToIndex: Record<string, number>
-) {
-  const domain = Array.from(Object.values(nodeData)).reduce(
-    ([min, max], val) => [Math.min(min, val), Math.max(max, val)],
-    [10000000, -1000000]
-  );
+  network: Network
+): [number, number] {
+  const domain = getDomain(Object.values(nodeData));
 
   const toColor = chroma.scale(['white', 'red']).domain(domain);
 
   for (const id of Object.keys(nodeData)) {
-    const node = nodesContainer.children[nodeIdToIndex[id]] as NetworkNode;
-
+    const node = network.getNode(id);
     node.body.tint = toColor(nodeData[id]).hex();
   }
-  return domain
-}
-
-export function interactiveNetworkBuilder(
-  app: App,
-  { nodesContainer, edgesContainer }: NetworkContainers
-) {
-  let clickedNode: DisplayObject | null = null;
-  app.bg?.on('click', (e) => {
-    const node = new NetworkNode(e.clientX, e.clientY, Math.floor(Math.random() * 1000).toString());
-    nodesContainer.addChild(node);
-    clickedNode = node;
-
-    node.on('click', (e) => {
-      if (!clickedNode) {
-        clickedNode = node;
-      } else if (clickedNode !== node) {
-        const edge = makeEdge(node, clickedNode);
-        edgesContainer.addChild(edge);
-        clickedNode = null;
-      }
-    });
-  });
+  return domain as [number, number];
 }
 
 function makeEdge(from: DisplayObject, to: DisplayObject) {
@@ -113,6 +102,15 @@ class NetworkNode extends Container {
   body: Graphics;
   border: Graphics;
   label?: BitmapText;
+  edges: { node: NetworkNode; edge: DisplayObject }[] = [];
+
+  addEdge(node: NetworkNode, edge: DisplayObject) {
+    this.edges.push({ node, edge });
+  }
+
+  edge(nodeId: string): DisplayObject | undefined {
+    return this.edges.find(({ node }) => node.id === nodeId)?.edge;
+  }
 
   constructor(x: number, y: number, id: string, label?: string) {
     super();
@@ -138,6 +136,7 @@ class NetworkNode extends Container {
     if (label) {
       this.label = makeLabel(label, 0, 0);
 
+      // todo: make this part of label class
       const labelBg = new Graphics();
       labelBg.beginFill('white');
       labelBg.drawRoundedRect(
@@ -168,4 +167,28 @@ function makeLabel(text: string, x: number = 0, y: number = 0) {
   label.anchor.set(0.5);
   label.position.set(x, y);
   return label;
+}
+
+// old
+
+export function interactiveNetworkBuilder(
+  app: App,
+  { nodesContainer, edgesContainer }: NetworkContainers
+) {
+  let clickedNode: DisplayObject | null = null;
+  app.centered?.on('click', (e) => {
+    const node = new NetworkNode(e.clientX, e.clientY, Math.floor(Math.random() * 1000).toString());
+    nodesContainer.addChild(node);
+    clickedNode = node;
+
+    node.on('click', (e) => {
+      if (!clickedNode) {
+        clickedNode = node;
+      } else if (clickedNode !== node) {
+        const edge = makeEdge(node, clickedNode);
+        edgesContainer.addChild(edge);
+        clickedNode = null;
+      }
+    });
+  });
 }
