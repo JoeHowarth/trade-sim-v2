@@ -7,16 +7,15 @@ import { circleLayout, getDomain } from './utils';
 export class Network {
   nodesContainer: Container;
   edgesContainer: Container;
-  nodeIdToIndex: Record<string, number>;
+  nodeIdToIndex: Record<string, number> = {};
 
   constructor(
-    nodesContainer: Container,
-    edgesContainer: Container,
-    nodeIdToIndex: Record<string, number>
+    parent: Container
   ) {
-    this.nodesContainer = nodesContainer;
-    this.edgesContainer = edgesContainer;
-    this.nodeIdToIndex = nodeIdToIndex;
+    this.nodesContainer = new Container();
+    this.edgesContainer = new Container();
+    parent.addChild(this.edgesContainer);
+    parent.addChild(this.nodesContainer);
   }
 
   getNode(id: string): NetworkNode {
@@ -42,16 +41,6 @@ export interface NetworkContainers {
 
 export interface NetworkIdMappings {
   nodeIdToIndex: Record<string, number>;
-}
-
-export function setUpNetwork(app: App): Network {
-  const nodesContainer = new Container();
-  const edgesContainer = new Container();
-
-  // center in viewport
-  app.centered.addChild(edgesContainer);
-  app.centered.addChild(nodesContainer);
-  return new Network(nodesContainer, edgesContainer, {});
 }
 
 export function networkFromData(data: NetworkShape, network: Network) {

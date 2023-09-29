@@ -81,6 +81,27 @@ export class DefaultService {
     }
 
     /**
+     * Init
+     * @param scenarioName
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static init(
+        scenarioName: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/init/{scenario_name}',
+            path: {
+                'scenario_name': scenarioName,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Get Agents Pos
      * @param tick
      * @returns AgentInfo Successful Response

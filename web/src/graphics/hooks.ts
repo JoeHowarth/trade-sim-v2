@@ -3,42 +3,39 @@ import { useState, useEffect } from 'react';
 import {
   NetworkIdMappings,
   NetworkContainers,
-  setUpNetwork,
   networkFromData,
   setColorFromData,
   Network,
 } from './network';
 import { App, makePixiApp } from './setup';
+import { AgentsContainer } from './agents';
+import { Container } from 'pixi.js';
 
 export function usePixiApp(ref: React.MutableRefObject<HTMLCanvasElement | null>) {
   const [app, setApp] = useState<App | null>(null);
+  const [network, setNetwork] = useState<null | Network>(null);
+  const [agents, setAgentsContainer] = useState<null | AgentsContainer>(null);
 
   useEffect(() => {
-    makePixiApp(ref.current!).then(setApp);
+    (async () => {
+      const [app, shape] = await Promise.all([
+        makePixiApp(ref.current!),
+        DefaultService.networkShape(),
+      ]);
+
+      const network = new Network(app.centered);
+      networkFromData(shape, network);
+      const agentsContainer = new AgentsContainer(app.centered);
+      setAgentsContainer(agentsContainer);
+      setNetwork(network);
+      setApp(app);
+    })();
   }, []);
 
-  return app;
+  return { app, network, agents };
 }
 
-export function useNetwork(app: App | null) {
-  const [network, setNetwork] = useState<null | Network>(null);
-
-  useEffect(() => {
-    if (!app) return;
-
-    (async () => {
-      const shape = await DefaultService.networkShape();
-      const network = setUpNetwork(app);
-
-      networkFromData(shape, network);
-      setNetwork(network);
-    })();
-  }, [app]);
-
-  return network;
-}
-
-export function useMapMode(network: Network | null) {
+export function useMapMode(network: Network | null, tick: number) {
   const [mapMode, setMapMode] = useState('default');
   const [domain, setDomain] = useState<[number, number]>([0, 1]);
 
@@ -52,12 +49,12 @@ export function useMapMode(network: Network | null) {
           data[key] = 1;
         }
       } else {
-        data = await DefaultService.marketCol(0, mapMode);
+        data = await DefaultService.marketCol(tick, mapMode);
       }
 
       setDomain(setColorFromData(data, network));
     })();
-  }, [mapMode, network]);
+  }, [mapMode, network, tick]);
 
   return { mapMode, setMapMode, domain };
 }
