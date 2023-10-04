@@ -59,14 +59,11 @@ export function agentsFromData(
   const byPort = groupbyPort(Object.values(agents));
   const radius = 61;
   agentsLayout(byPort, network, radius, ({ id }, x, y) => {
-    // exists agent?
     let agentObj = agentsContainer.getAgent(id);
     if (!agentObj) {
-      console.log("new agent", agentObj)
       agentObj = new Agent(x, y, id, id);
       agentsContainer.addAgent(agentObj);
     } else {
-      console.log("old agent")
       agentObj.position.set(x, y);
     }
   });

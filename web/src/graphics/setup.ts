@@ -1,38 +1,36 @@
-import {
-  Application,
-  Graphics,
-  ICanvas,
-  Assets,
-  Sprite,
-  Texture,
-  BitmapFont,
-  Container,
-} from 'pixi.js';
+import { DefaultService } from '@/client';
+import { Application, ICanvas, Sprite, Texture, BitmapFont, Container } from 'pixi.js';
+import { useState, useEffect } from 'react';
+import { AgentsContainer } from './agents';
+import { Network, networkFromData } from './network';
 
 export type App = Application<ICanvas> & { bg: Sprite; centered: Container };
 
-export function roundedRect(
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  radius: number = 5
-) {
-  const obj = new Graphics();
-  obj.position.set(x, y);
-
-  obj.beginFill(0x000050);
-  obj.drawRoundedRect(-width / 2, -height / 2, width, height, radius);
-  obj.endFill();
-
-  obj.interactive = true;
-  obj.on('click', () => {
-    obj.rotation += 0.1;
-  });
-  return obj;
-}
-
 export const bitFnt = 'bitFnt';
+
+export function usePixiApp(ref: React.MutableRefObject<HTMLCanvasElement | null>) {
+  const [app, setApp] = useState<App | null>(null);
+  const [network, setNetwork] = useState<null | Network>(null);
+  const [agents, setAgentsContainer] = useState<null | AgentsContainer>(null);
+
+  useEffect(() => {
+    (async () => {
+      const [app, shape] = await Promise.all([
+        makePixiApp(ref.current!),
+        DefaultService.networkShape(),
+      ]);
+
+      const network = new Network(app.centered);
+      networkFromData(shape, network);
+      const agentsContainer = new AgentsContainer(app.centered);
+      setAgentsContainer(agentsContainer);
+      setNetwork(network);
+      setApp(app);
+    })();
+  }, []);
+
+  return { app, network, agents };
+}
 
 export async function makePixiApp(view: HTMLCanvasElement) {
   const app = new Application({
@@ -53,6 +51,7 @@ export async function makePixiApp(view: HTMLCanvasElement) {
   bg.height = app.screen.height;
   // Add a click handler
   bg.interactive = true;
+  bg.tint = 0xf6f7f8;
   app.stage.addChild(bg);
   app.bg = bg;
 
@@ -61,9 +60,6 @@ export async function makePixiApp(view: HTMLCanvasElement) {
   app.stage.addChild(centered);
   app.centered = centered;
   centered.position.set(app.screen.width / 2, app.screen.height / 2);
-
-  app.centered.addChild(roundedRect(0, 0, 10, 10));
-  console.log(app.centered.children[0].getGlobalPosition());
 
   return app;
 }

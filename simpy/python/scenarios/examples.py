@@ -1,80 +1,16 @@
-from dataclasses import dataclass
-from typing import Dict, List, Tuple
-import input_builder as b
-import json
-from pydantic import BaseModel
-import utils
-import cli
-import polars as pl
+import scenarios.builder as b
+from .. import utils
 
-
-@dataclass
-class Edge:
-    u: str
-    v: str
-
-
-class NetworkShape(BaseModel):
-    nodes: List[str]
-    edges: List[Edge]
-
-
-@dataclass
-class Scenario:
-    actions: pl.DataFrame
-    agents: pl.DataFrame
-    markets: pl.DataFrame
-    events: pl.DataFrame
-    network: NetworkShape
+## Built Scenarios
 
 
 def save_scenario(x, name):
     if name is not None and name != "last":
-        with open(f"{utils.root_dir()}input/{name}.json", "w") as fp:
-            json.dump(x, fp, indent=2)
-    with open(f"{utils.root_dir()}input/last.json", "w") as fp:
-        json.dump(x, fp, indent=2)
-    return x
+        utils.write_json(f"{utils.root_dir}input/{name}.json", x)
+    utils.write_json(f"{utils.root_dir}input/last.json", x)
 
 
-def run_scenario(
-    input, name="last"
-) -> Tuple[pl.DataFrame, pl.DataFrame, pl.DataFrame, pl.DataFrame]:
-    save_scenario(input, name)
-    cli.run_with_args(
-        input_path=f"input/{name}.json",
-        output_tabular_path=f"output/{name}_tabular.json",
-        output_path=f"output/{name}.json",
-    )
-    (actions, agents, markets, events) = utils.load_tabular(
-        path=f"output/{name}_tabular.json"
-    )
-    markets = markets.select(pl.exclude("pricer"))
-    return (actions, agents, markets, events)
-
-
-def load_scneario(
-    name="last",
-) -> Scenario:
-    # load tabular output file
-    (act, ag, mar, ev) = utils.load_tabular(path=f"output/{name}_tabular.json")
-
-    # load history output file
-    with open(f"{utils.root_dir()}output/{name}.json") as json_file:
-        data = json.load(json_file)
-
-    # join raw_edges with nodes to create readable network
-    nodes = data["static_info"]["graph"]["nodes"]
-    raw_edges = data["static_info"]["graph"]["edges"]
-    network = NetworkShape(
-        nodes=nodes, edges=[Edge(nodes[e[0]], nodes[e[1]]) for e in raw_edges]
-    )
-    mar = mar.select(pl.exclude("pricer"))
-
-    return Scenario(actions=act, agents=ag, markets=mar, events=ev, network=network)
-
-
-def small_scenario(ticks=100, num_agents=10):
+def small_replay(ticks=100, num_agents=10):
     # Agents
     agent_ids = ["a" + str(i) for i in range(1, num_agents + 1)]
 
@@ -123,7 +59,7 @@ def small_scenario(ticks=100, num_agents=10):
     )
 
 
-def barbell_scenario(ticks=100, num_agents=10):
+def barbell_replay(ticks=100, num_agents=10):
     # Agents
     agent_ids = ["a" + str(i) for i in range(1, num_agents + 1)]
 
@@ -176,5 +112,5 @@ def barbell_scenario(ticks=100, num_agents=10):
     ]
 
     return b._inputFormat(
-        agents=agents, ports=ports, edges=edges, opts=b._opts(ticks=ticks)
+        agents=agents, ports=ports, edges=edges, opts=_opts(ticks=ticks)
     )

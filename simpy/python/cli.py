@@ -1,7 +1,7 @@
 import subprocess
 from utils import root_dir
 
-base = f"cd {root_dir()};"
+base = f"cd {root_dir};"
 
 
 def shell(cmd):
@@ -17,6 +17,7 @@ def run_with_args(
     output_path="output/last_run.json",
     output_tabular_path="output/last_run_tabular.json",
 ):
+    ## Todo: conditionally add args if not None
     return shell(
         f"cargo run --release run --no-log-to-term --input {input_path} --output {output_path} --tabular {output_tabular_path}"
     )

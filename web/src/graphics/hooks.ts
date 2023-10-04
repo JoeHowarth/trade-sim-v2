@@ -1,39 +1,12 @@
 import { DefaultService } from '@/client';
 import { useState, useEffect } from 'react';
 import {
-  NetworkIdMappings,
-  NetworkContainers,
-  networkFromData,
   setColorFromData,
   Network,
 } from './network';
-import { App, makePixiApp } from './setup';
-import { AgentsContainer } from './agents';
-import { Container } from 'pixi.js';
+import { AgentsContainer, agentsFromData } from './agents';
+import { App } from './setup';
 
-export function usePixiApp(ref: React.MutableRefObject<HTMLCanvasElement | null>) {
-  const [app, setApp] = useState<App | null>(null);
-  const [network, setNetwork] = useState<null | Network>(null);
-  const [agents, setAgentsContainer] = useState<null | AgentsContainer>(null);
-
-  useEffect(() => {
-    (async () => {
-      const [app, shape] = await Promise.all([
-        makePixiApp(ref.current!),
-        DefaultService.networkShape(),
-      ]);
-
-      const network = new Network(app.centered);
-      networkFromData(shape, network);
-      const agentsContainer = new AgentsContainer(app.centered);
-      setAgentsContainer(agentsContainer);
-      setNetwork(network);
-      setApp(app);
-    })();
-  }, []);
-
-  return { app, network, agents };
-}
 
 export function useMapMode(network: Network | null, tick: number) {
   const [mapMode, setMapMode] = useState('default');
@@ -57,4 +30,28 @@ export function useMapMode(network: Network | null, tick: number) {
   }, [mapMode, network, tick]);
 
   return { mapMode, setMapMode, domain };
+}
+
+export function useAgentPositions(
+  app: App | null,
+  network: Network | null,
+  agents: AgentsContainer | null,
+  tick: number
+) {
+  const [agentDataMode, setAgentDataMode] = useState('default');
+
+  // update positions and visualized data
+  useEffect(() => {
+    if (!app || !network || !agents) return;
+
+    if (agentDataMode !== 'default') {
+      console.error("Haven't implemented visually displayed agent data yet");
+    }
+
+    DefaultService.getAgentsPos(tick).then((data) => {
+      agentsFromData(data, agents, network);
+    });
+  }, [app, network, agents, tick]);
+
+  return [agentDataMode, setAgentDataMode];
 }

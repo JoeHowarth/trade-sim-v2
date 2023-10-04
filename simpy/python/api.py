@@ -1,19 +1,11 @@
 import asyncio
-from typing import Dict, List, Optional, Tuple, Union
-
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket
 from fastapi.routing import APIRoute
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-import polars as pl
-from dataclasses import dataclass
-
-import utils
-import scenarios
+import services
 
 
 def custom_generate_unique_id(route: APIRoute):
-    print(route)
     return f"{route.name}"
 
 
@@ -25,83 +17,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-curr = scenarios.load_scneario()
-
-
-@app.get("/network/shape", response_model=scenarios.NetworkShape)
-def network_shape():
-    return curr.network
+app.include_router(services.replays.router)
+app.include_router(services.scenarios.router)
+app.include_router(services.data.router)
 
 
-@app.get("/network/{tick}/price")
-def price(tick: int) -> Dict[str, float]:
-    df = curr.markets.filter(curr.markets["tick"] == tick).select("price", "port")
-    return utils.keyed_by(df, index_col="port", extract="price")
+## Playback
 
 
-@app.get("/network/{tick}/market/{field}")
-def market_col(tick: int, field: str) -> Dict[str, float]:
-    df = curr.markets.filter(curr.markets["tick"] == tick).select(field, "port")
-    return utils.keyed_by(df, index_col="port", extract=field)
-
-
-@app.get("/network/mapmode")
-def list_map_mode() -> List[str]:
-    return [
-        "price",
-        "supply",
-        "production",
-        "consumption",
-    ]
-
-
-@dataclass
-class AgentInfo:
-    cargo: Optional[str]
-    coins: float
-    id: str
-    pos: str
-
-
-@dataclass
-class InitInfo:
-    max_ticks: int
-
-
-@app.get("/init/{scenario_name}")
-def init(scenario_name: str):
-    curr  # cause it to reference the global variable
-    curr = scenarios.load_scneario(name=scenario_name)
-    return InitInfo(
-        max_ticks=curr.agents.select("tick").max().to_list()[0],
-    )
-
-
-@app.get("/agents/{tick}")
-def get_agents_pos(tick: int) -> Dict[str, AgentInfo]:
-    df = curr.agents.filter(curr.agents["tick"] == tick).select(
-        ["cargo", "coins", "id", "pos"]
-    )
-    return utils.keyed_by(df, index_col="id", drop_index=False)
-
-
-@app.websocket("/wstest")
-async def ws_test(websocket: WebSocket):
-    try:
-        print(
-            f"WS: CONNECTING TO {websocket.url}, HDR = {websocket.headers}, PARAMS = {websocket.query_params} ..."
-        )
-        await websocket.accept()
-        print(f"WS: CONNECTED {websocket.url}")
-
-        async for txt in websocket.iter_text():
-            await websocket.send_text(txt)
-    except WebSocketDisconnect as err:
-        print(f"Websocket [{err.code}]: {err.reason}")
-        raise
-
-
+## Todo: use use ReplayDep instead of curr
 @app.websocket("/ticks/{startTick}")
 async def ticks(websocket: WebSocket, startTick: int):
     await websocket.accept()
@@ -133,7 +57,7 @@ async def ticks(websocket: WebSocket, startTick: int):
                 #     tick = max_tick
                 tick += 1
                 await websocket.send_json({"tick": tick, "ms": ms})
-                sleep = ms /1000
+                sleep = ms / 1000
             else:
                 sleep = 0.1
                 if times % 5 == 0:
@@ -141,11 +65,3 @@ async def ticks(websocket: WebSocket, startTick: int):
             await asyncio.sleep(sleep)
 
     await asyncio.gather(read_playback_info(), loop())
-
-
-# @app.get("/network/{tick}/mapmode/{mode}")
-# def map_mode(tick: int, mode: str) -> Dict[str, float]:
-#     if mode
-
-#     df = curr.markets.filter(curr.markets["tick"] == tick).select(mode, "port")
-#     return utils.keyed_by(df, index_col="port", extract=mode)

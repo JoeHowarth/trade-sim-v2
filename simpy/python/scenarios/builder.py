@@ -1,5 +1,6 @@
 # Helpers to construct InputFormat
 from typing import Tuple, Union
+import utils
 
 
 def _opts(ticks=10):
@@ -26,13 +27,13 @@ def _linearp(base_price=100, price_per_supply=-0.2, base_supply=1000):
         "price_per_supply": price_per_supply,
     }
 
+
 def _inversep(coef=1000):
     assert coef > 0
     return {
         "tag": "Inverse",
         "coef": coef,
     }
-
 
 
 def _market_info(
@@ -75,3 +76,9 @@ def _inputFormat(
     agents: list[dict], ports: list[dict], edges: list[list[str]], opts: dict = {}
 ):
     return {"agents": agents, "ports": ports, "edges": edges, "opts": opts}
+
+
+def save_scenario(x, name):
+    if name is not None and name != "last":
+        utils.write_json(f"{utils.root_dir}input/{name}.json", x)
+    utils.write_json(f"{utils.root_dir}input/last.json", x)

@@ -1,5 +1,17 @@
+import json
 from typing import Optional
 import polars as pl
+
+
+def get_root_dir():
+    """Returns root directory for this project."""
+    import git
+
+    repo = git.Repo(".", search_parent_directories=True)
+    return repo.working_tree_dir + "/"
+
+
+root_dir = get_root_dir()
 
 
 def init_logging():
@@ -24,21 +36,13 @@ def init_logging():
     logger.addHandler(fh)
 
 
-def _tabular(blob):
-    actions = pl.DataFrame(blob["actions"])
-    agents = pl.DataFrame(blob["agents"])
-    markets = pl.DataFrame(blob["markets"])
-    events = pl.DataFrame(blob["events"])
-    return (actions, agents, markets, events)
-
-
 def keyed_by(df: pl.DataFrame, index_col: str, extract: str = None, drop_index=True):
     x = df.unique(subset=[index_col], keep="last").partition_by(
         by=[index_col], as_dict=True, maintain_order=True
     )
 
     d = {}
-    for (index, frame) in x.items():
+    for index, frame in x.items():
         if drop_index:
             frame = frame.select(pl.exclude(index_col))
         row = frame.to_dicts()[0]
@@ -48,12 +52,14 @@ def keyed_by(df: pl.DataFrame, index_col: str, extract: str = None, drop_index=T
     return d
 
 
-def load_tabular(path="output/last_run_tabular.json"):
-    import json
+def read_json(path):
+    with open(root_dir + path) as json_file:
+        return json.load(json_file)
 
-    with open(root_dir() + path) as json_file:
-        data = json.load(json_file)
-    return _tabular(data)
+
+def write_json(path, data):
+    with open(root_dir + path, "w") as fp:
+        json.dump(data, fp, indent=2)
 
 
 def price(table):
@@ -66,33 +72,25 @@ def pricer(info, supply):
     )
 
 
-def root_dir():
-    """Returns root directory for this project."""
-    import git
+# class DotDict(dict):
+#     def __getattr__(self, name):
+#         return self.get(name, None)
 
-    repo = git.Repo(".", search_parent_directories=True)
-    return repo.working_tree_dir + "/"
+#     def __setattr__(self, name, value):
+#         self[name] = value
 
-
-class DotDict(dict):
-    def __getattr__(self, name):
-        return self.get(name, None)
-
-    def __setattr__(self, name, value):
-        self[name] = value
-
-    def __delattr__(self, name):
-        if name in self:
-            del self[name]
+#     def __delattr__(self, name):
+#         if name in self:
+#             del self[name]
 
 
-def recursive_dotdict(obj):
-    if isinstance(obj, dict):
-        return DotDict({k: recursive_dotdict(v) for k, v in obj.items()})
-    elif isinstance(obj, list):
-        return [recursive_dotdict(element) for element in obj]
-    else:
-        return obj
+# def recursive_dotdict(obj):
+#     if isinstance(obj, dict):
+#         return DotDict({k: recursive_dotdict(v) for k, v in obj.items()})
+#     elif isinstance(obj, list):
+#         return [recursive_dotdict(element) for element in obj]
+#     else:
+#         return obj
 
 
 # # Test the function

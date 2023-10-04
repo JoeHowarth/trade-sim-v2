@@ -1,7 +1,7 @@
 import polars as pl
 from polars import col, lit
 import altair as alt
-import scenarios
+from services.scenarios import run_scenario
 
 
 def plot_agents(agents: pl.DataFrame):
@@ -53,7 +53,7 @@ def no_agent_markets(input_format) -> pl.DataFrame:
     """
     input_format = input_format.copy()
     input_format["agents"] = []
-    (_, _, no_agent_markets, _) = scenarios.run_scenario(input_format)
+    (_, _, no_agent_markets, _) = run_scenario(input_format)
     return no_agent_markets
 
 

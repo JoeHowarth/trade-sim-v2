@@ -1,22 +1,48 @@
 # Devlog
 
+## Wed 10/4/23
+Took a little break. Went camping over weekend and did design work for Epic of Emporia Mon & Tues
+
+[10:00 AM] Today I want a UI start menu page 
+[11:45 AM] Did pencil wireframe designs in notebook. This was the process I needed for UI design!
+Order of work:
+- [] Backend Services for 
+  - [] Scenarios 
+  - [] Replays
+- [] Landing page 
+- [] View Replay 
+- [] Run Scenarios (hardest)
+  - View graphics based off scenario
+  - Editable json input data
+  - Transition from editing scenario to running, to view replay 
+
+[2:51 PM] Reworked the python package signficantly
+- Broke api apart into Services with routers 
+- Clarified Replay and Scenario to mean history + tabular and input format respectively
+- Explicitly pass which Replay instead of using a global. 
+- Introduce ReplayCache to efficiently look up by name and invalidate if the underlying file changes since last reload
+- Wrap ReplayCache in a FastAPI dependency to make it almost as ergonomic as using `curr` global
+
 ## Thur 9/28/23
 [10:00 AM]
 I'm reducing the scope of this project!  It will only be a tech demo, 
 that shows the full architecture the real game will use. 
 
 To that end, the components I need are:
-- Playback of history file
-- Output and input streaming for Simulation cli
-- Server streaming of current tick 
-- Hosting 
-- UI page for starting, saving, loading etc. a sim run  
-- Rewrite the sim logic to use Bevy ECS (or at least evaluate)
-- Route-based agent behavior (not strictly needed, but come on...)
+- [X] Playback of history file
+- [] Output and input streaming for Simulation cli
+- [X] Server streaming of current tick 
+- [] Hosting 
+- [] UI page for starting, saving, loading etc. a sim run  
+- [] Rewrite the sim logic to use Bevy ECS (or at least evaluate)
+- [] Route-based agent behavior (not strictly needed, but come on...)
 
 Up first:
-- Fix rendering agents
-- Playback
+- [X] Fix rendering agents
+- [X] Playback
+
+[6:40 pm] Playback works! And the agents and map modes update super smoothly!
+Up next is UI start page
 
 
 ## Wed 9/27/23
