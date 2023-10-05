@@ -4,10 +4,9 @@ from typing import Any, Dict, List, Optional, Tuple
 from fastapi import APIRouter
 from pydantic import BaseModel
 from scenarios.builder import save_scenario
-from services.replays import Scenario, load_tabular
 import polars as pl
-from .. import utils
-from .. import cli
+import utils
+import cli
 
 router = APIRouter(prefix="/scenario", tags=["scenario"])
 
@@ -31,13 +30,20 @@ def all():
 
 
 @router.get("/{name}")
-def get(name: str) -> Dict[str, Any]:
-    return Scenario(utils.read_json(f"/input/{name}.json"))
+def get(name: str) -> Scenario:
+    _json = utils.read_json(f"/input/{name}.json")
+    return Scenario(
+        description=None,
+        agents=_json["agents"],
+        ports=_json["ports"],
+        edges=_json["edges"],
+        opts=_json["opts"],
+    )
 
 
 @router.post("/{name}")
 def post(name: str, scenario: Scenario):
-    utils.write_json(f"/input/{name}.json", scenario)
+    utils.write_json(f"/input/{name.strip()}.json", scenario.model_dump(mode="json"))
 
 
 ## Utils
@@ -45,6 +51,7 @@ def post(name: str, scenario: Scenario):
 
 def list_scenarios() -> List[str]:
     dir_path = f"{utils.root_dir}/input"
+    print("list dir", list(os.listdir(dir_path)))
     return [item[:-5] for item in os.listdir(dir_path) if item.endswith(".json")]
 
 

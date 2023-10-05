@@ -2,7 +2,7 @@ from typing import Dict, List, Optional
 
 from fastapi import APIRouter
 from dataclasses import dataclass
-from replay_cache import ReplayDep
+from replay_cache import NetworkShape, ReplayDep
 from services import replays
 
 import utils
@@ -11,7 +11,7 @@ import utils
 router = APIRouter(prefix="/data/{replay_name}", tags=["data"])
 
 
-@router.get("/network/shape", response_model=replays.NetworkShape)
+@router.get("/network/shape", response_model=NetworkShape)
 def network_shape(replay: ReplayDep):
     return replay.network
 

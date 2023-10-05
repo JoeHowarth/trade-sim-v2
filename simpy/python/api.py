@@ -2,14 +2,23 @@ import asyncio
 from fastapi import FastAPI, WebSocket
 from fastapi.routing import APIRoute
 from fastapi.middleware.cors import CORSMiddleware
-import services
 
 
 def custom_generate_unique_id(route: APIRoute):
-    return f"{route.name}"
+    return f"{route.tags[0]}{route.name}"
 
 
+from services.replays import router as replays_router
+from services.scenarios import router as scenarios_router
+from services.data import router as data_router
+
+# app = FastAPI()
 app = FastAPI(generate_unique_id_function=custom_generate_unique_id)
+
+app.include_router(replays_router)
+app.include_router(scenarios_router)
+app.include_router(data_router)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,9 +26,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.include_router(services.replays.router)
-app.include_router(services.scenarios.router)
-app.include_router(services.data.router)
 
 
 ## Playback
