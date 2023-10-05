@@ -4,7 +4,6 @@ import { theme } from './theme';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HomePage } from './pages/Home.page';
 import { PlaybackManager } from './components/PlaybackManager';
-import { PlaybackControls } from './components/PlaybackControls';
 import { Graph } from './pages/Graph.page';
 
 export default function App() {
@@ -17,7 +16,7 @@ export default function App() {
 
 const router = createBrowserRouter([
   {
-    path: '/:tick?',
+    path: '/:scenario/:tick?',
     element: (
       <PlaybackManager>
         <Graph />
@@ -25,7 +24,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/homepage',
+    path: '/',
     element: <HomePage />,
   },
 ]);

@@ -29,9 +29,11 @@ def all():
 
 
 @router.get("/info/{name}")
-def get_into(name: str) -> ReplayInfo:
+def get_info(name: str) -> ReplayInfo:
     replay = replay_cache.get(name)
-    return ReplayInfo(name=name, ticks=replay.actions.select("tick").max())
+    return ReplayInfo(
+        name=name, ticks=replay.markets.select("tick").max().to_series().to_list()[0]
+    )
 
 
 ## Utils

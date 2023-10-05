@@ -1,14 +1,17 @@
-import { DefaultService } from '@/client';
 import { Application, ICanvas, Sprite, Texture, BitmapFont, Container } from 'pixi.js';
 import { useState, useEffect } from 'react';
 import { AgentsContainer } from './agents';
 import { Network, networkFromData } from './network';
+import { DataService } from '@/client';
 
 export type App = Application<ICanvas> & { bg: Sprite; centered: Container };
 
 export const bitFnt = 'bitFnt';
 
-export function usePixiApp(ref: React.MutableRefObject<HTMLCanvasElement | null>) {
+export function usePixiApp(
+  ref: React.MutableRefObject<HTMLCanvasElement | null>,
+  replayName: string
+) {
   const [app, setApp] = useState<App | null>(null);
   const [network, setNetwork] = useState<null | Network>(null);
   const [agents, setAgentsContainer] = useState<null | AgentsContainer>(null);
@@ -17,19 +20,29 @@ export function usePixiApp(ref: React.MutableRefObject<HTMLCanvasElement | null>
     (async () => {
       const [app, shape] = await Promise.all([
         makePixiApp(ref.current!),
-        DefaultService.networkShape(),
+        DataService.datanetworkShape(replayName),
       ]);
+      setApp(app);
 
       const network = new Network(app.centered);
       networkFromData(shape, network);
-      const agentsContainer = new AgentsContainer(app.centered);
-      setAgentsContainer(agentsContainer);
       setNetwork(network);
-      setApp(app);
+      setAgentsContainer(new AgentsContainer(app.centered));
     })();
+    return () => {
+      console.log('Running pixi cleanup...');
+      setApp((app) => {
+        if (!app) return null;
+        app.destroy();
+        return null;
+      });
+      setNetwork(null);
+      setAgentsContainer(null);
+      console.log('Pixi cleanup complete.');
+    };
   }, []);
 
-  return { app, network, agents };
+  return { app, network, agents, replayName };
 }
 
 export async function makePixiApp(view: HTMLCanvasElement) {

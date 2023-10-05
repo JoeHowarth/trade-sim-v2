@@ -17,6 +17,7 @@ export const PlaybackContext = createContext<PlaybackContextType>({
 export function PlaybackManager({ children }: React.PropsWithChildren) {
   const params = useParams<'tick'>();
   const tick = params.tick ?? 0;
+  const replay = useReplay();
 
   const ws = useRef<any>(null);
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ export function PlaybackManager({ children }: React.PropsWithChildren) {
       setMs((ms) => {
         return data.ms;
       });
-      navigate('/' + data.tick, { replace: true });
+      navigate(`/${replay}/${data.tick}`, { replace: true });
     };
 
     ws.current = socket;
@@ -56,6 +57,10 @@ export function PlaybackManager({ children }: React.PropsWithChildren) {
   return <PlaybackContext.Provider value={{ send, ms }}>{children}</PlaybackContext.Provider>;
 }
 
+export function useReplay() {
+  return useParams<'scenario'>().scenario!;
+}
+
 export function useTick() {
   const { tick } = useParams<'tick'>();
   return parseInt(tick ?? '0');
@@ -63,9 +68,10 @@ export function useTick() {
 
 export function useSetTick() {
   const navigate = useNavigate();
+  const replay = useReplay();
   const { send } = useContext(PlaybackContext);
   return (tick: number) => {
-    navigate('/' + tick, { replace: true });
+    navigate(`/${replay}/${tick}`, { replace: true });
     if (send) send({ tick: tick });
   };
 }

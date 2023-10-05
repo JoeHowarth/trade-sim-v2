@@ -9,34 +9,22 @@ import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class DefaultService {
+export class DataService {
 
     /**
      * Network Shape
+     * @param replayName
      * @returns NetworkShape Successful Response
      * @throws ApiError
      */
-    public static networkShape(): CancelablePromise<NetworkShape> {
+    public static datanetworkShape(
+        replayName: string,
+    ): CancelablePromise<NetworkShape> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/network/shape',
-        });
-    }
-
-    /**
-     * Price
-     * @param tick
-     * @returns number Successful Response
-     * @throws ApiError
-     */
-    public static price(
-        tick: number,
-    ): CancelablePromise<Record<string, number>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/network/{tick}/price',
+            url: '/data/{replay_name}/network/shape',
             path: {
-                'tick': tick,
+                'replay_name': replayName,
             },
             errors: {
                 422: `Validation Error`,
@@ -48,19 +36,22 @@ export class DefaultService {
      * Market Col
      * @param tick
      * @param field
+     * @param replayName
      * @returns number Successful Response
      * @throws ApiError
      */
-    public static marketCol(
+    public static datamarketCol(
         tick: number,
         field: string,
+        replayName: string,
     ): CancelablePromise<Record<string, number>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/network/{tick}/market/{field}',
+            url: '/data/{replay_name}/network/{tick}/market/{field}',
             path: {
                 'tick': tick,
                 'field': field,
+                'replay_name': replayName,
             },
             errors: {
                 422: `Validation Error`,
@@ -73,48 +64,30 @@ export class DefaultService {
      * @returns string Successful Response
      * @throws ApiError
      */
-    public static listMapMode(): CancelablePromise<Array<string>> {
+    public static datalistMapMode(): CancelablePromise<Array<string>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/network/mapmode',
-        });
-    }
-
-    /**
-     * Init
-     * @param scenarioName
-     * @returns any Successful Response
-     * @throws ApiError
-     */
-    public static init(
-        scenarioName: string,
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/init/{scenario_name}',
-            path: {
-                'scenario_name': scenarioName,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
+            url: '/data/{replay_name}/network/mapmode',
         });
     }
 
     /**
      * Get Agents Pos
      * @param tick
+     * @param replayName
      * @returns AgentInfo Successful Response
      * @throws ApiError
      */
-    public static getAgentsPos(
+    public static datagetAgentsPos(
         tick: number,
+        replayName: string,
     ): CancelablePromise<Record<string, AgentInfo>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/agents/{tick}',
+            url: '/data/{replay_name}/agents/{tick}',
             path: {
                 'tick': tick,
+                'replay_name': replayName,
             },
             errors: {
                 422: `Validation Error`,

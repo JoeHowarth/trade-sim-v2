@@ -37,6 +37,8 @@ def get(replay_name: str) -> Replay:
     Load replay from cache if it exists, otherwise load it from disk.
     Can be used as FastAPI Dependency.
     """
+    global last_loaded_time  # Declare global here if you are going to modify it
+
     file_path = f"{utils.root_dir}/output/{replay_name}_tabular.json"
     cur_chg_time = os.path.getmtime(file_path)
 
@@ -45,8 +47,7 @@ def get(replay_name: str) -> Replay:
         or cur_chg_time != last_loaded_time[replay_name]
     ):
         cached_replays[replay_name] = _load_replay(replay_name)
-
-        last_loaded_time = cur_chg_time
+        last_loaded_time[replay_name] = cur_chg_time  # Update the entry for replay_name
 
     return cached_replays[replay_name]
 
