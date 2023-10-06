@@ -17,51 +17,38 @@ import {
 } from '@tabler/icons-react';
 
 export function PlaybackControls() {
-  const tick = useTick();
   const [isPaused, togglePause] = useTogglePause();
   const scale = useScalePlaybackSpeed();
-  // const setTick = useSetTick();
-
-  // useForm()
 
   return (
-    <Paper
-      style={{ zIndex: 3, position: 'absolute', top: 0, right: 0 }}
-      shadow="xs"
-      radius="xs"
-      p="md"
-      m="sm"
-      withBorder
-    >
-      <Group>
-        <ActionIconGroup>
-          <ActionIcon variant="default" size="lg" aria-label="Gallery">
-            <IconPlayerTrackPrev
-              onClick={() => scale(3 / 2)}
-              style={{ width: rem(20) }}
-              stroke={1.5}
-            />
-          </ActionIcon>
+    <Group>
+      <TickWithPopover />
+      <ActionIconGroup>
+        <ActionIcon variant="default" size="lg" aria-label="Gallery">
+          <IconPlayerTrackPrev
+            onClick={() => scale(3 / 2)}
+            style={{ width: rem(20) }}
+            stroke={1.5}
+          />
+        </ActionIcon>
 
-          <ActionIcon variant="default" size="lg" aria-label="Settings">
-            {isPaused ? (
-              <IconPlayerPlay onClick={togglePause} style={{ width: rem(20) }} stroke={1.5} />
-            ) : (
-              <IconPlayerPause onClick={togglePause} style={{ width: rem(20) }} stroke={1.5} />
-            )}
-          </ActionIcon>
+        <ActionIcon variant="default" size="lg" aria-label="Settings">
+          {isPaused ? (
+            <IconPlayerPlay onClick={togglePause} style={{ width: rem(20) }} stroke={1.5} />
+          ) : (
+            <IconPlayerPause onClick={togglePause} style={{ width: rem(20) }} stroke={1.5} />
+          )}
+        </ActionIcon>
 
-          <ActionIcon variant="default" size="lg" aria-label="Likes">
-            <IconPlayerTrackNext
-              onClick={() => scale(2 / 3)}
-              style={{ width: rem(20) }}
-              stroke={1.5}
-            />
-          </ActionIcon>
-        </ActionIconGroup>
-        <TickWithPopover />
-      </Group>
-    </Paper>
+        <ActionIcon variant="default" size="lg" aria-label="Likes">
+          <IconPlayerTrackNext
+            onClick={() => scale(2 / 3)}
+            style={{ width: rem(20) }}
+            stroke={1.5}
+          />
+        </ActionIcon>
+      </ActionIconGroup>
+    </Group>
   );
 }
 
@@ -73,7 +60,7 @@ function TickWithPopover() {
   return (
     <Popover width={100} trapFocus position="bottom" withArrow shadow="md">
       <Popover.Target>
-        <div>
+        <div style={{ width: 80 }}>
           <Text>Tick: {tick}</Text>
         </div>
       </Popover.Target>

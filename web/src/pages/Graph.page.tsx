@@ -4,6 +4,8 @@ import { useAgentPositions, useMapMode } from '@/graphics/hooks';
 import { PlaybackControls } from '@/components/PlaybackControls';
 import { useReplay, useTick } from '@/components/PlaybackManager';
 import { usePixiApp } from '@/graphics/setup';
+import { HeaderFloating } from '@/components/HeaderFloating';
+import { Button } from '@mantine/core';
 
 export function Graph() {
   const ref = useRef(null);
@@ -22,11 +24,20 @@ export function Graph() {
 
   return (
     <>
-      <div style={{ width: window.innerWidth, height: window.innerHeight }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        }}
+      >
         <canvas ref={ref} style={{ width: '100%', height: '100%' }} />
       </div>
+      <HeaderFloating><PlaybackControls /></HeaderFloating>
       <MapModeSelector domain={domain} mapMode={mapMode} setMapMode={setMapMode} />
-      <PlaybackControls />
+      
     </>
   );
 }

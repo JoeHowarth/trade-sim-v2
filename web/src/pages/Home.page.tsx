@@ -1,5 +1,6 @@
 // import { HeaderSimple } from '@/components/HeaderSimple/HeaderSimple';
 import { ReplayInfo, ReplayService, ScenarioService, Scenario_Output } from '@/client';
+import { HeaderFloating } from '@/components/HeaderFloating';
 import {
   ActionIcon,
   Button,
@@ -24,24 +25,24 @@ export function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <CardOnBackground title="Trade Sim v2">
-      <Stack p="md" gap="xs">
+    <HeaderFloating>
+      <Group gap={5}>
         <Button
-          onClick={() => navigate('/run-scenario')}
-          color="rgb(117, 140, 161)"
           variant="light"
+          color="rgb(117, 140, 161)"
+          onClick={() => navigate('/run-scenario')}
         >
           Run Scenario
         </Button>
         <Button
-          onClick={() => navigate('/view-replay')}
-          color="rgba(117, 140, 161, 1)"
           variant="light"
+          color="rgba(117, 140, 161, 1)"
+          onClick={() => navigate('/view-replay')}
         >
           View Replay
         </Button>
-      </Stack>
-    </CardOnBackground>
+      </Group>
+    </HeaderFloating>
   );
 }
 
@@ -75,26 +76,29 @@ export function ViewReplay() {
   ));
 
   return (
-    <CardOnBackground title="View Replay" back={() => navigate('/')}>
-      <Group align="flex-start">
-        <Stack justify="flex-start" p="md" gap="xs">
-          {btns}
-        </Stack>
-        {replayInfo ? (
-          <Stack gap="xs">
-            <p style={{ margin: 0 }}>Num Ticks: {replayInfo.ticks}</p>
-            <Button
-              onClick={() => {
-                navigate('/' + replayInfo.name + '/0');
-              }}
-              variant="light"
-            >
-              Run
-            </Button>
+    <>
+      <HeaderFloating></HeaderFloating>
+      <FloatingCard title="View Replay" back={() => navigate('/')}>
+        <Group align="flex-start">
+          <Stack justify="flex-start" p="md" gap="xs">
+            {btns}
           </Stack>
-        ) : null}
-      </Group>
-    </CardOnBackground>
+          {replayInfo ? (
+            <Stack gap="xs">
+              <p style={{ margin: 0 }}>Num Ticks: {replayInfo.ticks}</p>
+              <Button
+                onClick={() => {
+                  navigate('/' + replayInfo.name + '/0');
+                }}
+                variant="light"
+              >
+                Run
+              </Button>
+            </Stack>
+          ) : null}
+        </Group>
+      </FloatingCard>
+    </>
   );
 }
 
@@ -131,25 +135,28 @@ export function RunScenarioPage() {
   ));
 
   return (
-    <CardOnBackground title="Run Scenario" back={() => navigate('/')}>
-      <Group align="flex-start">
-        <Stack justify="flex-start" p="md" gap="xs">
-          {btns}
-        </Stack>
-        {selectedScenario && scenarioData ? (
-          <ScenarioViewer
-            scenarioName={selectedScenario}
-            scenarioData={scenarioData}
-            stringScenarioData={stringScenarioData}
-            setStringScenarioData={setStringScenarioData}
-            setScenarioData={setScenarioData}
-            onSaveAs={(name) => {
-              ScenarioService.scenariopost(name, scenarioData).then(() => handlers.increment());
-            }}
-          />
-        ) : null}
-      </Group>
-    </CardOnBackground>
+    <>
+      <HeaderFloating></HeaderFloating>
+      <FloatingCard title="Run Scenario" back={() => navigate('/')}>
+        <Group align="flex-start">
+          <Stack justify="flex-start" p="md" gap="xs">
+            {btns}
+          </Stack>
+          {selectedScenario && scenarioData ? (
+            <ScenarioViewer
+              scenarioName={selectedScenario}
+              scenarioData={scenarioData}
+              stringScenarioData={stringScenarioData}
+              setStringScenarioData={setStringScenarioData}
+              setScenarioData={setScenarioData}
+              onSaveAs={(name) => {
+                ScenarioService.scenariopost(name, scenarioData).then(() => handlers.increment());
+              }}
+            />
+          ) : null}
+        </Group>
+      </FloatingCard>
+    </>
   );
 }
 
@@ -229,49 +236,31 @@ function ScenarioViewer({
   );
 }
 
-export function CardOnBackground({
+export function FloatingCard({
   title,
   children,
   back,
 }: PropsWithChildren<{ title: string; back?: () => void }>) {
   return (
-    <>
-      <div style={{ width: '100vw', height: '100vh', background: 'rgb(250, 249, 250)' }}></div>
-      <Card
-        style={{ zIndex: 3, position: 'absolute', top: 0, left: 0 }}
-        shadow="md"
-        radius="sm"
-        p="md"
-        m="sm"
-        withBorder
-      >
-        <Card.Section withBorder inheritPadding py="xs">
-          <Group>
-            {back && (
-              <ActionIcon onClick={back} variant="transparent" color="black">
-                <IconArrowLeft />
-              </ActionIcon>
-            )}
-            <Title order={1}>{title}</Title>
-          </Group>
-        </Card.Section>
-        {children}
-      </Card>
-    </>
-  );
-}
-
-export function MyPaper({ children }: PropsWithChildren) {
-  return (
-    <Paper
-      style={{ zIndex: 3, position: 'absolute', top: 0, left: 0 }}
+    <Card
+      style={{ zIndex: 3, position: 'absolute', top: 50, left: 0 }}
       shadow="md"
       radius="sm"
       p="md"
       m="sm"
       withBorder
     >
+      <Card.Section withBorder inheritPadding py="xs">
+        <Group>
+          {back && (
+            <ActionIcon onClick={back} variant="transparent" color="black">
+              <IconArrowLeft />
+            </ActionIcon>
+          )}
+          <Title order={4}>{title}</Title>
+        </Group>
+      </Card.Section>
       {children}
-    </Paper>
+    </Card>
   );
 }
