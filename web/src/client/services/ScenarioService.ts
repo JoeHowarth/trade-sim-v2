@@ -13,10 +13,10 @@ export class ScenarioService {
 
     /**
      * All
-     * @returns any Successful Response
+     * @returns string Successful Response
      * @throws ApiError
      */
-    public static scenarioall(): CancelablePromise<any> {
+    public static scenarioall(): CancelablePromise<Array<string>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/scenario/',

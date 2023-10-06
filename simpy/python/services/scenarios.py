@@ -25,7 +25,7 @@ class Scenario(BaseModel):
 
 
 @router.get("/")
-def all():
+def all() -> List[str]:
     return list_scenarios()
 
 
