@@ -18,6 +18,8 @@ def run_with_args(
     output_tabular_path="output/last_run_tabular.json",
 ):
     ## Todo: conditionally add args if not None
+    print("base", base)
+    print("run_with_args", input_path, output_path, output_tabular_path)
     return shell(
-        f"cargo run --release run --no-log-to-term --input {input_path} --output {output_path} --tabular {output_tabular_path}"
+        f"cargo run --release run  --input {input_path} --output {output_path} --tabular {output_tabular_path}"
     )

@@ -24,6 +24,31 @@ export class ScenarioService {
     }
 
     /**
+     * Run Scenario
+     * @param name
+     * @param requestBody
+     * @returns boolean Successful Response
+     * @throws ApiError
+     */
+    public static scenariorunScenario(
+        name: string = 'last',
+        requestBody?: (Scenario_Input | null),
+    ): CancelablePromise<boolean> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/scenario/',
+            query: {
+                'name': name,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Get
      * @param name
      * @returns Scenario_Output Successful Response

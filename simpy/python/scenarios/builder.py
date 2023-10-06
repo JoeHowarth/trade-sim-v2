@@ -80,5 +80,5 @@ def _inputFormat(
 
 def save_scenario(x, name):
     if name is not None and name != "last":
-        utils.write_json(f"{utils.root_dir}input/{name}.json", x)
-    utils.write_json(f"{utils.root_dir}input/last.json", x)
+        utils.write_json(f"input/{name}.json", x)
+    utils.write_json(f"input/last.json", x)

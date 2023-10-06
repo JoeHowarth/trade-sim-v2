@@ -1,13 +1,7 @@
 import scenarios.builder as b
-from .. import utils
+import utils
 
 ## Built Scenarios
-
-
-def save_scenario(x, name):
-    if name is not None and name != "last":
-        utils.write_json(f"{utils.root_dir}input/{name}.json", x)
-    utils.write_json(f"{utils.root_dir}input/last.json", x)
 
 
 def small_replay(ticks=100, num_agents=10):
@@ -49,7 +43,7 @@ def small_replay(ticks=100, num_agents=10):
         b._port(marsailles, _market(-2)),
     ]
 
-    _agent = lambda id, pos: b._agent(id, pos, 1000, "Exhaustive")
+    _agent = lambda id, pos: b._agent(id, pos, 1000, "Greedy")
     agents = [
         _agent(id, port_id) for (id, port_id) in zip(agent_ids, port_ids * num_agents)
     ]

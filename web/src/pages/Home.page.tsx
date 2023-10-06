@@ -152,6 +152,14 @@ export function RunScenarioPage() {
               onSaveAs={(name) => {
                 ScenarioService.scenariopost(name, scenarioData).then(() => handlers.increment());
               }}
+              onRun={() => {
+                console.log('run');
+                ScenarioService.scenariorunScenario(selectedScenario).then(async () => {
+                  console.log('done');
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
+                  navigate('/' + selectedScenario + '/0');
+                });
+              }}
             />
           ) : null}
         </Group>
@@ -167,6 +175,7 @@ function ScenarioViewer({
   setStringScenarioData,
   setScenarioData,
   onSaveAs,
+  onRun,
 }: {
   scenarioName: string;
   scenarioData: Scenario_Output;
@@ -174,6 +183,7 @@ function ScenarioViewer({
   setStringScenarioData: (str: string) => void;
   setScenarioData: (x: Scenario_Output) => void;
   onSaveAs: (name: string) => void;
+  onRun: () => void;
 }) {
   let numGoods = 0;
   let numPorts = 0;
@@ -193,7 +203,7 @@ function ScenarioViewer({
           <p style={{ margin: 0 }}>Num Agents: {scenarioData?.agents.length}</p>
           <p style={{ margin: 0 }}>Num Ports: {numPorts}</p>
           <p style={{ margin: 0 }}>Num Goods: {numGoods}</p>
-          <Button variant="light">Run</Button>
+          <Button onClick={onRun} variant="light">Run</Button>
         </Stack>
       </Tabs.Panel>
       <Tabs.Panel value="json">

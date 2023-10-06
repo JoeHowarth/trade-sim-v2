@@ -1,20 +1,90 @@
 {
-  "opts": {
-    "ticks": 3
-  },
-  "edges": [["Rome", "Genoa"]],
+  "description": null,
+  "agents": [
+    {
+      "id": "a1",
+      "pos": "Genoa",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "a2",
+      "pos": "Rome",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "a3",
+      "pos": "Milan",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "a4",
+      "pos": "Venice",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "a5",
+      "pos": "Marsailles",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "a6",
+      "pos": "Genoa",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "a7",
+      "pos": "Rome",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "a8",
+      "pos": "Milan",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "a9",
+      "pos": "Venice",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    },
+    {
+      "id": "Clara",
+      "pos": "Marsailles",
+      "cargo": null,
+      "coins": 1000,
+      "behavior": "Greedy"
+    }
+  ],
   "ports": [
     {
-      "id": "Rome",
+      "id": "Genoa",
       "market": {
         "table": {
           "Wheat": {
-            "consumption": 30.0,
-            "supply": 100.0,
-            "production": 20.0,
+            "consumption": 8,
+            "supply": 1002,
+            "production": 10,
             "pricer": {
-              "base_supply": 0.0,
-              "base_price": 100.0,
+              "tag": "Linear",
+              "base_price": 100,
+              "base_supply": 1000,
               "price_per_supply": -0.2
             }
           }
@@ -22,16 +92,71 @@
       }
     },
     {
-      "id": "Genoa",
+      "id": "Milan",
       "market": {
         "table": {
           "Wheat": {
-            "consumption": 20.0,
-            "supply": 100.0,
-            "production": 25.0,
+            "consumption": 9,
+            "supply": 1001,
+            "production": 10,
             "pricer": {
-              "base_supply": 0.0,
-              "base_price": 100.0,
+              "tag": "Linear",
+              "base_price": 100,
+              "base_supply": 1000,
+              "price_per_supply": -0.2
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "Rome",
+      "market": {
+        "table": {
+          "Wheat": {
+            "consumption": 10,
+            "supply": 1000,
+            "production": 10,
+            "pricer": {
+              "tag": "Linear",
+              "base_price": 100,
+              "base_supply": 1000,
+              "price_per_supply": -0.2
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "Venice",
+      "market": {
+        "table": {
+          "Wheat": {
+            "consumption": 11,
+            "supply": 999,
+            "production": 10,
+            "pricer": {
+              "tag": "Linear",
+              "base_price": 100,
+              "base_supply": 1000,
+              "price_per_supply": -0.2
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "Marsailles",
+      "market": {
+        "table": {
+          "Wheat": {
+            "consumption": 12,
+            "supply": 998,
+            "production": 10,
+            "pricer": {
+              "tag": "Linear",
+              "base_price": 100,
+              "base_supply": 1000,
               "price_per_supply": -0.2
             }
           }
@@ -39,20 +164,29 @@
       }
     }
   ],
-  "agents": [
-    {
-      "id": "A",
-      "pos": "Genoa",
-      "coins": 100,
-      "cargo": null,
-      "behavior": "Greedy"
-    },
-    {
-      "id": "B",
-      "pos": "Genoa",
-      "coins": 100,
-      "cargo": null,
-      "behavior": "Random"
-    }
-  ]
+  "edges": [
+    [
+      "Genoa",
+      "Milan"
+    ],
+    [
+      "Milan",
+      "Marsailles"
+    ],
+    [
+      "Rome",
+      "Venice"
+    ],
+    [
+      "Rome",
+      "Genoa"
+    ],
+    [
+      "Venice",
+      "Milan"
+    ]
+  ],
+  "opts": {
+    "ticks": 100
+  }
 }

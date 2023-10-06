@@ -39,7 +39,8 @@ def get(replay_name: str) -> Replay:
     """
     global last_loaded_time  # Declare global here if you are going to modify it
 
-    file_path = f"{utils.root_dir}/output/{replay_name}_tabular.json"
+    print("replay_name", replay_name)
+    file_path = f"{utils.root_dir}output/{replay_name}_tabular.json"
     cur_chg_time = os.path.getmtime(file_path)
 
     if (
