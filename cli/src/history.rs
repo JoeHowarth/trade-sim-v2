@@ -1,11 +1,9 @@
 //! History of the simulation
 //! Used for saving output and visualization
 
-use std::fmt;
-
 use serde::Deserializer;
 
-use crate::prelude::*;
+use simulation::{prelude::*, TickOutput};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct History {
@@ -21,10 +19,10 @@ impl History {
         self.states.last().unwrap()
     }
 
-    pub fn update(&mut self, state: State, actions: Vec<(AgentId, Action)>, events: Vec<Event>) {
-        self.states.push(state);
-        self.actions.push(actions);
-        self.events.push(events);
+    pub fn update(&mut self, tick_output: TickOutput) {
+        self.states.push(tick_output.ctx.state);
+        self.actions.push(tick_output.actions);
+        self.events.push(tick_output.events);
     }
 }
 
@@ -45,7 +43,7 @@ mod test {
     #[test]
     fn test_round_trip() {
         let history = History {
-            static_info: StaticInfo::new_static(&[("a".into(), "b".into())]),
+            static_info: StaticInfo::new_static("bar", &[("a".into(), "b".into())]),
             states: vec![State {
                 tick: 0,
                 agents: HTMap::default(),

@@ -12,6 +12,7 @@ pub struct Context {
 pub struct StaticInfo {
     /// Topological info
     pub graph: GraphMap<PortId, RouteId>,
+    pub name: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -70,12 +71,13 @@ impl StaticInfo {
             .find(|&n| n == b)
             .is_some()
     }
-    pub fn new_static(edges: &[(PortId, PortId)]) -> &'static Self {
-        Box::leak(Box::new(Self::new(edges)))
+    pub fn new_static(name: impl Into<String>, edges: &[(PortId, PortId)]) -> &'static Self {
+        Box::leak(Box::new(Self::new(name.into(), edges)))
     }
-    pub fn new(edges: &[(PortId, PortId)]) -> Self {
+    pub fn new(name: String, edges: &[(PortId, PortId)]) -> Self {
         Self {
             graph: GraphMap::from_edges(edges),
+            name,
         }
     }
 }

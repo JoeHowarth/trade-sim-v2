@@ -154,10 +154,10 @@ export function RunScenarioPage() {
               }}
               onRun={() => {
                 console.log('run');
-                ScenarioService.scenariorunScenario(selectedScenario).then(async () => {
+                ScenarioService.scenariorunScenarioAsync(selectedScenario).then(async () => {
                   console.log('done');
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
-                  navigate('/' + selectedScenario + '/0');
+                  // await new Promise((resolve) => setTimeout(resolve, 1000));
+                  // navigate('/' + selectedScenario + '/0');
                 });
               }}
             />
@@ -203,7 +203,9 @@ function ScenarioViewer({
           <p style={{ margin: 0 }}>Num Agents: {scenarioData?.agents.length}</p>
           <p style={{ margin: 0 }}>Num Ports: {numPorts}</p>
           <p style={{ margin: 0 }}>Num Goods: {numGoods}</p>
-          <Button onClick={onRun} variant="light">Run</Button>
+          <Button onClick={onRun} variant="light">
+            Run
+          </Button>
         </Stack>
       </Tabs.Panel>
       <Tabs.Panel value="json">

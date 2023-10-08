@@ -107,7 +107,7 @@ mod tests {
                 },
             },
             // fully connected
-            static_info: StaticInfo::new_static(&[
+            static_info: StaticInfo::new_static("bar", &[
                 (genoa.id, rome.id),
                 (genoa.id, milan.id),
                 (rome.id, milan.id),

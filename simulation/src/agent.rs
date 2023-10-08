@@ -46,7 +46,6 @@ pub enum Behavior {
 
 impl Agent {
     pub fn act(&self, ctx: &Context) -> Result<Action> {
-        info!("----- New -----");
         match self.behavior {
             Behavior::Random => act_random(self, ctx),
             Behavior::Greedy => act_greedy(self, ctx),

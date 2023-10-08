@@ -2,6 +2,8 @@ import asyncio
 from fastapi import FastAPI, WebSocket
 from fastapi.routing import APIRoute
 from fastapi.middleware.cors import CORSMiddleware
+import replay_cache
+from replay_cache import ReplayDep
 
 
 def custom_generate_unique_id(route: APIRoute):
@@ -31,10 +33,11 @@ app.add_middleware(
 ## Playback
 
 
-## Todo: use use ReplayDep instead of curr
-@app.websocket("/ticks/{startTick}")
-async def ticks(websocket: WebSocket, startTick: int):
+@app.websocket("/replay/{replay_name}/ticks/{startTick}")
+async def ticks(websocket: WebSocket, startTick: int, replay: ReplayDep):
+    print("start")
     await websocket.accept()
+    print("accepted")
 
     tick = startTick
     ms = 2000
@@ -57,11 +60,19 @@ async def ticks(websocket: WebSocket, startTick: int):
         while True:
             times += 1
             if ms > 0:
-                # max_tick = curr.agents.select("tick").max().to_series()[0]
-                # print(max_tick)
-                # if tick >= max_tick:
-                #     tick = max_tick
                 tick += 1
+
+                max_tick = replay.agents.select("tick").max().to_series()[0]
+                print(max_tick)
+                print(
+                    replay_cache.get(replay.name)
+                    .agents.select("tick")
+                    .max()
+                    .to_series()[0]
+                )
+                if tick >= max_tick:
+                    tick = max_tick
+
                 await websocket.send_json({"tick": tick, "ms": ms})
                 sleep = ms / 1000
             else:

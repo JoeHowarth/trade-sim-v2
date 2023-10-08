@@ -15,8 +15,7 @@ export const PlaybackContext = createContext<PlaybackContextType>({
 });
 
 export function PlaybackManager({ children }: React.PropsWithChildren) {
-  const params = useParams<'tick'>();
-  const tick = params.tick ?? 0;
+  const tick = useTick()
   const replay = useReplay();
 
   const ws = useRef<any>(null);
@@ -26,7 +25,7 @@ export function PlaybackManager({ children }: React.PropsWithChildren) {
 
   useEffect(() => {
     console.log('effect running');
-    const socket = new WebSocket('ws://127.0.0.1:8000/ticks/' + tick);
+    const socket = new WebSocket(`ws://127.0.0.1:8000/replay/${replay}/ticks/${tick}`);
 
     socket.onopen = () => {
       console.log('opened');

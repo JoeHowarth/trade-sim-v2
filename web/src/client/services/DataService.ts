@@ -14,17 +14,22 @@ export class DataService {
     /**
      * Network Shape
      * @param replayName
+     * @param scenarioNameIfNotFound
      * @returns NetworkShape Successful Response
      * @throws ApiError
      */
     public static datanetworkShape(
         replayName: string,
+        scenarioNameIfNotFound?: any,
     ): CancelablePromise<NetworkShape> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/data/{replay_name}/network/shape',
             path: {
                 'replay_name': replayName,
+            },
+            query: {
+                'scenario_name_if_not_found': scenarioNameIfNotFound,
             },
             errors: {
                 422: `Validation Error`,
@@ -37,6 +42,7 @@ export class DataService {
      * @param tick
      * @param field
      * @param replayName
+     * @param scenarioNameIfNotFound
      * @returns number Successful Response
      * @throws ApiError
      */
@@ -44,6 +50,7 @@ export class DataService {
         tick: number,
         field: string,
         replayName: string,
+        scenarioNameIfNotFound?: any,
     ): CancelablePromise<Record<string, number>> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -52,6 +59,9 @@ export class DataService {
                 'tick': tick,
                 'field': field,
                 'replay_name': replayName,
+            },
+            query: {
+                'scenario_name_if_not_found': scenarioNameIfNotFound,
             },
             errors: {
                 422: `Validation Error`,
@@ -75,12 +85,14 @@ export class DataService {
      * Get Agents Pos
      * @param tick
      * @param replayName
+     * @param scenarioNameIfNotFound
      * @returns AgentInfo Successful Response
      * @throws ApiError
      */
     public static datagetAgentsPos(
         tick: number,
         replayName: string,
+        scenarioNameIfNotFound?: any,
     ): CancelablePromise<Record<string, AgentInfo>> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -88,6 +100,9 @@ export class DataService {
             path: {
                 'tick': tick,
                 'replay_name': replayName,
+            },
+            query: {
+                'scenario_name_if_not_found': scenarioNameIfNotFound,
             },
             errors: {
                 422: `Validation Error`,

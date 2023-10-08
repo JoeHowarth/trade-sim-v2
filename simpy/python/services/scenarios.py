@@ -1,8 +1,10 @@
+import asyncio
 import json
 import os
 from typing import Any, Dict, List, Optional, Tuple
-from fastapi import APIRouter
+from fastapi import APIRouter, BackgroundTasks
 from pydantic import BaseModel
+import replay_cache
 from scenarios.builder import save_scenario
 import polars as pl
 import utils
@@ -46,17 +48,34 @@ def post(name: str, scenario: Scenario):
     utils.write_json(f"/input/{name.strip()}.json", scenario.model_dump(mode="json"))
 
 
-@router.post("/")
-def run_scenario(name: str = "last", input: Scenario | None = None) -> bool:
+@router.put("/sync")
+async def run_scenario_sync(name: str = "last", input: Scenario | None = None) -> bool:
     if input is not None:
         save_scenario(input, name)
 
     print("run_scenario", name)
-    cli.run_with_args(
-        input_path=f"input/{name}.json",
-        output_tabular_path=f"output/{name}_tabular.json",
-        output_path=f"output/{name}.json",
-    )
+    cli.run_channel_sync(name)
+
+    return True
+
+
+@router.post("/")
+async def run_scenario_async(name: str = "last", input: Scenario | None = None) -> bool:
+    if input is not None:
+        save_scenario(input, name)
+
+    print("run_scenario", name)
+    asyncio.create_task(cli.run_channel(name))
+
+    async def print_tick():
+        while True:
+            replay = replay_cache.get(name)
+            print(
+                "tick from task: ", replay.markets.select("tick").max().to_series()[0]
+            )
+            await asyncio.sleep(0.5)
+
+    asyncio.create_task(print_tick())
 
     return True
 

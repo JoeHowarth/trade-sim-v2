@@ -1,5 +1,4 @@
 {
-  "description": null,
   "agents": [
     {
       "id": "a1",
@@ -65,7 +64,7 @@
       "behavior": "Greedy"
     },
     {
-      "id": "Clara",
+      "id": "a10",
       "pos": "Marsailles",
       "cargo": null,
       "coins": 1000,

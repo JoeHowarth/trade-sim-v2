@@ -106,5 +106,5 @@ def barbell_replay(ticks=100, num_agents=10):
     ]
 
     return b._inputFormat(
-        agents=agents, ports=ports, edges=edges, opts=_opts(ticks=ticks)
+        agents=agents, ports=ports, edges=edges, opts=b._opts(ticks=ticks)
     )

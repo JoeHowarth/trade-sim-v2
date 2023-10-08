@@ -1,20 +1,84 @@
 # Devlog
 
+## Sat 10/7/23
+[10:16 AM] 
+I'd like to do some backend work today instead of UI or DevOps.
+The options are: 
+  - Route based behavior AI
+  - Streaming interface over stdin/stdout 
+I'll do the streaming interface because then I can observe larger simulations that run at lower tick rates 
+incrementally. When this is done, I can optimize the larger simulation tick rates by creating the 
+smart yet efficient Route based behavior.
+
+## Fri 10/6/23
+[9:22 AM] 
+Really want to get the app publicly hosted!
+- Considering fly.io 
+- Package as a docker image 
+  - Need to do flow locally first, then script it into a DockerFile 
+  - Flow: 
+    - Build rust binary 
+    - Build vite static bundle 
+    - Copy both into python image 
+    - Deploy with static volume
+- UI touch ups
+  - Hover for more info about an entity
+    - Stays attached to entity pos
+    - Allow 'detach' and drag like a window 
+  - Extend map mode api to support displaying data as
+    - Labels
+    - Circle sizes
+    - Custom borders(?)
+  - Rework map mode selection
+    - Move map mode to left side (or other visual rebalance)
+    - ideal:
+      - select data source. Exs:
+        - price (select which good) 
+        - population
+        - volume over time (select period)
+        - Net production (select which good)
+      - select how it's visualized
+        - via color (choose color scale)
+        - set domain 
+        - via size
+        - etc.
+      - Save it as a map mode preset 
+      - Allow presets to have inputs
+    - Start with:
+      - Code defined presets
+      - Choose presets in UI, with input params
+    - Later add preset editor 
+  - When click home icon or title, open menu if in replay viewing mode
+  - Visualize input when choosing scenario
+  - Add charts
+    - Ideas:
+      - Charts tab 
+        - Similar to map mode chooser
+      - Open chart inline or as popout windows (draggable, resizeable)
+      
+
+
+## Thurs 10/5/23
+Retro
+- Tons of UI work
+- Can now run a new scenario directly in-app!!
+- Got the flow described in Wed's section working
+
 ## Wed 10/4/23
 Took a little break. Went camping over weekend and did design work for Epic of Emporia Mon & Tues
 
 [10:00 AM] Today I want a UI start menu page 
 [11:45 AM] Did pencil wireframe designs in notebook. This was the process I needed for UI design!
-Order of work:
+Order of work: (updated 9/6)
 - [] Backend Services for 
-  - [] Scenarios 
-  - [] Replays
-- [] Landing page 
-- [] View Replay 
-- [] Run Scenarios (hardest)
-  - View graphics based off scenario
-  - Editable json input data
-  - Transition from editing scenario to running, to view replay 
+  - [X] Scenarios 
+  - [X] Replays
+- [X] Landing page 
+- [X] View Replay 
+- [/] Run Scenarios (hardest)
+  - [] View graphics based off scenario
+  - [X] Editable json input data
+  - [X] Transition from editing scenario to running, to view replay 
 
 [2:51 PM] Reworked the python package signficantly
 - Broke api apart into Services with routers 

@@ -1,7 +1,6 @@
 import polars as pl
 from polars import col, lit
 import altair as alt
-from services.scenarios import run_scenario
 
 
 def plot_agents(agents: pl.DataFrame):
@@ -46,15 +45,15 @@ def plot_prices_by_port(ports: pl.DataFrame, color="dark2"):
     return (base.mark_point() + lines).interactive()
 
 
-def no_agent_markets(input_format) -> pl.DataFrame:
-    """
-    Where would prices have been if agents didn't trade?
-    Runs a scenario with no agents and returns the markets.
-    """
-    input_format = input_format.copy()
-    input_format["agents"] = []
-    (_, _, no_agent_markets, _) = run_scenario(input_format)
-    return no_agent_markets
+# def no_agent_markets(input_format) -> pl.DataFrame:
+#     """
+#     Where would prices have been if agents didn't trade?
+#     Runs a scenario with no agents and returns the markets.
+#     """
+#     input_format = input_format.copy()
+#     input_format["agents"] = []
+#     (_, _, no_agent_markets, _) = run_scenario(input_format)
+#     return no_agent_markets
 
 
 def make_routes(events):

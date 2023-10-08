@@ -16,6 +16,7 @@ altair = { git = "https://github.com/altair-viz/altair.git" }
 uvicorn = {extras = ["standard"], version = "^0.23.2"}
 fastapi = "^0.103.1"
 pydantic = "^2.3.0"
+asgiref = "^3.7.2"
 
 [tool.poetry.dev-dependencies]
 maturin = "^0.14.17"

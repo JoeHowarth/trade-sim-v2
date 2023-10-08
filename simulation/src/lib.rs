@@ -5,7 +5,6 @@
 pub mod agent;
 pub mod behaviors;
 pub mod error;
-pub mod history;
 pub mod ids;
 pub mod market;
 pub mod prelude;
@@ -19,24 +18,27 @@ pub struct Opts {
     pub ticks: u32,
 }
 
-pub fn simulation_loop(opts: Opts, history: &mut History) -> Result<()> {
-    for tick in 0..opts.ticks {
-        let mut ctx = Context {
-            state: history.state().clone(),
-            static_info: history.static_info,
-        };
-        let actions = fetch_agent_actions(&ctx)?;
+#[derive(Debug, Clone)]
+pub struct TickOutput {
+    pub ctx: Context,
+    pub actions: Vec<(AgentId, Action)>,
+    pub events: Vec<Event>,
+}
 
-        // apply agent actions
-        let events = apply_actions(&mut ctx, &actions)?;
+pub fn run_tick(mut ctx: Context) -> Result<TickOutput> {
+    let actions = fetch_agent_actions(&ctx)?;
 
-        // non-agent world processes
-        update_world_systems(&mut ctx);
+    // apply agent actions
+    let events = apply_actions(&mut ctx, &actions)?;
 
-        history.update(ctx.state, actions, events)
-    }
+    // non-agent world processes
+    update_world_systems(&mut ctx);
 
-    Ok(())
+    Ok(TickOutput {
+        ctx,
+        actions,
+        events,
+    })
 }
 
 pub fn fetch_agent_actions(ctx: &Context) -> Result<Vec<(AgentId, Action)>> {
@@ -94,7 +96,7 @@ fn apply_action(
         tick,
     } = ctx.state.clone();
 
-    const UPKEEP: Money = Money(1.);
+    const UPKEEP: Money = Money(0.1);
 
     match action {
         Action::Noop => {
@@ -123,10 +125,12 @@ fn apply_action(
             // Buy
             ensure!(agent.cargo.is_none(), "Cargo must be empty to buy");
             let amt = 1;
-            let cost = port
+            let Some(cost) = port
                 .market
-                .buy(good, &mut agent.coins, amt)
-                .ok_or_else(|| eyre!("Tried to buy when impossible"))?;
+                .buy(good, &mut agent.coins, amt) else {
+                    warn!("Tried to buy when impossible!");
+                    return Ok(ctx.state.clone())
+                };
             agent.cargo = Some(*good);
             events.push(Event::Trade {
                 port: port.id,
@@ -157,10 +161,13 @@ fn apply_action(
                 "Agent must have matching cargo to sell"
             );
             let amt = -1;
-            let cost = port
+            let Some(cost) = port
                 .market
-                .sell(good, &mut agent.coins, -amt)
-                .ok_or_else(|| eyre!("Tried to sell when impossible"))?;
+                .sell(good, &mut agent.coins, -amt) else {
+                    warn!("Tried to sell when impossible!");
+                    return Ok(ctx.state.clone())
+                };
+
             agent.cargo = None;
             events.push(Event::Trade {
                 port: port.id,

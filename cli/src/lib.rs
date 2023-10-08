@@ -1,9 +1,33 @@
+pub mod history;
+pub mod stdio_json;
 pub mod tabular;
 
+use history::History;
 use serde::de::DeserializeOwned;
-use simulation::{prelude::*, simulation_loop, Opts};
+use simulation::{prelude::*, run_tick, Opts, TickOutput};
 use std::path::PathBuf;
-use tabular::tabularize;
+use tabular::tabularize_history;
+
+#[derive(Debug, Serialize, Deserialize)]
+enum InputMsg {
+    Advance,
+}
+
+pub fn simulation_loop(
+    opts: Opts,
+    mut ctx: Context,
+    mut recorder: impl FnMut(TickOutput),
+) -> Result<()> {
+    for _ in 0..opts.ticks {
+        info!("Tick: {}", ctx.state.tick);
+        let output = run_tick(ctx)?;
+        ctx = output.ctx.clone();
+        recorder(output);
+        std::thread::sleep(std::time::Duration::from_millis(1500))
+    }
+
+    Ok(())
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct InputFormat {
@@ -13,10 +37,10 @@ pub struct InputFormat {
     pub ports: Vec<Port>,
 }
 
-impl Into<History> for InputFormat {
-    fn into(self) -> History {
+impl InputFormat {
+    pub fn into_history(self, name: String) -> History {
         History {
-            static_info: StaticInfo::new_static(&self.edges),
+            static_info: StaticInfo::new_static(name, &self.edges),
             states: vec![State {
                 tick: 0,
                 ports: self
@@ -36,10 +60,15 @@ impl Into<History> for InputFormat {
     }
 }
 
-pub fn run(input: InputFormat) -> Result<History> {
+pub fn run(input: InputFormat, name: String) -> Result<History> {
     let opts = input.opts.clone();
-    let mut history = input.into();
-    simulation_loop(opts, &mut history)?;
+    let mut history: History = input.into_history(name);
+    let ctx = Context {
+        state: history.state().clone(),
+        static_info: history.static_info,
+    };
+
+    simulation_loop(opts, ctx, |tick_output| history.update(tick_output))?;
     Ok(history)
 }
 
@@ -51,13 +80,15 @@ pub struct CrashReport {
 }
 
 impl CrashReport {
-    pub fn save(history: &History, error: Report, path: &str) -> Report {
+    pub fn save(history: &History, error: Report, save_dir: &str, name: &str) -> Report {
         match error.downcast_ref::<SimulationError>() {
             Some(sim_err) => {
                 let crash = CrashReport {
                     history: history.clone(),
                     error: sim_err.clone(),
                 };
+                let mut path = PathBuf::from(save_dir);
+                path.push(format!("output/crash_report_{name}.json"));
                 if let Err(file_err) = save_json_file(path, crash) {
                     error!("Didn't save file correctly");
                     return error.wrap_err(file_err);
@@ -67,6 +98,14 @@ impl CrashReport {
             None => error.wrap_err("Expected SimulationError"),
         }
     }
+}
+
+pub fn load_input_file(save_dir: &str, name: &str) -> Result<InputFormat> {
+    let mut path = PathBuf::from(save_dir);
+    path.push("input");
+    path.push(name.to_string() + ".json");
+
+    load_json_file(path)
 }
 
 pub fn load_json_file<T: DeserializeOwned>(path: impl Into<PathBuf>) -> Result<T> {
@@ -90,11 +129,25 @@ pub fn save_json_file(path: impl Into<PathBuf>, json: impl Serialize) -> Result<
     Ok(())
 }
 
-pub fn save_output(
-    history: &History,
-    history_path: impl Into<PathBuf>,
-    tabular_path: impl Into<PathBuf>,
-) -> Result<()> {
+pub fn save_output(history: &History, save_dir: String) -> Result<()> {
+    let name = history.static_info.name.clone();
+    let mut path = PathBuf::from(save_dir);
+    path.push("output");
+
+    let mut history_path = path.clone();
+    history_path.push(name.clone() + ".json");
     save_json_file(history_path, history)?;
-    save_json_file(tabular_path, tabularize(history)?)
+
+    let mut tabular_path = path.clone();
+    tabular_path.push(name.clone() + "_tabular.json");
+    save_json_file(tabular_path, tabularize_history(history)?)?;
+
+    // Save with name "last" too
+    let mut history_path = path.clone();
+    history_path.push("last.json");
+    save_json_file(history_path, history)?;
+
+    let mut tabular_path = path.clone();
+    tabular_path.push("last_tabular.json");
+    save_json_file(tabular_path, tabularize_history(history)?)
 }
